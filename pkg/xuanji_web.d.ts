@@ -22,6 +22,11 @@ export function book_answer(entropy: number): string;
 export function daily_qian_json(y: number, m: number, d: number): string;
 
 /**
+ * 今日塔罗（按日期固定，含正/逆位）
+ */
+export function daily_tarot_json(y: number, m: number, d: number): string;
+
+/**
  * 星座运势（同星座同日固定），返回 JSON 字符串
  */
 export function fortune_json(sign: number, y: number, m: number, d: number): string;
@@ -35,6 +40,11 @@ export function personality_json(): string;
  * 16 型人格计分：answers 为 48 字符作答串（'a'/'b'）
  */
 export function personality_score(answers: string): string;
+
+/**
+ * 随手抽一张塔罗
+ */
+export function tarot_draw_json(entropy: number): string;
 
 /**
  * 星座下标（0-11）
@@ -54,9 +64,11 @@ export interface InitOutput {
     readonly bazi_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
     readonly book_answer: (a: number) => [number, number];
     readonly daily_qian_json: (a: number, b: number, c: number) => [number, number];
+    readonly daily_tarot_json: (a: number, b: number, c: number) => [number, number];
     readonly fortune_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly personality_json: () => [number, number];
     readonly personality_score: (a: number, b: number) => [number, number];
+    readonly tarot_draw_json: (a: number) => [number, number];
     readonly zodiac_index: (a: number, b: number) => number;
     readonly zodiac_name: (a: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;

@@ -68,3 +68,15 @@ pub fn personality_json() -> String {
 pub fn personality_score(answers: String) -> String {
     xuanji_core::personality_score(&answers)
 }
+
+/// 今日塔罗（按日期固定，含正/逆位）
+#[wasm_bindgen]
+pub fn daily_tarot_json(y: i32, m: i32, d: i32) -> String {
+    xuanji_core::daily_tarot(y as i64, m as i64, d as i64)
+}
+
+/// 随手抽一张塔罗
+#[wasm_bindgen]
+pub fn tarot_draw_json(entropy: f64) -> String {
+    xuanji_core::tarot_draw(entropy as u64)
+}

@@ -87,6 +87,7 @@ for dy in &bz2.da_yun {
 println!("大运 {} {}-{}岁（{}-{}）", dy.ganzhi, dy.start_age, dy.end_age, dy.start_year, dy.end_year);
 }
 check_personality();
+    check_tarot();
 }
 
 #[allow(dead_code)]
@@ -110,4 +111,18 @@ fn check_personality() {
     println!("PERSONALITY CHECK OK 定向 INTJ 答卷 => INTJ（四维 100%）");
     let all_a: serde_json::Value = serde_json::from_str(&xuanji_core::personality_score(&"a".repeat(48))).unwrap();
     println!("ALL-A SHEET => {}", all_a["type"]);
+}
+
+#[allow(dead_code)]
+fn check_tarot() {
+    let t1 = xuanji_core::daily_tarot(2026, 11, 20);
+    let t2 = xuanji_core::daily_tarot(2026, 11, 20);
+    assert_eq!(t1, t2, "同一天的塔罗必须固定");
+    let v: serde_json::Value = serde_json::from_str(&t1).unwrap();
+    println!("TAROT CHECK OK 2026-11-20 => {} {}（{}）", v["name"], v["en"], if v["reversed"].as_bool().unwrap() { "逆位" } else { "正位" });
+    for e in [1u64, 42, 999_999] {
+        let d: serde_json::Value = serde_json::from_str(&xuanji_core::tarot_draw(e)).unwrap();
+        assert!(d["num"].as_u64().unwrap() < 22);
+    }
+    println!("TAROT DRAW OK 随手抽编号均在 0-21");
 }

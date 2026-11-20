@@ -121,6 +121,15 @@
   .persmotto{text-align:center;font-size:15px;margin:14px 0 4px;color:var(--ink)}
   .persbtns{display:flex;gap:10px;margin-top:12px}
   .persbtns .btn{flex:1}
+  .tarotface{width:208px;height:308px;margin:12px auto 6px;border:2.5px solid #a63d2f;border-radius:14px;background:linear-gradient(160deg,#fdf8ec,#f3e8d2);box-shadow:0 6px 18px rgba(90,70,40,.18), inset 0 0 0 6px #f7f1e5, inset 0 0 0 8px #d8cbae;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .6s ease}
+  .tarotface.rev{transform:rotate(180deg)}
+  .tarotface .tnum{font-size:15px;letter-spacing:3px;color:#b8862f}
+  .tarotface .tname{font-size:40px;font-weight:700;color:#2e2a26;letter-spacing:4px}
+  .tarotface .ten{font-size:12.5px;letter-spacing:2.5px;color:#6f6659;text-transform:uppercase}
+  .tarotface .tstar{color:#a63d2f;font-size:17px}
+  .trev{display:inline-block;background:#a63d2f;color:#fdf8ec;font-size:12.5px;padding:2.5px 12px;border-radius:9px;letter-spacing:3px}
+  .tkw{text-align:center;color:#b8862f;font-size:14.5px;margin:10px 0 4px}
+  .tmean{font-size:15px;line-height:1.75;color:var(--ink)}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
@@ -188,6 +197,30 @@
     </div>
   </section>
 
+  <!-- 今日塔罗 -->
+  <section class="card">
+    <h2>今日塔罗 <span class="sub">西方馆 · 每日一抽</span></h2>
+    <div id="tarotIntro">
+      <p class="persdesc">在心里默念一个今天最在意的问题，抽一张属于今天的塔罗牌（22 张大阿卡纳）。同一天抽到的牌固定不变，明天再来又是新的一张。</p>
+      <button class="btn serif" id="btnTarot">抽今日塔罗</button>
+      <p class="persnote">塔罗牌义为本站原创写作，牌名与象征体系属传统文化；仅供娱乐参考。</p>
+    </div>
+    <div id="tarotBox" class="hidden">
+      <div class="tarotface" id="tarotFace">
+        <div class="tnum" id="tarotNum"></div>
+        <div class="tstar">✦</div>
+        <div class="tname serif" id="tarotName"></div>
+        <div class="ten" id="tarotEn"></div>
+      </div>
+      <p style="text-align:center;margin:4px 0 0"><span class="trev hidden" id="tarotRevTag">逆 位</span></p>
+      <p class="tkw" id="tarotKw"></p>
+      <p class="tmean" id="tarotMean"></p>
+      <div class="persbtns"><button class="btn serif" id="btnTarotRand">随手抽一张</button>
+      <button class="btn serif" id="btnTarotShare">生成分享图</button></div>
+    </div>
+    <div id="shareTarot" class="sharebox hidden"></div>
+  </section>
+
   <!-- 八字排盘 -->
   <section class="card">
     <h2>八字排盘 <span class="sub">输入出生时间</span></h2>
@@ -237,15 +270,15 @@
 </footer>
 
 <script type="module">
-import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json, bazi_json, personality_json, personality_score }
-  from './pkg/xuanji_web.js?v=2.1.0';
+import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json, bazi_json, personality_json, personality_score, daily_tarot_json, tarot_draw_json }
+  from './pkg/xuanji_web.js?v=2.2.0';
 
 const now = new Date();
 const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=2.1.0');
+  await init('./pkg/xuanji_web_bg.wasm?v=2.2.0');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
@@ -508,6 +541,48 @@ async function main(){
   document.getElementById('persA').onclick = () => pickPers('a');
   document.getElementById('persB').onclick = () => pickPers('b');
   document.getElementById('persBack').onclick = () => { if (pIdx > 0) { pIdx--; showPersQ(); } };
+
+  // 今日塔罗
+  const ROMAN = ['0','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI'];
+  let lastTarot = null;
+  const tarotIntro = document.getElementById('tarotIntro'), tarotBox = document.getElementById('tarotBox'),
+        shareTarot = document.getElementById('shareTarot');
+  const showTarot = (t) => {
+    lastTarot = t;
+    tarotIntro.classList.add('hidden'); shareTarot.classList.add('hidden');
+    const face = document.getElementById('tarotFace');
+    face.classList.remove('rev');
+    document.getElementById('tarotNum').textContent = ROMAN[t.num];
+    document.getElementById('tarotName').textContent = t.name;
+    document.getElementById('tarotEn').textContent = t.en;
+    document.getElementById('tarotRevTag').classList.toggle('hidden', !t.reversed);
+    document.getElementById('tarotKw').textContent = t.kw;
+    document.getElementById('tarotMean').textContent = (t.reversed ? '【逆位】' : '【正位】') + t.meaning;
+    tarotBox.classList.remove('hidden'); tarotBox.classList.add('fade');
+    if (t.reversed) requestAnimationFrame(() => requestAnimationFrame(() => face.classList.add('rev')));
+  };
+  document.getElementById('btnTarot').onclick = () => showTarot(JSON.parse(daily_tarot_json(Y, M, D)));
+  document.getElementById('btnTarotRand').onclick = () => showTarot(JSON.parse(tarot_draw_json(Math.random() * 1e18)));
+  document.getElementById('btnTarotShare').onclick = () => {
+    if (!lastTarot) return;
+    const t = lastTarot;
+    const [c, x] = newCard(1060);
+    x.fillStyle = '#b8862f'; x.font = '26px sans-serif';
+    x.fillText(`今 日 塔 罗 · ${ROMAN[t.num]}`, 375, 232);
+    x.fillStyle = '#2e2a26'; x.font = `700 84px ${SERIF}`;
+    x.fillText(t.name, 375, 348);
+    x.fillStyle = '#6f6659'; x.font = '25px sans-serif';
+    x.fillText(t.en + (t.reversed ? ' · 逆位' : ' · 正位'), 375, 398);
+    x.fillStyle = '#b8862f'; x.font = '28px sans-serif';
+    x.fillText(t.kw, 375, 472);
+    x.fillStyle = '#2e2a26'; x.font = '29px sans-serif';
+    const ml = wrap(x, t.meaning, 590);
+    ml.forEach((ln, i) => x.fillText(ln, 375, 556 + i * 50));
+    x.fillStyle = '#6f6659'; x.font = '23px sans-serif';
+    x.fillText(`${Y} 年 ${M} 月 ${D} 日`, 375, 556 + ml.length * 50 + 42);
+    foot(x, 1060);
+    showShare(c, shareTarot, 'xuanji-tarot.png');
+  };
 }
 
 main().catch(e => {

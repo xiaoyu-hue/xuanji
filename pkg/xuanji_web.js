@@ -82,6 +82,26 @@ export function daily_qian_json(y, m, d) {
 }
 
 /**
+ * 今日塔罗（按日期固定，含正/逆位）
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @returns {string}
+ */
+export function daily_tarot_json(y, m, d) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.daily_tarot_json(y, m, d);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 星座运势（同星座同日固定），返回 JSON 字符串
  * @param {number} sign
  * @param {number} y
@@ -136,6 +156,24 @@ export function personality_score(answers) {
         return getStringFromWasm0(ret[0], ret[1]);
     } finally {
         wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * 随手抽一张塔罗
+ * @param {number} entropy
+ * @returns {string}
+ */
+export function tarot_draw_json(entropy) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.tarot_draw_json(entropy);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
     }
 }
 
