@@ -10,8 +10,10 @@ export const day_hours_json: (a: number, b: number, c: number) => [number, numbe
 export const day_search_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number) => [number, number];
 export const dreams_json: () => [number, number];
 export const hehun_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+export const meihua_json: (a: number, b: number, c: number, d: number) => [number, number];
 export const taisui_json: (a: number, b: number, c: number) => [number, number];
 export const wedding_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+export const zhouyi_draw_json: (a: number) => [number, number];
 export const ziwei_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
 export const ziwei_liunian_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
 export const __wbindgen_externrefs: WebAssembly.Table;

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>玄机 · 今日</title>
-<link rel="stylesheet" href="./style.css?v=5.2.0">
+<link rel="stylesheet" href="./style.css?v=5.3.0">
 </head>
 <body>
 <header>
@@ -52,6 +52,26 @@
       <div class="jie" id="qJie"></div>
       <button class="btn ghost serif" id="btnShareQian">生 成 签 文 图</button>
       <div class="shareout hidden" id="shareQian"></div>
+    </div>
+  </section>
+  <!-- 周易抽卦 -->
+  <section class="card" data-mod="zhouyi">
+    <h2>周易抽卦 <span class="sub">金钱卦 · 默念所问</span></h2>
+    <p style="text-align:center;color:var(--ink2);font-size:13.5px;margin-top:10px">心中默念所问之事，摇六次铜钱，自下而上成一卦</p>
+    <button class="btn serif" id="btnZhouyi">摇 一 卦</button>
+    <div id="zyBox" class="hidden">
+      <div class="guafigure" id="zyFigure"></div>
+      <div id="zyText"></div>
+    </div>
+  </section>
+  <!-- 梅花易数 -->
+  <section class="card" data-mod="meihua">
+    <h2>梅花易数 <span class="sub">以此时此刻起卦</span></h2>
+    <p style="text-align:center;color:var(--ink2);font-size:13.5px;margin-top:10px">邵雍观梅占的法子：拿眼下的年月日时起卦，看体用生克</p>
+    <button class="btn serif" id="btnMeihua">以 此 时 起 卦</button>
+    <div id="mhBox" class="hidden">
+      <div class="guafigure" id="mhFigure"></div>
+      <div id="mhText"></div>
     </div>
   </section>
   <!-- 答案之书 -->
@@ -206,6 +226,6 @@
   历法核心由 Rust 计算，结果与经典黄历库逐项核对
 </footer>
 
-<script type="module" src="./app.js?v=5.2.0"></script>
+<script type="module" src="./app.js?v=5.3.0"></script>
 </body>
 </html>

@@ -139,3 +139,16 @@
   .zwcell.liusoul{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold)}
   .zwcell .liuname{font-size:11px;color:var(--gold);border-top:1px dashed var(--line);padding-top:2px;margin-top:2px}
   .zwcenter .liuyear{color:var(--gold);font-weight:700}
+  .guafigure{display:flex;flex-direction:column;align-items:center;gap:7px;margin:14px 0 6px}
+  .gline{display:flex;align-items:center;gap:8px;height:14px}
+  .gline .yang{display:block;width:132px;height:11px;background:var(--ink);border-radius:2px}
+  .gline .yin{display:flex;gap:16px}
+  .gline .yin i{display:block;width:58px;height:11px;background:var(--ink);border-radius:2px}
+  .gline .gmark{width:16px;color:var(--cinnabar);font-size:13px;text-align:center}
+  .gline .gname{font-size:12px;color:var(--ink2);width:30px}
+  .guatitle{text-align:center;font-size:21px;font-weight:700;letter-spacing:2px;margin:8px 0 4px}
+  .guaci{font-size:14px;line-height:1.85;margin:4px 0}
+  .dayi{font-size:13.5px;color:var(--cinnabar);line-height:1.7;margin:4px 0}
+  .bianbox{border-top:1px dashed var(--line);margin-top:10px;padding-top:8px}
+  .biantitle{font-size:13px;font-weight:700;letter-spacing:1px;margin-bottom:2px}
+  .bianline{margin-top:8px}

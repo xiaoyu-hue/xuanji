@@ -214,6 +214,27 @@ export function hehun_json(ay, am, ad, ah, amin, by, bm, bd, bh, bmin) {
 }
 
 /**
+ * 梅花时间起卦：公历年月日 + 小时，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} hour
+ * @returns {string}
+ */
+export function meihua_json(y, m, d, hour) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.meihua_json(y, m, d, hour);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 犯太岁：公历年份 + 本人生肖（空串只看全年名单），返回 JSON
  * @param {number} year
  * @param {string} zodiac
@@ -274,6 +295,24 @@ export function wedding_json(y1, m1, d1, y2, m2, d2, groom, bride) {
         return getStringFromWasm0(ret[0], ret[1]);
     } finally {
         wasm.__wbindgen_free(deferred9_0, deferred9_1, 1);
+    }
+}
+
+/**
+ * 周易抽卦：种子（页面每次点击传入新随机数），返回 JSON
+ * @param {number} seed
+ * @returns {string}
+ */
+export function zhouyi_draw_json(seed) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.zhouyi_draw_json(seed);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
     }
 }
 

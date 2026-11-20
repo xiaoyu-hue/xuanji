@@ -47,6 +47,11 @@ export function dreams_json(): string;
 export function hehun_json(ay: number, am: number, ad: number, ah: number, amin: number, by: number, bm: number, bd: number, bh: number, bmin: number): string;
 
 /**
+ * 梅花时间起卦：公历年月日 + 小时，返回 JSON
+ */
+export function meihua_json(y: number, m: number, d: number, hour: number): string;
+
+/**
  * 犯太岁：公历年份 + 本人生肖（空串只看全年名单），返回 JSON
  */
 export function taisui_json(year: number, zodiac: string): string;
@@ -55,6 +60,11 @@ export function taisui_json(year: number, zodiac: string): string;
  * 婚嫁择日：起止公历日期 + 新郎/新娘生肖（空串不限），返回 JSON 数组
  */
 export function wedding_json(y1: number, m1: number, d1: number, y2: number, m2: number, d2: number, groom: string, bride: string): string;
+
+/**
+ * 周易抽卦：种子（页面每次点击传入新随机数），返回 JSON
+ */
+export function zhouyi_draw_json(seed: number): string;
 
 /**
  * 紫微排盘：出生年月日时分 + 性别（1 男 0 女），返回 JSON
@@ -79,8 +89,10 @@ export interface InitOutput {
     readonly day_search_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number) => [number, number];
     readonly dreams_json: () => [number, number];
     readonly hehun_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+    readonly meihua_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly taisui_json: (a: number, b: number, c: number) => [number, number];
     readonly wedding_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+    readonly zhouyi_draw_json: (a: number) => [number, number];
     readonly ziwei_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
     readonly ziwei_liunian_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;

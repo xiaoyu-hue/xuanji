@@ -38,6 +38,8 @@ fn main() {
     check_taisui();
     check_shensha();
     check_liunian();
+    check_zhouyi();
+    check_meihua();
     check_bone();
     check_hehun();
     check_dreams();
@@ -214,6 +216,53 @@ fn check_liunian() {
     assert_eq!(at("午"), "流年兄弟");
     assert_eq!(at("申"), "流年父母");
     println!("流年自检通过（2027 丁未锚点）");
+}
+
+#[allow(dead_code)]
+fn check_zhouyi() {
+    // 手工锚点：全老阳→乾之坤六爻皆变带用九；全少阳→乾不变；全少阴→坤不变
+    let a = xuanji_core::build_from_values([9; 6]);
+    assert_eq!(a.ben.n, 1);
+    assert_eq!(a.bian.as_ref().unwrap().n, 2);
+    assert_eq!(a.yong.as_deref(), Some("见群龙无首，吉。"));
+    assert_eq!(a.lines[0].name, "初九");
+    assert_eq!(a.lines[5].name, "上九");
+    let b = xuanji_core::build_from_values([7; 6]);
+    assert_eq!(b.ben.n, 1);
+    assert!(b.bian.is_none());
+    let c = xuanji_core::build_from_values([8; 6]);
+    assert_eq!(c.ben.n, 2);
+    assert!(c.bian.is_none());
+    // 初爻独变：乾→姤（44）；上爻独变：乾→履（10）
+    let d = xuanji_core::build_from_values([9, 7, 7, 7, 7, 7]);
+    assert_eq!(d.bian.as_ref().unwrap().n, 44);
+    assert_eq!(d.lines[0].text, "潜龙勿用。");
+    let e = xuanji_core::build_from_values([7, 7, 7, 7, 7, 9]);
+    assert_eq!(e.bian.as_ref().unwrap().n, 10);
+    // 种子通路：只验结构（六爻齐、点数 6..=9、本变卦自洽）
+    let f = xuanji_core::zhouyi_draw(20261120);
+    assert_eq!(f.lines.len(), 6);
+    assert!(f.lines.iter().all(|l| (6..=9).contains(&l.value)));
+    println!("周易自检通过（乾坤锚点＋独变锚点＋种子结构）");
+}
+
+#[allow(dead_code)]
+fn check_meihua() {
+    // 经典观梅占同构用例：甲辰年腊月十七申时（2025-01-16 16:00）
+    // 年支辰5＋月12＋日17＝34，上卦兑；加时支申9＝43，下卦离，动爻1
+    // 本卦泽火革（49），初爻变→泽山咸（31），体兑金、用离火→用克体
+    let r = xuanji_core::meihua(2025, 1, 16, 16);
+    println!("梅花 {} 本卦{} 动{} 变{} 体{}用{} {}",
+        r.lunar_text, r.ben.full, r.dong_name, r.bian.full, r.ti_gua, r.yong_gua, r.relation);
+    assert_eq!(r.ben.n, 49);
+    assert_eq!(r.dong_yao, 1);
+    assert_eq!(r.dong_name, "初九");
+    assert_eq!(r.dong_text, "巩用黄牛之革。");
+    assert_eq!(r.bian.n, 31);
+    assert_eq!(r.ti_gua, "兑");
+    assert_eq!(r.yong_gua, "离");
+    assert_eq!(r.relation, "用克体");
+    println!("梅花自检通过（观梅占同构锚点）");
 }
 
 #[allow(dead_code)]
