@@ -12,6 +12,11 @@ export function almanac_json(y: number, m: number, d: number): string;
 export function bazi_json(y: number, m: number, d: number, hour: number, minute: number, gender: number): string;
 
 /**
+ * 称骨：出生年月日时分，返回 JSON
+ */
+export function bone_json(y: number, m: number, d: number, hour: number, minute: number): string;
+
+/**
  * 答案之书：entropy 为浏览器传入的随机数
  */
 export function book_answer(entropy: number): string;
@@ -21,16 +26,43 @@ export function book_answer(entropy: number): string;
  */
 export function daily_qian_json(y: number, m: number, d: number): string;
 
+/**
+ * 解梦词条库（原创），返回 JSON
+ */
+export function dreams_json(): string;
+
+/**
+ * 合婚：两人出生年月日时分，返回 JSON
+ */
+export function hehun_json(ay: number, am: number, ad: number, ah: number, amin: number, by: number, bm: number, bd: number, bh: number, bmin: number): string;
+
+/**
+ * 婚嫁择日：起止公历日期 + 新郎/新娘生肖（空串不限），返回 JSON 数组
+ */
+export function wedding_json(y1: number, m1: number, d1: number, y2: number, m2: number, d2: number, groom: string, bride: string): string;
+
+/**
+ * 紫微排盘：出生年月日时分 + 性别（1 男 0 女），返回 JSON
+ */
+export function ziwei_json(y: number, m: number, d: number, hour: number, minute: number, gender: number): string;
+
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
     readonly almanac_json: (a: number, b: number, c: number) => [number, number];
     readonly bazi_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
+    readonly bone_json: (a: number, b: number, c: number, d: number, e: number) => [number, number];
     readonly book_answer: (a: number) => [number, number];
     readonly daily_qian_json: (a: number, b: number, c: number) => [number, number];
+    readonly dreams_json: () => [number, number];
+    readonly hehun_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+    readonly wedding_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+    readonly ziwei_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+    readonly __wbindgen_malloc: (a: number, b: number) => number;
+    readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_start: () => void;
 }
 

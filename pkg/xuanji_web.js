@@ -44,6 +44,28 @@ export function bazi_json(y, m, d, hour, minute, gender) {
 }
 
 /**
+ * 称骨：出生年月日时分，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} hour
+ * @param {number} minute
+ * @returns {string}
+ */
+export function bone_json(y, m, d, hour, minute) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.bone_json(y, m, d, hour, minute);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 答案之书：entropy 为浏览器传入的随机数
  * @param {number} entropy
  * @returns {string}
@@ -73,6 +95,115 @@ export function daily_qian_json(y, m, d) {
     let deferred1_1;
     try {
         const ret = wasm.daily_qian_json(y, m, d);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 解梦词条库（原创），返回 JSON
+ * @returns {string}
+ */
+export function dreams_json() {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.dreams_json();
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 合婚：两人出生年月日时分，返回 JSON
+ * @param {number} ay
+ * @param {number} am
+ * @param {number} ad
+ * @param {number} ah
+ * @param {number} amin
+ * @param {number} by
+ * @param {number} bm
+ * @param {number} bd
+ * @param {number} bh
+ * @param {number} bmin
+ * @returns {string}
+ */
+export function hehun_json(ay, am, ad, ah, amin, by, bm, bd, bh, bmin) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.hehun_json(ay, am, ad, ah, amin, by, bm, bd, bh, bmin);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 婚嫁择日：起止公历日期 + 新郎/新娘生肖（空串不限），返回 JSON 数组
+ * @param {number} y1
+ * @param {number} m1
+ * @param {number} d1
+ * @param {number} y2
+ * @param {number} m2
+ * @param {number} d2
+ * @param {string} groom
+ * @param {string} bride
+ * @returns {string}
+ */
+export function wedding_json(y1, m1, d1, y2, m2, d2, groom, bride) {
+    let deferred9_0;
+    let deferred9_1;
+    try {
+        const val3 = +y1;
+        const val4 = +m1;
+        const val5 = +d1;
+        const val6 = +y2;
+        const val7 = +m2;
+        const val8 = +d2;
+        let ptr0, len0, ptr1, len1;
+        try {
+            ptr0 = passStringToWasm0(groom, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            len0 = WASM_VECTOR_LEN;
+            ptr1 = passStringToWasm0(bride, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            len1 = WASM_VECTOR_LEN;
+        } catch (e) {
+            if (ptr1) { wasm.__wbindgen_free(ptr1, len1 * 1, 1); }
+            if (ptr0) { wasm.__wbindgen_free(ptr0, len0 * 1, 1); }
+            throw e;
+        }
+        const ret = wasm.wedding_json(val3, val4, val5, val6, val7, val8, ptr0, len0, ptr1, len1);
+        deferred9_0 = ret[0];
+        deferred9_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred9_0, deferred9_1, 1);
+    }
+}
+
+/**
+ * 紫微排盘：出生年月日时分 + 性别（1 男 0 女），返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} hour
+ * @param {number} minute
+ * @param {number} gender
+ * @returns {string}
+ */
+export function ziwei_json(y, m, d, hour, minute, gender) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.ziwei_json(y, m, d, hour, minute, gender);
         deferred1_0 = ret[0];
         deferred1_1 = ret[1];
         return getStringFromWasm0(ret[0], ret[1]);
@@ -114,6 +245,43 @@ function getUint8ArrayMemory0() {
     return cachedUint8ArrayMemory0;
 }
 
+function passStringToWasm0(arg, malloc, realloc) {
+    if (realloc === undefined) {
+        const buf = cachedTextEncoder.encode(arg);
+        const ptr = malloc(buf.length, 1) >>> 0;
+        getUint8ArrayMemory0().subarray(ptr, ptr + buf.length).set(buf);
+        WASM_VECTOR_LEN = buf.length;
+        return ptr;
+    }
+
+    let len = arg.length;
+    let ptr = malloc(len, 1) >>> 0;
+
+    const mem = getUint8ArrayMemory0();
+
+    let offset = 0;
+
+    for (; offset < len; offset++) {
+        const code = arg.charCodeAt(offset);
+        if (code > 0x7F) break;
+        mem[ptr + offset] = code;
+    }
+    if (offset !== len) {
+        if (offset !== 0) {
+            arg = arg.slice(offset);
+        }
+        ptr = realloc(ptr, len, len = offset + arg.length * 3, 1) >>> 0;
+        const view = getUint8ArrayMemory0().subarray(ptr + offset, ptr + len);
+        const ret = cachedTextEncoder.encodeInto(arg, view);
+
+        offset += ret.written;
+        ptr = realloc(ptr, len, offset, 1) >>> 0;
+    }
+
+    WASM_VECTOR_LEN = offset;
+    return ptr;
+}
+
 let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true });
 cachedTextDecoder.decode();
 const MAX_SAFARI_DECODE_BYTES = 2146435072;
@@ -127,6 +295,21 @@ function decodeText(bytes) {
     }
     return cachedTextDecoder.decode(bytes);
 }
+
+const cachedTextEncoder = new TextEncoder();
+
+if (!('encodeInto' in cachedTextEncoder)) {
+    cachedTextEncoder.encodeInto = function (arg, view) {
+        const buf = cachedTextEncoder.encode(arg);
+        view.set(buf);
+        return {
+            read: arg.length,
+            written: buf.length
+        };
+    };
+}
+
+let WASM_VECTOR_LEN = 0;
 
 let wasmModule, wasmInstance, wasm;
 function __wbg_finalize_init(instance, module) {

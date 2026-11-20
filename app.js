@@ -6,7 +6,7 @@ const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=3.0.0');
+  await init('./pkg/xuanji_web_bg.wasm?v=4.0.0');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
@@ -65,6 +65,26 @@ async function main(){
     btnAns.textContent = '再 翻 一 次';
   };
 
+// 婚嫁择日
+  const ZOD = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'];
+  const fillZod = (sel, label) => { sel.innerHTML = `<option value="">${label}</option>` + ZOD.map(z => `<option value="${z}">${z}</option>`).join(''); };
+  fillZod(el('wedGroom'), '新郎生肖（不限）');
+  fillZod(el('wedBride'), '新娘生肖（不限）');
+  const fmtD = dt => dt.toISOString().slice(0, 10);
+  el('wedFrom').value = fmtD(new Date());
+  el('wedTo').value = fmtD(new Date(Date.now() + 180 * 864e5));
+  el('btnWed').onclick = () => {
+    const f = el('wedFrom').value, t = el('wedTo').value;
+    if (!f || !t) { alert('先选好起止日期'); return; }
+    const [y1, m1, d1] = f.split('-').map(Number);
+    const [y2, m2, d2] = t.split('-').map(Number);
+    const days = JSON.parse(wedding_json(y1, m1, d1, y2, m2, d2, el('wedGroom').value, el('wedBride').value));
+    el('wedCount').textContent = days.length ? `共 ${days.length} 个宜嫁娶的好日子` : '这段时间里没有合适的嫁娶吉日，换个区间试试';
+    el('wedList').innerHTML = days.map(x =>
+      `<div class="wday"><b>${x.solar} ${x.weekday}</b><span>${x.lunar_text}</span><span class="wl">${x.day_ganzhi}日 · 冲${x.chong}</span></div>`).join('');
+    el('wedBox').classList.remove('hidden');
+  };
+
   // 八字排盘
   bzDate.value = `${Y}-${pad(M)}-${pad(D)}`;
   let bzG = 1;
@@ -94,6 +114,85 @@ async function main(){
       `<div class="dy"><b class="serif">${dy.ganzhi}</b><span>${dy.start_age}–${dy.end_age} 岁</span><span>${dy.start_year}–${dy.end_year}</span></div>`).join('');
     baziBox.classList.remove('hidden');
     baziBox.classList.remove('fade'); void baziBox.offsetWidth; baziBox.classList.add('fade');
+  };
+
+// 称骨
+  el('btnBone').onclick = () => {
+    const dv = el('cgDate').value, tv = el('cgTime').value || '12:00';
+    if (!dv) { alert('先选出生日期'); return; }
+    const [y, m, d] = dv.split('-').map(Number);
+    const [hh, mm] = tv.split(':').map(Number);
+    const b = JSON.parse(bone_json(y, m, d, hh, mm));
+    const fmtW = w => w >= 10 ? `${Math.floor(w / 10)}两${w % 10 ? w % 10 + '钱' : ''}` : `${w}钱`;
+    el('boneMeta').innerHTML = `农历${b.lunar_text} · ${b.year_ganzhi}年 · ${b.hour_zhi}`;
+    el('boneParts').innerHTML = [['年骨', b.year_w], ['月骨', b.month_w], ['日骨', b.day_w], ['时骨', b.hour_w]].map(([n, w]) =>
+      `<div class="row"><label>${n}</label><div class="bar"><i style="width:${Math.round(w / 19 * 100)}%"></i></div><b>${fmtW(w)}</b></div>`).join('');
+    el('boneTotal').textContent = `总骨重 ${b.total_text}`;
+    el('boneVerse').textContent = b.verse;
+    el('boneBox').classList.remove('hidden');
+  };
+
+  // 合婚
+  el('btnHehun').onclick = () => {
+    const ga = (id) => el(id).value, tm = (id) => (el(id).value || '12:00').split(':').map(Number);
+    if (!ga('hhADate') || !ga('hhBDate')) { alert('先把两个人的出生日期选好'); return; }
+    const [ay, am, ad] = ga('hhADate').split('-').map(Number);
+    const [by, bm, bd] = ga('hhBDate').split('-').map(Number);
+    const [ah, amin] = tm('hhATime'), [bh, bmin] = tm('hhBTime');
+    const r = JSON.parse(hehun_json(ay, am, ad, ah, amin, by, bm, bd, bh, bmin));
+    el('hehunScore').textContent = `${r.score} 分 · ${r.grade}`;
+    el('hehunFactors').innerHTML = r.factors.map(f =>
+      `<div class="factor"><div class="fh"><b>${f.name}：${f.result}</b><span class="delta ${f.delta >= 0 ? 'up' : 'down'}">${f.delta >= 0 ? '+' : ''}${f.delta}</span></div><p>${f.note}</p></div>`).join('');
+    el('hehunBox').classList.remove('hidden');
+  };
+
+  // 解梦
+  const dreamData = JSON.parse(dreams_json());
+  let dreamCat = '全部';
+  const renderDreams = () => {
+    const q = el('dreamQ').value.trim();
+    const list = dreamData.dreams.filter(x =>
+      (dreamCat === '全部' || x.cat === dreamCat) &&
+      (!q || x.kw.includes(q) || x.title.includes(q) || x.text.includes(q)));
+    el('dreamList').innerHTML = (list.length ? list.slice(0, 30).map(x =>
+      `<div class="dream"><div class="dh">${x.title}<span class="luck ${x.luck === '偏凶' ? 'bad' : ''}">${x.luck}</span></div><p>${x.text}</p></div>`).join('')
+      : '<p class="fineprint">没收录这个梦，换个关键词试试（如：水、蛇、飞）</p>') +
+      (list.length > 30 ? `<p class="fineprint">共 ${list.length} 条，先显示前 30 条，输入关键词可缩小范围</p>` : '');
+  };
+  el('dreamCats').innerHTML = ['全部', ...dreamData.cats].map(c =>
+    `<button data-c="${c}" class="${c === '全部' ? 'on' : ''}">${c}</button>`).join('');
+  el('dreamCats').querySelectorAll('button').forEach(b => b.onclick = () => {
+    dreamCat = b.dataset.c;
+    el('dreamCats').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    renderDreams();
+  });
+  el('dreamQ').addEventListener('input', renderDreams);
+  renderDreams();
+
+  // 紫微斗数
+  let zwGender = 1;
+  el('zwGender').querySelectorAll('button').forEach(b => b.onclick = () => {
+    zwGender = Number(b.dataset.g);
+    el('zwGender').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+  });
+  const ZWPOS = { '巳': [1, 1], '午': [1, 2], '未': [1, 3], '申': [1, 4], '辰': [2, 1], '酉': [2, 4], '卯': [3, 1], '戌': [3, 4], '寅': [4, 1], '丑': [4, 2], '子': [4, 3], '亥': [4, 4] };
+  el('btnZiwei').onclick = () => {
+    const dv = el('zwDate').value, tv = el('zwTime').value || '12:00';
+    if (!dv) { alert('先选出生日期'); return; }
+    const [y, m, d] = dv.split('-').map(Number);
+    const [hh, mm] = tv.split(':').map(Number);
+    const c = JSON.parse(ziwei_json(y, m, d, hh, mm, zwGender));
+    const huaCls = { '禄': 'lu', '权': 'quan', '科': 'ke', '忌': 'ji' };
+    let html = `<div class="zwcenter"><span class="big serif">玄 机 命 盘</span><span>农历${c.lunar_text}</span><span>${c.year_ganzhi}年 · 命宫${c.soul_ganzhi} · 身宫${c.body_ganzhi}</span><span>${c.ju} · 紫微在${c.ziwei_branch}宫</span></div>`;
+    for (const p of c.palaces) {
+      const [r, col] = ZWPOS[p.branch];
+      const stars = p.stars.map(st => st.kind === '主星'
+        ? `<span class="maj serif">${st.name}${st.brightness ? `<sup>${st.brightness}</sup>` : ''}${st.hua ? `<span class="hua ${huaCls[st.hua]}">${st.hua}</span>` : ''}</span>`
+        : `<span class="${st.kind === '煞星' ? 'sha' : 'min'}">${st.name}${st.brightness ? `<sup>${st.brightness}</sup>` : ''}${st.hua ? `<span class="hua ${huaCls[st.hua]}">${st.hua}</span>` : ''}</span>`).join('');
+      html += `<div class="zwcell ${p.is_soul ? 'soul' : ''}" style="grid-row:${r};grid-column:${col}"><div class="zh"><span class="gz">${p.ganzhi}</span><span>${p.branch}宫</span></div><div class="pname">${p.name}${p.is_body ? '<span class="bodytag">身宫</span>' : ''}</div><div class="stars">${stars || '<span class="min">（空宫）</span>'}</div><div class="dx">大限 ${p.daxian} 岁</div></div>`;
+    }
+    el('zwGrid').innerHTML = html;
+    el('zwBox').classList.remove('hidden');
   };
 
   // 分享图（在浏览器本地用画布生成，不经服务器）

@@ -1,7 +1,41 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 use xuanji_core::{almanac, bazi, book_answer, daily_qian};
 
+fn ziwei_dump() {
+    use std::io::BufRead;
+    let stdin = std::io::stdin();
+    for line in stdin.lock().lines() {
+        let line = line.unwrap();
+        let v: Vec<i64> = line.split_whitespace().map(|x| x.parse().unwrap()).collect();
+        if v.len() < 5 { continue; }
+        let c = xuanji_core::ziwei_chart(v[0], v[1], v[2], v[3], 0, v[4]);
+        let soul = c.palaces.iter().find(|p| p.is_soul).unwrap();
+        let body = c.palaces.iter().find(|p| p.is_body).unwrap();
+        let mut majors: Vec<String> = Vec::new();
+        let mut minors: Vec<String> = Vec::new();
+        let mut huas: Vec<String> = Vec::new();
+        for p in &c.palaces {
+            for s in &p.stars {
+                let tag = format!("{}({})@{}", s.name, s.brightness, p.branch);
+                if s.kind == "主星" { majors.push(tag.clone()); }
+                else { minors.push(tag.clone()); }
+                if !s.hua.is_empty() { huas.push(format!("{}{}", s.name, s.hua)); }
+            }
+        }
+        majors.sort(); minors.sort(); huas.sort();
+        let dx: Vec<String> = c.palaces.iter().map(|p| format!("{}:{}", p.branch, p.daxian)).collect();
+        println!("命{} 身{} {} 紫微{} | {} | {} | {} | {}",
+            soul.branch, body.branch, c.ju, c.ziwei_branch,
+            majors.join(","), minors.join(","), huas.join(","), dx.join(","));
+    }
+}
+
 fn main() {
+    if std::env::var("ZIWEI_DUMP").is_ok() { ziwei_dump(); return; }
+    check_wedding();
+    check_bone();
+    check_hehun();
+    check_dreams();
 // 今日黄历（2026-11-20，已与金标准逐项核对）
 let a = almanac(2026, 11, 20);
 println!("{} | 农历{}", a.solar, a.lunar_text);
@@ -77,4 +111,64 @@ println!("大运 {} {}-{}岁（{}-{}）", dy.ganzhi, dy.start_age, dy.end_age, d
 }
 
     
+}
+
+#[allow(dead_code)]
+fn check_wedding() {
+    let days: serde_json::Value =
+        serde_json::from_str(&xuanji_core::wedding_days(2026, 11, 20, 2027, 2, 28, "鼠", "马")).unwrap();
+    let arr = days.as_array().unwrap();
+    println!("择日 2026-11-20~2027-02-28（避冲鼠/马）共 {} 天", arr.len());
+    println!("ALL: {}", arr.iter().map(|d| d["solar"].as_str().unwrap()).collect::<Vec<_>>().join(" "));
+    for d in arr.iter().take(3) {
+        println!("  {} {} {} {} {}", d["solar"], d["weekday"], d["lunar_text"], d["day_ganzhi"], d["chong"]);
+    }
+    assert!(!arr.is_empty());
+}
+
+#[allow(dead_code)]
+fn check_bone() {
+    // 来源算例：1995-05-20 09:30 → 乙亥年四月廿一巳时，9+9+10+16=44
+    let b = xuanji_core::bone_weight(1995, 5, 20, 9, 30);
+    println!("称骨算例1: {} {} {} 年{} 月{} 日{} 时{} = {} {}",
+        b.lunar_text, b.year_ganzhi, b.hour_zhi, b.year_w, b.month_w, b.day_w, b.hour_w, b.total, b.total_text);
+    assert_eq!(b.total, 44);
+    assert!(b.verse.starts_with("万事由天莫苦求"));
+    // 自家用例：1986-05-29 12:00 → 丙寅年四月廿一午时，6+9+10+10=35
+    let b2 = xuanji_core::bone_weight(1986, 5, 29, 12, 0);
+    println!("称骨算例2: {} {} {} = {} {}", b2.lunar_text, b2.year_ganzhi, b2.hour_zhi, b2.total, b2.total_text);
+    assert_eq!(b2.total, 35);
+    // 全域扫描：总重必落在 21..=71
+    for (yy, mm, dd, hh) in [(1924, 2, 5, 0), (2000, 1, 1, 23), (2043, 6, 15, 12), (1983, 3, 3, 3)] {
+        let t = xuanji_core::bone_weight(yy, mm, dd, hh, 0).total;
+        assert!((21..=71).contains(&t), "{t}");
+    }
+    println!("称骨自检通过");
+}
+
+#[allow(dead_code)]
+fn check_hehun() {
+    // 六合用例：1984 甲子鼠 × 1985 乙丑牛 → 生肖六合
+    let r = xuanji_core::hehun(1984, 6, 1, 12, 0, 1985, 6, 1, 12, 0);
+    println!("合婚1: {}×{} {} 分数 {} {}", r.a_zodiac, r.b_zodiac, r.factors[0].result, r.score, r.grade);
+    assert!(r.factors[0].result.contains("六合"));
+    // 相冲用例：1984 鼠 × 1990 庚午马 → 相冲
+    let r2 = xuanji_core::hehun(1984, 6, 1, 12, 0, 1990, 6, 1, 12, 0);
+    println!("合婚2: {}×{} {} 分数 {}", r2.a_zodiac, r2.b_zodiac, r2.factors[0].result, r2.score);
+    assert!(r2.factors[0].result.contains("相冲"));
+    assert!(r2.score < r.score);
+    println!("合婚自检通过");
+}
+
+#[allow(dead_code)]
+fn check_dreams() {
+    let v: serde_json::Value = serde_json::from_str(xuanji_core::DREAMS_JSON).unwrap();
+    let arr = v["dreams"].as_array().unwrap();
+    assert!(arr.len() >= 110, "词条数 {}", arr.len());
+    for e in arr {
+        for k in ["cat", "kw", "title", "luck", "text"] {
+            assert!(e[k].as_str().map(|s| !s.is_empty()).unwrap_or(false), "字段 {k}");
+        }
+    }
+    println!("解梦自检通过：{} 条", arr.len());
 }
