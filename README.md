@@ -32,6 +32,12 @@
 cd core && cargo run --release   # 命令行演示，四件套各输出一份
 ```
 
+## 文档
+
+- [使用说明](docs/使用说明.md)：四件套玩法与常见问题
+- [开发文档](docs/开发文档.md)：架构、构建、验证、内容库格式与发布流程
+- [更新日志](CHANGELOG.md)
+
 ## 许可
 
 - **源代码**：[Mozilla Public License 2.0](LICENSE)（MPL-2.0）
