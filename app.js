@@ -1,5 +1,5 @@
 import init, { almanac_json, daily_qian_json, book_answer, bazi_json, wedding_json, bone_json, hehun_json, dreams_json, ziwei_json }
-  from './pkg/xuanji_web.js?v=4.0.1';
+  from './pkg/xuanji_web.js?v=4.0.2';
 
 const el = id => document.getElementById(id);
 
@@ -8,7 +8,7 @@ const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=4.0.1');
+  await init('./pkg/xuanji_web_bg.wasm?v=4.0.2');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
@@ -74,17 +74,48 @@ async function main(){
   fillZod(el('wedBride'), '新娘生肖（不限）');
   const fmtD = dt => dt.toISOString().slice(0, 10);
   el('wedFrom').value = fmtD(new Date());
-  el('wedTo').value = fmtD(new Date(Date.now() + 180 * 864e5));
-  el('btnWed').onclick = () => {
+  el('wedTo').value = fmtD(new Date(Date.now() + 90 * 864e5));
+  // 分段查：一天一天翻黄历很吃算力，一次算完会把页面冻住；
+  // 每 3 天让出一次主线程并报进度，页面始终能点能滑。
+  el('btnWed').onclick = async () => {
     const f = el('wedFrom').value, t = el('wedTo').value;
     if (!f || !t) { alert('先选好起止日期'); return; }
     const [y1, m1, d1] = f.split('-').map(Number);
     const [y2, m2, d2] = t.split('-').map(Number);
-    const days = JSON.parse(wedding_json(y1, m1, d1, y2, m2, d2, el('wedGroom').value, el('wedBride').value));
-    el('wedCount').textContent = days.length ? `共 ${days.length} 个宜嫁娶的好日子` : '这段时间里没有合适的嫁娶吉日，换个区间试试';
-    el('wedList').innerHTML = days.map(x =>
-      `<div class="wday"><b>${x.solar} ${x.weekday}</b><span>${x.lunar_text}</span><span class="wl">${x.day_ganzhi}日 · 冲${x.chong}</span></div>`).join('');
+    const startUtc = Date.UTC(y1, m1 - 1, d1);
+    let endUtc = Date.UTC(y2, m2 - 1, d2);
+    if (endUtc < startUtc) { alert('结束日期要晚于开始日期'); return; }
+    if (endUtc - startUtc > 400 * 864e5) endUtc = startUtc + 400 * 864e5;
+    const totalDays = Math.round((endUtc - startUtc) / 864e5) + 1;
+    const groom = el('wedGroom').value, bride = el('wedBride').value;
+    const btn = el('btnWed');
+    btn.disabled = true; btn.textContent = '正在翻黄历…';
     el('wedBox').classList.remove('hidden');
+    el('wedList').innerHTML = '';
+    el('wedCount').textContent = `正在翻黄历…已查 0/${totalDays} 天`;
+    const render = (list) => {
+      el('wedList').innerHTML = list.map(x =>
+        `<div class="wday"><b>${x.solar} ${x.weekday}</b><span>${x.lunar_text}</span><span class="wl">${x.day_ganzhi}日 · 冲${x.chong}</span></div>`).join('');
+    };
+    let all = [];
+    try {
+      for (let cur = startUtc; cur <= endUtc; cur += 3 * 864e5) {
+        const ce = Math.min(cur + 2 * 864e5, endUtc);
+        const cd = new Date(cur), ed = new Date(ce);
+        const part = JSON.parse(wedding_json(
+          cd.getUTCFullYear(), cd.getUTCMonth() + 1, cd.getUTCDate(),
+          ed.getUTCFullYear(), ed.getUTCMonth() + 1, ed.getUTCDate(), groom, bride));
+        all = all.concat(part);
+        render(all);
+        const done = Math.round((ce - startUtc) / 864e5) + 1;
+        el('wedCount').textContent = done < totalDays
+          ? `正在翻黄历…已查 ${done}/${totalDays} 天，先找到 ${all.length} 个好日子`
+          : (all.length ? `共 ${all.length} 个宜嫁娶的好日子` : '这段时间里没有合适的嫁娶吉日，换个区间试试');
+        await new Promise(r => setTimeout(r, 10));
+      }
+    } finally {
+      btn.disabled = false; btn.textContent = '查 吉 日';
+    }
   };
 
   // 八字排盘
