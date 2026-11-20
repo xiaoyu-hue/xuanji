@@ -21,6 +21,29 @@ export function almanac_json(y, m, d) {
 }
 
 /**
+ * 八字排盘：出生日期 + 时间 + 性别（1 男 / 0 女），返回 JSON 字符串
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} hour
+ * @param {number} minute
+ * @param {number} gender
+ * @returns {string}
+ */
+export function bazi_json(y, m, d, hour, minute, gender) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.bazi_json(y, m, d, hour, minute, gender);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 答案之书：entropy 由网页端提供（浏览器随机数）
  * @param {number} entropy
  * @returns {string}

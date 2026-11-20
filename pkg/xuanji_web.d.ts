@@ -7,6 +7,11 @@
 export function almanac_json(y: number, m: number, d: number): string;
 
 /**
+ * 八字排盘：出生日期 + 时间 + 性别（1 男 / 0 女），返回 JSON 字符串
+ */
+export function bazi_json(y: number, m: number, d: number, hour: number, minute: number, gender: number): string;
+
+/**
  * 答案之书：entropy 由网页端提供（浏览器随机数）
  */
 export function book_answer(entropy: number): string;
@@ -36,6 +41,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
     readonly almanac_json: (a: number, b: number, c: number) => [number, number];
+    readonly bazi_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
     readonly book_answer: (a: number) => [number, number];
     readonly daily_qian_json: (a: number, b: number, c: number) => [number, number];
     readonly fortune_json: (a: number, b: number, c: number, d: number) => [number, number];

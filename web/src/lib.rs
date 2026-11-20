@@ -42,3 +42,17 @@ pub fn fortune_json(sign: usize, y: i32, m: i32, d: i32) -> String {
     ))
     .unwrap_or_default()
 }
+
+/// 八字排盘：出生日期 + 时间 + 性别（1 男 / 0 女），返回 JSON 字符串
+#[wasm_bindgen]
+pub fn bazi_json(y: i32, m: i32, d: i32, hour: i32, minute: i32, gender: i32) -> String {
+    serde_json::to_string(&xuanji_core::bazi(
+        y as i64,
+        m as i64,
+        d as i64,
+        hour as i64,
+        minute as i64,
+        gender as i64,
+    ))
+    .unwrap_or_default()
+}

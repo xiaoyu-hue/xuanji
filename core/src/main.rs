@@ -1,5 +1,5 @@
 use std::time::{SystemTime, UNIX_EPOCH};
-use xuanji_core::{almanac, book_answer, daily_qian, zodiac_fortune, zodiac_index, ZODIAC_NAMES};
+use xuanji_core::{almanac, bazi, book_answer, daily_qian, zodiac_fortune, zodiac_index, ZODIAC_NAMES};
 
 fn main() {
 // 今日黄历（2026-11-20，已与金标准逐项核对）
@@ -53,4 +53,37 @@ println!("幸运色 {} · 幸运数字 {} · {}", f.lucky_color, f.lucky_number,
 let f2 = zodiac_fortune(idx, 2026, 11, 20);
 assert_eq!(f.overall, f2.overall, "同一星座同一天运势必须稳定");
 println!("（稳定性自检通过）");
+println!();
+
+// 八字排盘演示（1986-05-29 12:00 男，与金标准验算用例）
+let bz = bazi(1986, 5, 29, 12, 0, 1);
+println!("八字 {}（农历{}）", bz.solar, bz.lunar_text);
+for p in &bz.pillars {
+println!(
+"{} {} 干{} 支{} 藏[{}] 五行{} 纳音{} 十神干{} 长生{}",
+p.name, p.ganzhi, p.gan, p.zhi, p.hide_gan.join("/"), p.wu_xing, p.na_yin, p.shi_shen_gan, p.di_shi
+);
+}
+println!("日主 {}（{}）· 胎元{} 命宫{} 身宫{}", bz.day_gan, bz.day_wuxing, bz.tai_yuan, bz.ming_gong, bz.shen_gong);
+println!(
+"五行 {} · 缺{:?} · 最旺{}",
+bz.wuxing.iter().map(|w| format!("{}{}", w.name, w.count)).collect::<Vec<_>>().join(" "),
+bz.missing, bz.strongest
+);
+println!("{} · {}", if bz.forward { "顺行" } else { "逆行" }, bz.start_desc);
+for dy in &bz.da_yun {
+println!("大运 {} {}-{}岁（{}-{}）", dy.ganzhi, dy.start_age, dy.end_age, dy.start_year, dy.end_year);
+}
+println!();
+
+// 八字验算用例二（2000-01-01 00:30 女，子时盘）
+let bz2 = bazi(2000, 1, 1, 0, 30, 0);
+println!("八字 {}（农历{}）", bz2.solar, bz2.lunar_text);
+for p in &bz2.pillars {
+println!("{} {} 藏[{}] 纳音{} 十神干{} 长生{}", p.name, p.ganzhi, p.hide_gan.join("/"), p.na_yin, p.shi_shen_gan, p.di_shi);
+}
+println!("胎元{} 命宫{} 身宫{} · {} · {}", bz2.tai_yuan, bz2.ming_gong, bz2.shen_gong, if bz2.forward { "顺行" } else { "逆行" }, bz2.start_desc);
+for dy in &bz2.da_yun {
+println!("大运 {} {}-{}岁（{}-{}）", dy.ganzhi, dy.start_age, dy.end_age, dy.start_year, dy.end_year);
+}
 }
