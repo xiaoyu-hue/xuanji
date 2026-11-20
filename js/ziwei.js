@@ -1,6 +1,6 @@
 // 页面模块：紫微斗数。只负责本功能的页面交互，计算经 w（Rust 核心绑定）完成；
 // 与其他功能模块不互相引用，共享物只从 ctx.js 取（低耦合约定）。
-import { el } from './ctx.js?v=5.0.0';
+import { el } from './ctx.js?v=5.0.1';
 
 export function initZiwei(w) {
 // 紫微斗数
