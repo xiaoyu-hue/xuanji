@@ -1,6 +1,6 @@
 // 页面模块：八字排盘。只负责本功能的页面交互，计算经 w（Rust 核心绑定）完成；
 // 与其他功能模块不互相引用，共享物只从 ctx.js 取（低耦合约定）。
-import { ctx } from './ctx.js?v=5.1.0';
+import { ctx } from './ctx.js?v=5.2.0';
 
 export function initBazi(w) {
 const { Y, M, D, pad } = ctx;
@@ -22,6 +22,7 @@ btnBazi.onclick = () => {
       <div class="ss">${p.shi_shen_gan}</div>
       <div class="gzchar serif">${p.gan}<br>${p.zhi}</div>
       <div class="hide">藏 ${p.hide_gan.join(' ')}<br>${p.na_yin} · ${p.di_shi}</div>
+      ${p.shensha && p.shensha.length ? `<div class="ssha">${p.shensha.join(' · ')}</div>` : ''}
     </div>`).join('');
   bzMeta.innerHTML = `公历 ${z.solar} · 农历${z.lunar_text}<br>日主 <em>${z.day_gan}（${z.day_wuxing}）</em> · 胎元 ${z.tai_yuan} · 命宫 ${z.ming_gong} · 身宫 ${z.shen_gong}`;
   const maxC = Math.max(...z.wuxing.map(w => w.count), 1);

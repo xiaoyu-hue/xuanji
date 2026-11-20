@@ -27,4 +27,4 @@ pub use hehun::{hehun, MatchFactor, MatchResult};
 pub use qian::{daily_qian, Qian};
 pub use taisui::{taisui, TaisuiHit, TaisuiYear};
 pub use wedding::{day_search, wedding_days, WeddingDay};
-pub use ziwei::{ziwei_chart, ZiweiChart, ZwPalace, ZwStar};
+pub use ziwei::{ziwei_chart, ziwei_liunian, LiuHua, LiuNian, LiuPalace, ZiweiChart, ZwPalace, ZwStar};

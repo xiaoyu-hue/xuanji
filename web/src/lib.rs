@@ -23,4 +23,4 @@ pub use hehun::hehun_json;
 pub use qian::daily_qian_json;
 pub use taisui::taisui_json;
 pub use wedding::{day_search_json, wedding_json};
-pub use ziwei::ziwei_json;
+pub use ziwei::{ziwei_json, ziwei_liunian_json};

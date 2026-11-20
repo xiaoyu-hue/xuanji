@@ -268,3 +268,98 @@ pub fn ziwei_chart(y: i64, m: i64, d: i64, hour: i64, minute: i64, gender: i64) 
         palaces,
     }
 }
+
+// ---------- 紫微流年 ----------
+
+#[derive(Serialize)]
+pub struct LiuPalace {
+    /// 宫位地支（与本命盘 palaces 同序对应）
+    pub branch: String,
+    /// 流年宫名（流年命宫 / 流年兄弟 / …）
+    pub name: String,
+}
+
+#[derive(Serialize)]
+pub struct LiuHua {
+    pub star: String,
+    /// 禄 / 权 / 科 / 忌
+    pub hua: String,
+    /// 该星所在的本命宫名
+    pub palace: String,
+    pub branch: String,
+}
+
+#[derive(Serialize)]
+pub struct LiuNian {
+    pub year: i64,
+    pub year_ganzhi: String,
+    /// 流年命宫地支
+    pub soul_branch: String,
+    /// 流年命宫所在的本命宫名
+    pub soul_palace_name: String,
+    pub palaces: Vec<LiuPalace>,
+    pub mutagens: Vec<LiuHua>,
+}
+
+/// 紫微流年：在本命盘上叠流年一层。流年按农历年干支（公元 4 年甲子起排）：
+/// 流年命宫落在流年地支之宫，流年十二宫自此逆行排布，流年四化按流年天干
+/// 查本命四化表。口径对照 iztro 的 horoscope(yearly) 验算。
+pub fn ziwei_liunian(y: i64, m: i64, d: i64, hour: i64, minute: i64, gender: i64, year: i64) -> LiuNian {
+    let chart = ziwei_chart(y, m, d, hour, minute, gender);
+    let gan_idx = (year - 4).rem_euclid(10);
+    let zhi_idx = (year - 4).rem_euclid(12);
+    let year_ganzhi = format!("{}{}", ZW_GAN[gan_idx as usize], ZW_ZHI[zhi_idx as usize]);
+    let soul_branch = ZW_ZHI[zhi_idx as usize];
+    // 流年十二宫：自流年命宫地支起逆行（地支序递减）
+    let palaces: Vec<LiuPalace> = chart
+        .palaces
+        .iter()
+        .map(|p| {
+            let b = ZW_ZHI.iter().position(|&z| z == p.branch).unwrap() as i64;
+            let off = pmod(zhi_idx - b, 12);
+            LiuPalace {
+                branch: p.branch.clone(),
+                name: format!("流年{}", PALACE_NAMES[off as usize]),
+            }
+        })
+        .collect();
+    let soul_palace_name = chart
+        .palaces
+        .iter()
+        .find(|p| p.branch == soul_branch)
+        .map(|p| p.name.clone())
+        .unwrap_or_default();
+    // 流年四化：按流年天干查表，并定位每颗化星所在的本命宫
+    let hua = mutagens(ZW_GAN[gan_idx as usize]);
+    let mutagens: Vec<LiuHua> = hua
+        .iter()
+        .enumerate()
+        .map(|(i, star)| {
+            let (palace, branch) = chart
+                .palaces
+                .iter()
+                .find_map(|p| {
+                    if p.stars.iter().any(|s| s.name == *star) {
+                        Some((p.name.clone(), p.branch.clone()))
+                    } else {
+                        None
+                    }
+                })
+                .unwrap_or_default();
+            LiuHua {
+                star: star.to_string(),
+                hua: ["禄", "权", "科", "忌"][i].to_string(),
+                palace,
+                branch,
+            }
+        })
+        .collect();
+    LiuNian {
+        year,
+        year_ganzhi,
+        soul_branch: soul_branch.to_string(),
+        soul_palace_name,
+        palaces,
+        mutagens,
+    }
+}

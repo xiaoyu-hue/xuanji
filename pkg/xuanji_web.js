@@ -299,6 +299,30 @@ export function ziwei_json(y, m, d, hour, minute, gender) {
         wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
     }
 }
+
+/**
+ * 紫微流年：出生信息 + 流年年份，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} hour
+ * @param {number} minute
+ * @param {number} gender
+ * @param {number} year
+ * @returns {string}
+ */
+export function ziwei_liunian_json(y, m, d, hour, minute, gender, year) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.ziwei_liunian_json(y, m, d, hour, minute, gender, year);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,

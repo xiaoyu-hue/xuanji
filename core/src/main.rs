@@ -36,6 +36,8 @@ fn main() {
     check_day_search();
     check_hours();
     check_taisui();
+    check_shensha();
+    check_liunian();
     check_bone();
     check_hehun();
     check_dreams();
@@ -174,6 +176,44 @@ fn check_taisui() {
     assert_eq!(xuanji_core::taisui(2028, "蛇").mine, vec!["刑太岁".to_string(), "破太岁".to_string()]);
     assert!(xuanji_core::taisui(2027, "虎").mine.is_empty());
     println!("犯太岁自检通过（2027 丁未年名单 4 肖，值/冲/刑/害/破锚点全对）");
+}
+
+#[allow(dead_code)]
+fn check_shensha() {
+    // 锚点为手工按传统查表推演（表已经多来源交叉核对），与代码互为校验
+    let bz = xuanji_core::bazi(1986, 5, 29, 12, 0, 1);
+    let ss: Vec<Vec<String>> = bz.pillars.iter().map(|p| p.shensha.clone()).collect();
+    assert_eq!(ss[0], Vec::<String>::new(), "年柱神煞");
+    assert_eq!(ss[1], vec!["天乙贵人", "太极贵人", "孤辰"], "月柱神煞");
+    assert_eq!(ss[2], vec!["国印贵人", "将星"], "日柱神煞");
+    assert_eq!(ss[3], vec!["将星", "桃花"], "时柱神煞");
+    let bz2 = xuanji_core::bazi(2000, 1, 1, 0, 30, 0);
+    let ss2: Vec<Vec<String>> = bz2.pillars.iter().map(|p| p.shensha.clone()).collect();
+    assert_eq!(ss2[0], vec!["将星", "桃花"], "例二年柱神煞");
+    assert_eq!(ss2[1], vec!["红鸾", "桃花"], "例二月柱神煞");
+    assert_eq!(ss2[2], vec!["天喜", "将星"], "例二日柱神煞");
+    assert_eq!(ss2[3], vec!["月德贵人", "红鸾", "桃花"], "例二时柱神煞");
+    println!("神煞自检通过（两例八柱逐柱与手工查表一致）");
+}
+
+#[allow(dead_code)]
+fn check_liunian() {
+    // 1986-05-29 12:00 男，流年 2027 丁未：命宫落未宫（本命财帛宫），丁年四化 太阴禄/天同权/天机科/巨门忌
+    let ln = xuanji_core::ziwei_liunian(1986, 5, 29, 12, 0, 1, 2027);
+    println!("流年 {} {} 命宫{}（本命{}）四化 {}",
+        ln.year, ln.year_ganzhi, ln.soul_branch, ln.soul_palace_name,
+        ln.mutagens.iter().map(|h| format!("{}{}@{}", h.star, h.hua, h.palace)).collect::<Vec<_>>().join(" "));
+    assert_eq!(ln.year_ganzhi, "丁未");
+    assert_eq!(ln.soul_branch, "未");
+    assert_eq!(ln.soul_palace_name, "财帛");
+    let stars: Vec<(&str, &str)> = ln.mutagens.iter().map(|h| (h.star.as_str(), h.hua.as_str())).collect();
+    assert_eq!(stars, vec![("太阴", "禄"), ("天同", "权"), ("天机", "科"), ("巨门", "忌")]);
+    // 流年十二宫：未宫应为流年命宫，午宫为流年兄弟（逆行）
+    let at = |b: &str| ln.palaces.iter().find(|p| p.branch == b).unwrap().name.as_str();
+    assert_eq!(at("未"), "流年命宫");
+    assert_eq!(at("午"), "流年兄弟");
+    assert_eq!(at("申"), "流年父母");
+    println!("流年自检通过（2027 丁未锚点）");
 }
 
 #[allow(dead_code)]

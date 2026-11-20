@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>玄机 · 今日</title>
-<link rel="stylesheet" href="./style.css?v=5.1.0">
+<link rel="stylesheet" href="./style.css?v=5.2.0">
 </head>
 <body>
 <header>
@@ -190,6 +190,11 @@
     </div>
     <div id="zwBox" class="hidden">
       <div class="zwgrid" id="zwGrid"></div>
+      <div class="row2" style="margin-top:10px">
+        <input type="number" id="zwYear" min="1900" max="2100" placeholder="流年年份，如 2027">
+        <button class="btn serif" id="btnLiunian">看 流 年</button>
+      </div>
+      <p class="fineprint" id="zwLiuText"></p>
       <p class="fineprint">安星口径与开源紫微库逐盘核对一致；命盘仅供民俗娱乐参考</p>
     </div>
   </section>
@@ -201,6 +206,6 @@
   历法核心由 Rust 计算，结果与经典黄历库逐项核对
 </footer>
 
-<script type="module" src="./app.js?v=5.1.0"></script>
+<script type="module" src="./app.js?v=5.2.0"></script>
 </body>
 </html>

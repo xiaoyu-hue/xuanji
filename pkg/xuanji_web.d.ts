@@ -61,6 +61,11 @@ export function wedding_json(y1: number, m1: number, d1: number, y2: number, m2:
  */
 export function ziwei_json(y: number, m: number, d: number, hour: number, minute: number, gender: number): string;
 
+/**
+ * 紫微流年：出生信息 + 流年年份，返回 JSON
+ */
+export function ziwei_liunian_json(y: number, m: number, d: number, hour: number, minute: number, gender: number, year: number): string;
+
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
@@ -77,6 +82,7 @@ export interface InitOutput {
     readonly taisui_json: (a: number, b: number, c: number) => [number, number];
     readonly wedding_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
     readonly ziwei_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
+    readonly ziwei_liunian_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_free: (a: number, b: number, c: number) => void;
     readonly __wbindgen_malloc: (a: number, b: number) => number;
