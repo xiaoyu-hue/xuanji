@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>玄机 · 今日</title>
+<style>
+  :root{
+    --paper:#f7f1e5; --paper2:#efe6d3; --ink:#2e2a26; --ink2:#6f6659;
+    --cinnabar:#a63d2f; --cinnabar2:#c0532f; --gold:#b8862f; --jade:#3f6f5f;
+    --card:#fffdf7; --line:#e3d7bf; --shadow:0 6px 24px rgba(84,64,32,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{background:var(--paper);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    padding:20px 14px 40px;max-width:560px;margin:0 auto}
+  .serif{font-family:"Noto Serif SC","Songti SC","STSong",serif}
+  header{text-align:center;padding:14px 0 6px}
+  header .seal{display:inline-block;background:var(--cinnabar);color:#fff;
+    font-size:13px;letter-spacing:4px;padding:5px 10px 5px 14px;border-radius:4px}
+  header h1{font-size:34px;letter-spacing:10px;margin:12px 0 2px;font-weight:600}
+  header p{color:var(--ink2);font-size:13px;letter-spacing:2px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    box-shadow:var(--shadow);padding:18px 16px;margin-top:16px}
+  .card h2{font-size:17px;letter-spacing:3px;display:flex;align-items:center;gap:8px}
+  .card h2::before{content:"";width:4px;height:16px;background:var(--cinnabar);border-radius:2px}
+  .card h2 .sub{margin-left:auto;font-size:12px;color:var(--ink2);letter-spacing:1px}
+  .bigday{text-align:center;padding:10px 0 2px}
+  .bigday .lunar{font-size:30px;font-weight:600;letter-spacing:2px}
+  .bigday .gz{color:var(--ink2);font-size:14px;margin-top:6px;letter-spacing:1px}
+  .yiji{display:flex;gap:10px;margin-top:14px}
+  .yiji .box{flex:1;border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.9}
+  .yi{background:#f2f7f1;border:1px solid #cfdfc9}
+  .ji{background:#faf0ec;border:1px solid #e8cabd}
+  .yiji b{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;color:#fff;margin-bottom:4px}
+  .yi b{background:var(--jade)} .ji b{background:var(--cinnabar)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-top:14px;font-size:13.5px}
+  .grid div{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:5px 0}
+  .grid span{color:var(--ink2)}
+  .pengzu{margin-top:12px;font-size:12.5px;color:var(--ink2);line-height:1.8;text-align:center}
+  .btn{display:block;width:100%;border:none;cursor:pointer;background:var(--cinnabar);color:#fff;
+    font-size:16px;letter-spacing:4px;padding:13px 0;border-radius:10px;margin-top:14px;
+    font-family:inherit;transition:transform .08s, background .2s}
+  .btn:active{transform:scale(.98);background:var(--cinnabar2)}
+  .btn.ghost{background:transparent;color:var(--cinnabar);border:1px solid var(--cinnabar)}
+  .qian{text-align:center;padding-top:8px}
+  .qian .grade{display:inline-block;border:1px solid var(--gold);color:var(--gold);
+    padding:3px 14px;border-radius:99px;font-size:13px;letter-spacing:3px}
+  .qian .poem{font-size:19px;line-height:2.1;letter-spacing:3px;margin:12px 0 6px}
+  .qian .jie{font-size:13.5px;color:var(--ink2);line-height:1.8}
+  .hidden{display:none}
+  .answer{text-align:center;font-size:20px;line-height:1.9;padding:16px 6px 4px;letter-spacing:1px}
+  .signs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+  .signs button{border:1px solid var(--line);background:var(--paper);border-radius:9px;
+    padding:9px 0;font-size:13.5px;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .signs button.on{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
+  .scores{margin-top:14px}
+  .scores .row{display:flex;align-items:center;gap:10px;font-size:13.5px;margin:7px 0}
+  .scores .row label{width:34px;color:var(--ink2)}
+  .bar{flex:1;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--cinnabar2));border-radius:99px}
+  .scores .row b{width:26px;text-align:right}
+  .lucky{margin-top:10px;font-size:13.5px;color:var(--ink2);line-height:1.9;text-align:center}
+  .lucky em{color:var(--cinnabar);font-style:normal}
+  footer{text-align:center;color:var(--ink2);font-size:12px;margin-top:26px;line-height:2;letter-spacing:1px}
+  #loading{text-align:center;color:var(--ink2);padding:60px 0;letter-spacing:3px}
+  .fade{animation:fade .5s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header>
+  <span class="seal serif">民俗 · 娱乐</span>
+  <h1 class="serif">玄 机</h1>
+  <p id="todayLine">正在起卦…</p>
+</header>
+
+<div id="loading">🏮 正在翻开黄历…</div>
+
+<main id="app" class="hidden">
+  <!-- 今日黄历 -->
+  <section class="card">
+    <h2>今日黄历 <span class="sub" id="almSolar"></span></h2>
+    <div class="bigday">
+      <div class="lunar serif" id="almLunar"></div>
+      <div class="gz" id="almGz"></div>
+    </div>
+    <div class="yiji">
+      <div class="box yi"><b>宜</b><div id="almYi"></div></div>
+      <div class="box ji"><b>忌</b><div id="almJi"></div></div>
+    </div>
+    <div class="grid" id="almGrid"></div>
+    <div class="pengzu" id="almPengzu"></div>
+  </section>
+
+  <!-- 今日一签 -->
+  <section class="card">
+    <h2>今日一签 <span class="sub">同一天 · 同一签</span></h2>
+    <div id="qianBefore">
+      <p style="text-align:center;color:var(--ink2);font-size:13.5px;margin-top:10px">静心片刻，抽取属于今天的这一签</p>
+      <button class="btn serif" id="btnQian">抽 今 日 签</button>
+    </div>
+    <div id="qianAfter" class="qian hidden">
+      <span class="grade serif" id="qGrade"></span>
+      <div class="poem serif" id="qPoem"></div>
+      <div class="jie" id="qJie"></div>
+    </div>
+  </section>
+
+  <!-- 答案之书 -->
+  <section class="card">
+    <h2>答案之书 <span class="sub">想好一个问题再翻开</span></h2>
+    <div id="ansBox" class="answer serif hidden"></div>
+    <button class="btn serif" id="btnAns">翻 开 答 案</button>
+  </section>
+
+  <!-- 星座运势 -->
+  <section class="card">
+    <h2>星座运势 <span class="sub">点你的星座</span></h2>
+    <div class="signs" id="signGrid"></div>
+    <div id="fortuneBox" class="hidden">
+      <div class="scores" id="fScores"></div>
+      <div class="lucky" id="fLucky"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  玄机 · 民俗文化娱乐，不作决策依据<br>
+  历法核心由 Rust 计算，结果与经典黄历库逐项核对
+</footer>
+
+<script type="module">
+import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json }
+  from './pkg/xuanji_web.js';
+
+const now = new Date();
+const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
+const week = ['日','一','二','三','四','五','六'][now.getDay()];
+
+async function main(){
+  await init();
+  document.getElementById('todayLine').textContent =
+    `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+
+  // 黄历
+  const a = JSON.parse(almanac_json(Y, M, D));
+  almSolar.textContent = a.solar.replaceAll('-', ' / ');
+  almLunar.textContent = a.lunar_text;
+  almGz.textContent = `${a.year_ganzhi}年 · ${a.month_ganzhi}月 · ${a.day_ganzhi}日 · 属${a.shengxiao}`;
+  almYi.textContent = a.yi.join(' · ');
+  almJi.textContent = a.ji.join(' · ');
+  const rows = [
+    ['值神', `${a.tianshen}（${a.tianshen_luck}）`], ['星宿', `${a.xiu}（${a.xiu_luck}）`],
+    ['冲煞', `冲${a.chong} · 煞${a.sha}`], ['节气', `${a.prev_jieqi} → ${a.next_jieqi}`],
+    ['财神位', a.cai], ['喜神位', a.xi], ['福神位', a.fu], ['今日星座', a.xingzuo + '座'],
+  ];
+  almGrid.innerHTML = rows.map(([k,v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('');
+  almPengzu.textContent = `彭祖百忌：${a.pengzu_gan} · ${a.pengzu_zhi}`;
+
+  // 今日一签
+  btnQian.onclick = () => {
+    const q = JSON.parse(daily_qian_json(Y, M, D));
+    qGrade.textContent = `第 ${q.id} 签 · ${q.grade}`;
+    qPoem.innerHTML = q.poem.join('<br>');
+    qJie.textContent = '解签：' + q.jie;
+    qianBefore.classList.add('hidden');
+    qianAfter.classList.remove('hidden');
+    qianAfter.classList.add('fade');
+  };
+
+  // 答案之书
+  btnAns.onclick = () => {
+    ansBox.textContent = book_answer(Math.random() * 2 ** 53);
+    ansBox.classList.remove('hidden', 'fade');
+    void ansBox.offsetWidth;
+    ansBox.classList.add('fade');
+    btnAns.textContent = '再 翻 一 次';
+  };
+
+  // 星座运势
+  let cur = zodiac_index(M, D);
+  const renderSigns = () => {
+    signGrid.innerHTML = '';
+    for (let i = 0; i < 12; i++) {
+      const b = document.createElement('button');
+      b.textContent = zodiac_name(i);
+      if (i === cur) b.classList.add('on');
+      b.onclick = () => { cur = i; renderSigns(); renderFortune(); };
+      signGrid.appendChild(b);
+    }
+  };
+  const renderFortune = () => {
+    const f = JSON.parse(fortune_json(cur, Y, M, D));
+    const row = (label, v) =>
+      `<div class="row"><label>${label}</label><div class="bar"><i style="width:${v}%"></i></div><b>${v}</b></div>`;
+    fScores.innerHTML = row('整体', f.overall) + row('爱情', f.love) + row('事业', f.career) + row('财运', f.wealth);
+    fLucky.innerHTML = `幸运色 <em>${f.lucky_color}</em> · 幸运数字 <em>${f.lucky_number}</em><br>${f.guide}`;
+    fortuneBox.classList.remove('hidden');
+    fortuneBox.classList.add('fade');
+  };
+  renderSigns(); renderFortune();
+}
+
+main().catch(e => {
+  document.getElementById('loading').textContent = '黄历没翻开，请刷新重试';
+  console.error(e);
+});
+</script>
+</body>
+</html>
