@@ -1,12 +1,14 @@
-import init, { almanac_json, daily_qian_json, book_answer, bazi_json }
-  from './pkg/xuanji_web.js?v=3.0.0';
+import init, { almanac_json, daily_qian_json, book_answer, bazi_json, wedding_json, bone_json, hehun_json, dreams_json, ziwei_json }
+  from './pkg/xuanji_web.js?v=4.0.1';
+
+const el = id => document.getElementById(id);
 
 const now = new Date();
 const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=4.0.0');
+  await init('./pkg/xuanji_web_bg.wasm?v=4.0.1');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
