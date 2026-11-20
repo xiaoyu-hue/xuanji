@@ -233,12 +233,15 @@ fn check_zhouyi() {
     let c = xuanji_core::build_from_values([8; 6]);
     assert_eq!(c.ben.n, 2);
     assert!(c.bian.is_none());
-    // 初爻独变：乾→姤（44）；上爻独变：乾→履（10）
+    // 初爻独变：乾→姤（44）；上爻独变：乾→夬（43，上卦成兑）；
+    // 三爻独变：乾→履（10，下卦成兑）
     let d = xuanji_core::build_from_values([9, 7, 7, 7, 7, 7]);
     assert_eq!(d.bian.as_ref().unwrap().n, 44);
     assert_eq!(d.lines[0].text, "潜龙勿用。");
     let e = xuanji_core::build_from_values([7, 7, 7, 7, 7, 9]);
-    assert_eq!(e.bian.as_ref().unwrap().n, 10);
+    assert_eq!(e.bian.as_ref().unwrap().n, 43);
+    let g = xuanji_core::build_from_values([7, 7, 9, 7, 7, 7]);
+    assert_eq!(g.bian.as_ref().unwrap().n, 10);
     // 种子通路：只验结构（六爻齐、点数 6..=9、本变卦自洽）
     let f = xuanji_core::zhouyi_draw(20261120);
     assert_eq!(f.lines.len(), 6);
