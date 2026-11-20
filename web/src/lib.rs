@@ -1,82 +1,25 @@
 use wasm_bindgen::prelude::*;
 
-/// 今日黄历，返回 JSON 字符串
+/// 今日黄历：入参为公历年月日，返回 JSON 字符串
 #[wasm_bindgen]
 pub fn almanac_json(y: i32, m: i32, d: i32) -> String {
-    serde_json::to_string(&xuanji_core::almanac(y as i64, m as i64, d as i64)).unwrap_or_default()
+    serde_json::to_string(&xuanji_core::almanac(y as i64, m as i64, d as i64)).unwrap()
 }
 
-/// 今日一签（同一天固定），返回 JSON 字符串
+/// 今日一签：同一天抽到的签固定，返回 JSON 字符串
 #[wasm_bindgen]
 pub fn daily_qian_json(y: i32, m: i32, d: i32) -> String {
-    serde_json::to_string(&xuanji_core::daily_qian(y as i64, m as i64, d as i64))
-        .unwrap_or_default()
+    serde_json::to_string(&xuanji_core::daily_qian(y as i64, m as i64, d as i64)).unwrap()
 }
 
-/// 答案之书：entropy 由网页端提供（浏览器随机数）
+/// 答案之书：entropy 为浏览器传入的随机数
 #[wasm_bindgen]
 pub fn book_answer(entropy: f64) -> String {
     xuanji_core::book_answer(entropy as u64)
 }
 
-/// 星座下标（0-11）
-#[wasm_bindgen]
-pub fn zodiac_index(month: i32, day: i32) -> usize {
-    xuanji_core::zodiac_index(month as i64, day as i64)
-}
-
-/// 星座名
-#[wasm_bindgen]
-pub fn zodiac_name(index: usize) -> String {
-    xuanji_core::ZODIAC_NAMES[index % 12].to_string()
-}
-
-/// 星座运势（同星座同日固定），返回 JSON 字符串
-#[wasm_bindgen]
-pub fn fortune_json(sign: usize, y: i32, m: i32, d: i32) -> String {
-    serde_json::to_string(&xuanji_core::zodiac_fortune(
-        sign,
-        y as i64,
-        m as i64,
-        d as i64,
-    ))
-    .unwrap_or_default()
-}
-
-/// 八字排盘：出生日期 + 时间 + 性别（1 男 / 0 女），返回 JSON 字符串
+/// 八字排盘：出生年月日时分 + 性别（1 男 0 女），返回 JSON 字符串
 #[wasm_bindgen]
 pub fn bazi_json(y: i32, m: i32, d: i32, hour: i32, minute: i32, gender: i32) -> String {
-    serde_json::to_string(&xuanji_core::bazi(
-        y as i64,
-        m as i64,
-        d as i64,
-        hour as i64,
-        minute as i64,
-        gender as i64,
-    ))
-    .unwrap_or_default()
-}
-
-/// 16 型人格：完整题库 JSON（题目 + 16 型文案）
-#[wasm_bindgen]
-pub fn personality_json() -> String {
-    xuanji_core::personality_json()
-}
-
-/// 16 型人格计分：answers 为 48 字符作答串（'a'/'b'）
-#[wasm_bindgen]
-pub fn personality_score(answers: String) -> String {
-    xuanji_core::personality_score(&answers)
-}
-
-/// 今日塔罗（按日期固定，含正/逆位）
-#[wasm_bindgen]
-pub fn daily_tarot_json(y: i32, m: i32, d: i32) -> String {
-    xuanji_core::daily_tarot(y as i64, m as i64, d as i64)
-}
-
-/// 随手抽一张塔罗
-#[wasm_bindgen]
-pub fn tarot_draw_json(entropy: f64) -> String {
-    xuanji_core::tarot_draw(entropy as u64)
+    serde_json::to_string(&xuanji_core::bazi(y as i64, m as i64, d as i64, hour as i64, minute as i64, gender as i64)).unwrap()
 }

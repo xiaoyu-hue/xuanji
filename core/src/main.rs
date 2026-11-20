@@ -1,5 +1,5 @@
 use std::time::{SystemTime, UNIX_EPOCH};
-use xuanji_core::{almanac, bazi, book_answer, daily_qian, zodiac_fortune, zodiac_index, ZODIAC_NAMES};
+use xuanji_core::{almanac, bazi, book_answer, daily_qian};
 
 fn main() {
 // 今日黄历（2026-11-20，已与金标准逐项核对）
@@ -41,17 +41,6 @@ let entropy = SystemTime::now()
 println!("心里想好一个问题……答案是：{}", book_answer(entropy));
 println!();
 
-// 星座运势：自检星座换算与地基库一致，再输出今日天蝎运势
-let idx = zodiac_index(11, 20);
-assert!(ZODIAC_NAMES[idx].starts_with(&a.xingzuo), "星座换算须与地基一致");
-let f = zodiac_fortune(idx, 2026, 11, 20);
-println!(
-"{} 今日：整体{} 爱情{} 事业{} 财运{}",
-f.sign, f.overall, f.love, f.career, f.wealth
-);
-println!("幸运色 {} · 幸运数字 {} · {}", f.lucky_color, f.lucky_number, f.guide);
-let f2 = zodiac_fortune(idx, 2026, 11, 20);
-assert_eq!(f.overall, f2.overall, "同一星座同一天运势必须稳定");
 println!("（稳定性自检通过）");
 println!();
 
@@ -86,43 +75,6 @@ println!("胎元{} 命宫{} 身宫{} · {} · {}", bz2.tai_yuan, bz2.ming_gong, 
 for dy in &bz2.da_yun {
 println!("大运 {} {}-{}岁（{}-{}）", dy.ganzhi, dy.start_age, dy.end_age, dy.start_year, dy.end_year);
 }
-check_personality();
-    check_tarot();
-}
 
-#[allow(dead_code)]
-fn check_personality() {
-    let bank: serde_json::Value = serde_json::from_str(xuanji_core::PERSONALITY_JSON).unwrap();
-    let qs = bank["questions"].as_array().unwrap();
-    assert_eq!(qs.len(), 48, "题目总数应为 48");
-    assert_eq!(bank["types"].as_object().unwrap().len(), 16, "人格类型应为 16");
-    // 定向答卷：每题都选 INTJ 对应极，应得 INTJ 且四维 100%
-    let target = ['I', 'N', 'T', 'J'];
-    let dim_idx = |d: &str| match d { "EI" => 0, "SN" => 1, "TF" => 2, _ => 3 };
-    let mut sheet = String::new();
-    for q in qs {
-        let want = target[dim_idx(q["dim"].as_str().unwrap())];
-        sheet.push(if q["a"]["p"].as_str().unwrap() == want.to_string() { 'a' } else { 'b' });
-    }
-    let r: serde_json::Value = serde_json::from_str(&xuanji_core::personality_score(&sheet)).unwrap();
-    assert_eq!(r["type"], "INTJ", "定向答卷应得 INTJ，实际：{r}");
-    assert!(r["dims"].as_array().unwrap().iter().all(|d| d["left_pct"].as_i64().unwrap() == 0 || d["right_pct"].as_i64().unwrap() == 0),
-        "定向答卷每维应为 100% 对 0%：{r}");
-    println!("PERSONALITY CHECK OK 定向 INTJ 答卷 => INTJ（四维 100%）");
-    let all_a: serde_json::Value = serde_json::from_str(&xuanji_core::personality_score(&"a".repeat(48))).unwrap();
-    println!("ALL-A SHEET => {}", all_a["type"]);
-}
-
-#[allow(dead_code)]
-fn check_tarot() {
-    let t1 = xuanji_core::daily_tarot(2026, 11, 20);
-    let t2 = xuanji_core::daily_tarot(2026, 11, 20);
-    assert_eq!(t1, t2, "同一天的塔罗必须固定");
-    let v: serde_json::Value = serde_json::from_str(&t1).unwrap();
-    println!("TAROT CHECK OK 2026-11-20 => {} {}（{}）", v["name"], v["en"], if v["reversed"].as_bool().unwrap() { "逆位" } else { "正位" });
-    for e in [1u64, 42, 999_999] {
-        let d: serde_json::Value = serde_json::from_str(&xuanji_core::tarot_draw(e)).unwrap();
-        assert!(d["num"].as_u64().unwrap() < 22);
-    }
-    println!("TAROT DRAW OK 随手抽编号均在 0-21");
+    
 }

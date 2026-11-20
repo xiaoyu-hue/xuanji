@@ -43,18 +43,6 @@
   .qian .jie{font-size:13.5px;color:var(--ink2);line-height:1.8}
   .hidden{display:none}
   .answer{text-align:center;font-size:20px;line-height:1.9;padding:16px 6px 4px;letter-spacing:1px}
-  .signs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-  .signs button{border:1px solid var(--line);background:var(--paper);border-radius:9px;
-    padding:9px 0;font-size:13.5px;cursor:pointer;font-family:inherit;color:var(--ink)}
-  .signs button.on{background:var(--cinnabar);color:#fff;border-color:var(--cinnabar)}
-  .scores{margin-top:14px}
-  .scores .row{display:flex;align-items:center;gap:10px;font-size:13.5px;margin:7px 0}
-  .scores .row label{width:34px;color:var(--ink2)}
-  .bar{flex:1;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden}
-  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--cinnabar2));border-radius:99px}
-  .scores .row b{width:26px;text-align:right}
-  .lucky{margin-top:10px;font-size:13.5px;color:var(--ink2);line-height:1.9;text-align:center}
-  .lucky em{color:var(--cinnabar);font-style:normal}
   footer{text-align:center;color:var(--ink2);font-size:12px;margin-top:26px;line-height:2;letter-spacing:1px}
   #loading{text-align:center;color:var(--ink2);padding:60px 0;letter-spacing:3px}
   .daterow{display:flex;gap:8px;align-items:center;margin-top:12px}
@@ -89,45 +77,14 @@
   .dayun .dy b{font-size:17px;display:block;letter-spacing:2px}
   .dayun .dy span{font-size:11px;color:var(--ink2);line-height:1.5;display:block}
   .fade{animation:fade .5s ease both}
-  .persdesc{font-size:15px;color:var(--ink2);line-height:1.7;margin:4px 0 12px}
-  .persnote{font-size:12px;color:var(--ink2);margin-top:10px;line-height:1.6}
-  .persprog{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);margin-bottom:10px}
-  .persbar{flex:1;height:8px;background:#e9dfca;border-radius:4px;overflow:hidden}
-  .persbar i{display:block;height:100%;background:var(--red,#a63d2f);width:0;transition:width .3s}
-  .persq{font-size:18px;font-weight:600;line-height:1.6;margin:8px 0 14px}
-  .persopt{display:block;width:100%;text-align:left;padding:13px 14px;margin:8px 0;border:1.5px solid #d8cbae;background:#fffdf7;border-radius:10px;font-size:15px;line-height:1.55;cursor:pointer;color:var(--ink)}
-  .persopt:active{border-color:var(--red,#a63d2f);background:#f7ecd9}
-  .persback{background:none;border:none;color:var(--ink2);font-size:13px;cursor:pointer;padding:6px 2px}
-  .perstype{text-align:center;margin:6px 0 2px}
-  .perstype .code{font-size:44px;font-weight:700;letter-spacing:6px;color:var(--red,#a63d2f)}
-  .perstype .pname{font-size:22px;font-weight:600;margin-top:2px}
-  .perstype .ptag{color:var(--ink2);font-size:14px;margin-top:4px}
-  .dimrow{display:flex;align-items:center;gap:8px;font-size:13px;margin:7px 0;color:var(--ink2)}
-  .dimrow b{color:var(--ink);min-width:74px}
-  .dimrow b:last-child{text-align:right}
-  .dimbar{flex:1;height:10px;background:#e9dfca;border-radius:5px;overflow:hidden}
-  .dimbar i{display:block;height:100%;background:var(--gold,#b8862f)}
-  .perscols{display:flex;gap:14px;margin-top:10px}
-  .perscols>div{flex:1;background:#fffdf7;border:1px solid #e3d7bf;border-radius:10px;padding:10px 12px}
-  .perscols h3{font-size:14px;margin:0 0 6px;color:var(--red,#a63d2f)}
-  .perscols ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.8;color:var(--ink)}
-  .persmotto{text-align:center;font-size:15px;margin:14px 0 4px;color:var(--ink)}
-  .persbtns{display:flex;gap:10px;margin-top:12px}
-  .persbtns .btn{flex:1}
-  .tarotface{width:208px;height:308px;margin:12px auto 6px;border:2.5px solid #a63d2f;border-radius:14px;background:linear-gradient(160deg,#fdf8ec,#f3e8d2);box-shadow:0 6px 18px rgba(90,70,40,.18), inset 0 0 0 6px #f7f1e5, inset 0 0 0 8px #d8cbae;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .6s ease}
-  .tarotface.rev{transform:rotate(180deg)}
-  .tarotface .tnum{font-size:15px;letter-spacing:3px;color:#b8862f}
-  .tarotface .tname{font-size:40px;font-weight:700;color:#2e2a26;letter-spacing:4px}
-  .tarotface .ten{font-size:12.5px;letter-spacing:2.5px;color:#6f6659;text-transform:uppercase}
-  .tarotface .tstar{color:#a63d2f;font-size:17px}
-  .trev{display:inline-block;background:#a63d2f;color:#fdf8ec;font-size:12.5px;padding:2.5px 12px;border-radius:9px;letter-spacing:3px}
-  .trev.hidden{display:none}
   .tkw{text-align:center;color:#b8862f;font-size:14.5px;margin:10px 0 4px}
   .tmean{font-size:15px;line-height:1.75;color:var(--ink)}
-  .hallnav{position:sticky;top:0;z-index:20;display:flex;justify-content:center;gap:28px;padding:10px 0 9px;background:rgba(247,241,229,.95);border-bottom:1px solid #e3d7bf}
-  .hallnav a{color:var(--ink2);text-decoration:none;font-size:15px;letter-spacing:3px;font-weight:600}
-  .hallhead{display:flex;align-items:center;gap:12px;margin:28px 2px 12px;scroll-margin-top:58px}
-  .hallseal{border:2px solid #a63d2f;border-radius:8px;padding:5px 13px;font-size:19px;font-weight:700;letter-spacing:2px;background:#fffdf7;white-space:nowrap}
-  .halldesc{color:var(--ink2);font-size:13.5px;letter-spacing:2px;white-space:nowrap}
-  .hallhead::after{content:'';flex:1;border-top:1px solid #e3d7bf}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .scores{margin-top:14px}
+  .scores .row{display:flex;align-items:center;gap:10px;font-size:13.5px;margin:7px 0}
+  .scores .row label{width:34px;color:var(--ink2)}
+  .bar{flex:1;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--cinnabar2));border-radius:99px}
+  .scores .row b{width:26px;text-align:right}
+  .lucky{margin-top:10px;font-size:13.5px;color:var(--ink2);line-height:1.9;text-align:center}
+  .lucky em{color:var(--cinnabar);font-style:normal}

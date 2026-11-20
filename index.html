@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>玄机 · 今日</title>
-<link rel="stylesheet" href="./style.css?v=2.3.1">
+<link rel="stylesheet" href="./style.css?v=3.0.0">
 </head>
 <body>
 <header>
-  <span class="seal serif">民俗 · 娱乐</span>
+  <span class="seal serif">东方民俗</span>
   <h1 class="serif">玄 机</h1>
   <p id="todayLine">正在起卦…</p>
 </header>
@@ -16,9 +16,7 @@
 <div id="loading">🏮 正在翻开黄历…</div>
 
 <main id="app" class="hidden">
-  <nav class="hallnav"><a href="#hall-east">东方馆</a><a href="#hall-west">西方馆</a><a href="#hall-mind">心智馆</a></nav>
 
-  <div class="hallhead" id="hall-east"><span class="hallseal" style="border-color:#a63d2f;color:#a63d2f">东 方 馆</span><span class="halldesc">黄历 · 命理 · 占卜</span></div>
   <!-- 今日黄历 -->
   <section class="card">
     <h2><span id="almTitle">今日黄历</span> <span class="sub" id="almSolar"></span></h2>
@@ -84,59 +82,7 @@
     </div>
   </section>
 
-  <div class="hallhead" id="hall-west"><span class="hallseal" style="border-color:#b8862f;color:#b8862f">西 方 馆</span><span class="halldesc">星座 · 塔罗</span></div>
-  <!-- 星座运势 -->
-  <section class="card">
-    <h2>星座运势 <span class="sub">点你的星座</span></h2>
-    <div class="signs" id="signGrid"></div>
-    <div id="fortuneBox" class="hidden">
-      <div class="scores" id="fScores"></div>
-      <div class="lucky" id="fLucky"></div>
-    </div>
-  </section>
-  <!-- 今日塔罗 -->
-  <section class="card">
-    <h2>今日塔罗 <span class="sub">西方馆 · 每日一抽</span></h2>
-    <div id="tarotIntro">
-      <p class="persdesc">在心里默念一个今天最在意的问题，抽一张属于今天的塔罗牌（22 张大阿卡纳）。同一天抽到的牌固定不变，明天再来又是新的一张。</p>
-      <button class="btn serif" id="btnTarot">抽今日塔罗</button>
-      <p class="persnote">塔罗牌义为本站原创写作，牌名与象征体系属传统文化；仅供娱乐参考。</p>
-    </div>
-    <div id="tarotBox" class="hidden">
-      <div class="tarotface" id="tarotFace">
-        <div class="tnum" id="tarotNum"></div>
-        <div class="tstar">✦</div>
-        <div class="tname serif" id="tarotName"></div>
-        <div class="ten" id="tarotEn"></div>
-      </div>
-      <p style="text-align:center;margin:4px 0 0"><span class="trev hidden" id="tarotRevTag">逆 位</span></p>
-      <p class="tkw" id="tarotKw"></p>
-      <p class="tmean" id="tarotMean"></p>
-      <div class="persbtns"><button class="btn serif" id="btnTarotRand">随手抽一张</button>
-      <button class="btn serif" id="btnTarotShare">生成分享图</button></div>
-    </div>
-    <div id="shareTarot" class="sharebox hidden"></div>
-  </section>
 
-  <div class="hallhead" id="hall-mind"><span class="hallseal" style="border-color:#3f6f5f;color:#3f6f5f">心 智 馆</span><span class="halldesc">人格 · 心理探索</span></div>
-  <!-- 16 型人格 -->
-  <section class="card">
-    <h2>16 型人格 <span class="sub">心智馆 · 自我探索</span></h2>
-    <div id="persIntro">
-      <p class="persdesc">48 道原创题，测测你的四维性格类型。凭第一反应选，别想太多，答案没有对错。</p>
-      <button class="btn serif" id="btnPersStart">开始测试</button>
-      <p class="persnote">本题库与人格文案均为本站原创，与 MBTI® 官方测评无关；结果仅供娱乐与自我探索参考。</p>
-    </div>
-    <div id="persQuiz" class="hidden">
-      <div class="persprog"><span id="persStep"></span><div class="persbar"><i id="persBar"></i></div></div>
-      <p id="persQ" class="persq"></p>
-      <button class="persopt" id="persA"></button>
-      <button class="persopt" id="persB"></button>
-      <button class="persback" id="persBack">← 上一题</button>
-    </div>
-    <div id="persResult" class="hidden"></div>
-    <div id="sharePers" class="sharebox hidden"></div>
-  </section>
 </main>
 
 <footer>
@@ -144,6 +90,6 @@
   历法核心由 Rust 计算，结果与经典黄历库逐项核对
 </footer>
 
-<script type="module" src="./app.js?v=2.3.1"></script>
+<script type="module" src="./app.js?v=3.0.0"></script>
 </body>
 </html>

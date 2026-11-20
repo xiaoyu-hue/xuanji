@@ -1,12 +1,12 @@
-import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json, bazi_json, personality_json, personality_score, daily_tarot_json, tarot_draw_json }
-  from './pkg/xuanji_web.js?v=2.3.1';
+import init, { almanac_json, daily_qian_json, book_answer, bazi_json }
+  from './pkg/xuanji_web.js?v=3.0.0';
 
 const now = new Date();
 const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=2.3.1');
+  await init('./pkg/xuanji_web_bg.wasm?v=3.0.0');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
@@ -64,29 +64,6 @@ async function main(){
     ansBox.classList.add('fade');
     btnAns.textContent = '再 翻 一 次';
   };
-
-  // 星座运势
-  let cur = zodiac_index(M, D);
-  const renderSigns = () => {
-    signGrid.innerHTML = '';
-    for (let i = 0; i < 12; i++) {
-      const b = document.createElement('button');
-      b.textContent = zodiac_name(i);
-      if (i === cur) b.classList.add('on');
-      b.onclick = () => { cur = i; renderSigns(); renderFortune(); };
-      signGrid.appendChild(b);
-    }
-  };
-  const renderFortune = () => {
-    const f = JSON.parse(fortune_json(cur, Y, M, D));
-    const row = (label, v) =>
-      `<div class="row"><label>${label}</label><div class="bar"><i style="width:${v}%"></i></div><b>${v}</b></div>`;
-    fScores.innerHTML = row('整体', f.overall) + row('爱情', f.love) + row('事业', f.career) + row('财运', f.wealth);
-    fLucky.innerHTML = `幸运色 <em>${f.lucky_color}</em> · 幸运数字 <em>${f.lucky_number}</em><br>${f.guide}`;
-    fortuneBox.classList.remove('hidden');
-    fortuneBox.classList.add('fade');
-  };
-  renderSigns(); renderFortune();
 
   // 八字排盘
   bzDate.value = `${Y}-${pad(M)}-${pad(D)}`;
@@ -197,120 +174,6 @@ async function main(){
     showShare(c, shareQian, 'xuanji-qian.png');
   };
 
-  // 16 型人格
-  const pBank = JSON.parse(personality_json());
-  const dimNames = { EI: ['外向', '内向'], SN: ['实感', '直觉'], TF: ['理性', '感性'], JP: ['计划', '随性'] };
-  let pIdx = 0, pAns = [], lastPers = null;
-  const persIntro = document.getElementById('persIntro'), persQuiz = document.getElementById('persQuiz'),
-        persResult = document.getElementById('persResult'), sharePers = document.getElementById('sharePers');
-  const showPersQ = () => {
-    const q = pBank.questions[pIdx];
-    document.getElementById('persStep').textContent = `第 ${pIdx + 1} / 48 题`;
-    document.getElementById('persBar').style.width = ((pIdx + 1) / 48 * 100) + '%';
-    document.getElementById('persQ').textContent = q.q;
-    document.getElementById('persA').textContent = q.a.t;
-    document.getElementById('persB').textContent = q.b.t;
-  };
-  const finishPers = () => {
-    persQuiz.classList.add('hidden');
-    const r = JSON.parse(personality_score(pAns.join('')));
-    const t = pBank.types[r.type];
-    lastPers = { r, t };
-    const bars = r.dims.map(d => {
-      const [ln, rn] = dimNames[d.dim];
-      return `<div class="dimrow"><b>${d.left} ${ln} ${d.left_pct}%</b><div class="dimbar"><i style="width:${d.left_pct}%"></i></div><b>${d.right_pct}% ${rn} ${d.right}</b></div>`;
-    }).join('');
-    persResult.innerHTML = `
-      <div class="perstype"><div class="code serif">${r.type}</div>
-      <div class="pname">${t.name}</div><div class="ptag">${t.tagline}</div></div>
-      ${bars}
-      <p class="persdesc" style="margin-top:12px">${t.desc}</p>
-      <div class="perscols"><div><h3>你的优势</h3><ul>${t.strengths.map(s => `<li>${s}</li>`).join('')}</ul></div>
-      <div><h3>容易踩的坑</h3><ul>${t.blinds.map(s => `<li>${s}</li>`).join('')}</ul></div></div>
-      <p class="persmotto">「${t.motto}」</p>
-      <div class="persbtns"><button class="btn serif" id="btnPersRedo">重新测试</button>
-      <button class="btn serif" id="btnPersShare">生成分享图</button></div>`;
-    persResult.classList.remove('hidden'); persResult.classList.add('fade');
-    document.getElementById('btnPersRedo').onclick = () => {
-      persResult.classList.add('hidden'); sharePers.classList.add('hidden');
-      persIntro.classList.remove('hidden');
-    };
-    document.getElementById('btnPersShare').onclick = () => {
-      const { r, t } = lastPers;
-      const [c, x] = newCard(1120);
-      x.fillStyle = '#a63d2f'; x.font = `700 92px ${SERIF}`;
-      x.fillText(r.type, 375, 268);
-      x.fillStyle = '#2e2a26'; x.font = `600 46px ${SERIF}`;
-      x.fillText(t.name, 375, 344);
-      x.fillStyle = '#6f6659'; x.font = '27px sans-serif';
-      x.fillText(t.tagline, 375, 392);
-      let yy = 486; x.font = '28px sans-serif'; x.fillStyle = '#2e2a26';
-      for (const d of r.dims) {
-        const [ln, rn] = dimNames[d.dim];
-        x.fillText(`${d.left} ${ln} ${d.left_pct}%  ·  ${d.right_pct}% ${rn} ${d.right}`, 375, yy); yy += 52;
-      }
-      yy += 22; x.font = `600 32px ${SERIF}`; x.fillStyle = '#a63d2f';
-      x.fillText(`「${t.motto}」`, 375, yy);
-      x.fillStyle = '#6f6659'; x.font = '23px sans-serif';
-      x.fillText('玄机 · 16 型人格测试（本站原创题库）', 375, yy + 52);
-      foot(x, 1120);
-      showShare(c, sharePers, 'xuanji-personality.png');
-    };
-  };
-  const pickPers = (c) => {
-    pAns[pIdx] = c;
-    if (pIdx < 47) { pIdx++; showPersQ(); } else finishPers();
-  };
-  document.getElementById('btnPersStart').onclick = () => {
-    pIdx = 0; pAns = [];
-    persIntro.classList.add('hidden'); persResult.classList.add('hidden'); sharePers.classList.add('hidden');
-    persQuiz.classList.remove('hidden'); showPersQ();
-  };
-  document.getElementById('persA').onclick = () => pickPers('a');
-  document.getElementById('persB').onclick = () => pickPers('b');
-  document.getElementById('persBack').onclick = () => { if (pIdx > 0) { pIdx--; showPersQ(); } };
-
-  // 今日塔罗
-  const ROMAN = ['0','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX','XXI'];
-  let lastTarot = null;
-  const tarotIntro = document.getElementById('tarotIntro'), tarotBox = document.getElementById('tarotBox'),
-        shareTarot = document.getElementById('shareTarot');
-  const showTarot = (t) => {
-    lastTarot = t;
-    tarotIntro.classList.add('hidden'); shareTarot.classList.add('hidden');
-    const face = document.getElementById('tarotFace');
-    face.classList.remove('rev');
-    document.getElementById('tarotNum').textContent = ROMAN[t.num];
-    document.getElementById('tarotName').textContent = t.name;
-    document.getElementById('tarotEn').textContent = t.en;
-    document.getElementById('tarotRevTag').classList.toggle('hidden', !t.reversed);
-    document.getElementById('tarotKw').textContent = t.kw;
-    document.getElementById('tarotMean').textContent = (t.reversed ? '【逆位】' : '【正位】') + t.meaning;
-    tarotBox.classList.remove('hidden'); tarotBox.classList.add('fade');
-    if (t.reversed) requestAnimationFrame(() => requestAnimationFrame(() => face.classList.add('rev')));
-  };
-  document.getElementById('btnTarot').onclick = () => showTarot(JSON.parse(daily_tarot_json(Y, M, D)));
-  document.getElementById('btnTarotRand').onclick = () => showTarot(JSON.parse(tarot_draw_json(Math.random() * 1e18)));
-  document.getElementById('btnTarotShare').onclick = () => {
-    if (!lastTarot) return;
-    const t = lastTarot;
-    const [c, x] = newCard(1060);
-    x.fillStyle = '#b8862f'; x.font = '26px sans-serif';
-    x.fillText(`今 日 塔 罗 · ${ROMAN[t.num]}`, 375, 232);
-    x.fillStyle = '#2e2a26'; x.font = `700 84px ${SERIF}`;
-    x.fillText(t.name, 375, 348);
-    x.fillStyle = '#6f6659'; x.font = '25px sans-serif';
-    x.fillText(t.en + (t.reversed ? ' · 逆位' : ' · 正位'), 375, 398);
-    x.fillStyle = '#b8862f'; x.font = '28px sans-serif';
-    x.fillText(t.kw, 375, 472);
-    x.fillStyle = '#2e2a26'; x.font = '29px sans-serif';
-    const ml = wrap(x, t.meaning, 590);
-    ml.forEach((ln, i) => x.fillText(ln, 375, 556 + i * 50));
-    x.fillStyle = '#6f6659'; x.font = '23px sans-serif';
-    x.fillText(`${Y} 年 ${M} 月 ${D} 日`, 375, 556 + ml.length * 50 + 42);
-    foot(x, 1060);
-    showShare(c, shareTarot, 'xuanji-tarot.png');
-  };
 }
 
 main().catch(e => {

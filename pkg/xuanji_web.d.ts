@@ -2,59 +2,24 @@
 /* eslint-disable */
 
 /**
- * 今日黄历，返回 JSON 字符串
+ * 今日黄历：入参为公历年月日，返回 JSON 字符串
  */
 export function almanac_json(y: number, m: number, d: number): string;
 
 /**
- * 八字排盘：出生日期 + 时间 + 性别（1 男 / 0 女），返回 JSON 字符串
+ * 八字排盘：出生年月日时分 + 性别（1 男 0 女），返回 JSON 字符串
  */
 export function bazi_json(y: number, m: number, d: number, hour: number, minute: number, gender: number): string;
 
 /**
- * 答案之书：entropy 由网页端提供（浏览器随机数）
+ * 答案之书：entropy 为浏览器传入的随机数
  */
 export function book_answer(entropy: number): string;
 
 /**
- * 今日一签（同一天固定），返回 JSON 字符串
+ * 今日一签：同一天抽到的签固定，返回 JSON 字符串
  */
 export function daily_qian_json(y: number, m: number, d: number): string;
-
-/**
- * 今日塔罗（按日期固定，含正/逆位）
- */
-export function daily_tarot_json(y: number, m: number, d: number): string;
-
-/**
- * 星座运势（同星座同日固定），返回 JSON 字符串
- */
-export function fortune_json(sign: number, y: number, m: number, d: number): string;
-
-/**
- * 16 型人格：完整题库 JSON（题目 + 16 型文案）
- */
-export function personality_json(): string;
-
-/**
- * 16 型人格计分：answers 为 48 字符作答串（'a'/'b'）
- */
-export function personality_score(answers: string): string;
-
-/**
- * 随手抽一张塔罗
- */
-export function tarot_draw_json(entropy: number): string;
-
-/**
- * 星座下标（0-11）
- */
-export function zodiac_index(month: number, day: number): number;
-
-/**
- * 星座名
- */
-export function zodiac_name(index: number): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
@@ -64,17 +29,8 @@ export interface InitOutput {
     readonly bazi_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
     readonly book_answer: (a: number) => [number, number];
     readonly daily_qian_json: (a: number, b: number, c: number) => [number, number];
-    readonly daily_tarot_json: (a: number, b: number, c: number) => [number, number];
-    readonly fortune_json: (a: number, b: number, c: number, d: number) => [number, number];
-    readonly personality_json: () => [number, number];
-    readonly personality_score: (a: number, b: number) => [number, number];
-    readonly tarot_draw_json: (a: number) => [number, number];
-    readonly zodiac_index: (a: number, b: number) => number;
-    readonly zodiac_name: (a: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_free: (a: number, b: number, c: number) => void;
-    readonly __wbindgen_malloc: (a: number, b: number) => number;
-    readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_start: () => void;
 }
 
