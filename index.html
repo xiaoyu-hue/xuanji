@@ -131,6 +131,12 @@
   .trev.hidden{display:none}
   .tkw{text-align:center;color:#b8862f;font-size:14.5px;margin:10px 0 4px}
   .tmean{font-size:15px;line-height:1.75;color:var(--ink)}
+  .hallnav{position:sticky;top:0;z-index:20;display:flex;justify-content:center;gap:28px;padding:10px 0 9px;background:rgba(247,241,229,.95);border-bottom:1px solid #e3d7bf}
+  .hallnav a{color:var(--ink2);text-decoration:none;font-size:15px;letter-spacing:3px;font-weight:600}
+  .hallhead{display:flex;align-items:center;gap:12px;margin:28px 2px 12px;scroll-margin-top:58px}
+  .hallseal{border:2px solid #a63d2f;border-radius:8px;padding:5px 13px;font-size:19px;font-weight:700;letter-spacing:2px;background:#fffdf7;white-space:nowrap}
+  .halldesc{color:var(--ink2);font-size:13.5px;letter-spacing:2px;white-space:nowrap}
+  .hallhead::after{content:'';flex:1;border-top:1px solid #e3d7bf}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
@@ -144,6 +150,9 @@
 <div id="loading">🏮 正在翻开黄历…</div>
 
 <main id="app" class="hidden">
+  <nav class="hallnav"><a href="#hall-east">东方馆</a><a href="#hall-west">西方馆</a><a href="#hall-mind">心智馆</a></nav>
+
+  <div class="hallhead" id="hall-east"><span class="hallseal" style="border-color:#a63d2f;color:#a63d2f">东 方 馆</span><span class="halldesc">黄历 · 命理 · 占卜</span></div>
   <!-- 今日黄历 -->
   <section class="card">
     <h2><span id="almTitle">今日黄历</span> <span class="sub" id="almSolar"></span></h2>
@@ -164,7 +173,6 @@
     <button class="btn ghost serif" id="btnShareAlm">生 成 黄 历 图</button>
     <div class="shareout hidden" id="shareAlm"></div>
   </section>
-
   <!-- 今日一签 -->
   <section class="card">
     <h2>今日一签 <span class="sub">同一天 · 同一签</span></h2>
@@ -180,14 +188,37 @@
       <div class="shareout hidden" id="shareQian"></div>
     </div>
   </section>
-
   <!-- 答案之书 -->
   <section class="card">
     <h2>答案之书 <span class="sub">想好一个问题再翻开</span></h2>
     <div id="ansBox" class="answer serif hidden"></div>
     <button class="btn serif" id="btnAns">翻 开 答 案</button>
   </section>
+  <!-- 八字排盘 -->
+  <section class="card">
+    <h2>八字排盘 <span class="sub">输入出生时间</span></h2>
+    <div class="bzform">
+      <div class="row2">
+        <input type="date" id="bzDate" min="1900-01-01" max="2100-12-31">
+        <input type="time" id="bzTime" value="12:00">
+      </div>
+      <div class="gender" id="bzGender">
+        <button data-g="1" class="on">男</button>
+        <button data-g="0">女</button>
+      </div>
+      <button class="btn serif" id="btnBazi" style="margin-top:2px">排 盘</button>
+    </div>
+    <div id="baziBox" class="hidden">
+      <div class="pillars" id="bzPillars"></div>
+      <div class="bzmeta" id="bzMeta"></div>
+      <div class="scores" id="bzWx"></div>
+      <div class="bzmeta" id="bzYun"></div>
+      <div class="dayun" id="bzDayun"></div>
+      <p style="font-size:12px;color:var(--ink2);text-align:center;margin-top:2px">八字属传统民俗文化内容，仅供娱乐参考</p>
+    </div>
+  </section>
 
+  <div class="hallhead" id="hall-west"><span class="hallseal" style="border-color:#b8862f;color:#b8862f">西 方 馆</span><span class="halldesc">星座 · 塔罗</span></div>
   <!-- 星座运势 -->
   <section class="card">
     <h2>星座运势 <span class="sub">点你的星座</span></h2>
@@ -197,7 +228,6 @@
       <div class="lucky" id="fLucky"></div>
     </div>
   </section>
-
   <!-- 今日塔罗 -->
   <section class="card">
     <h2>今日塔罗 <span class="sub">西方馆 · 每日一抽</span></h2>
@@ -222,29 +252,7 @@
     <div id="shareTarot" class="sharebox hidden"></div>
   </section>
 
-  <!-- 八字排盘 -->
-  <section class="card">
-    <h2>八字排盘 <span class="sub">输入出生时间</span></h2>
-    <div class="bzform">
-      <div class="row2">
-        <input type="date" id="bzDate" min="1900-01-01" max="2100-12-31">
-        <input type="time" id="bzTime" value="12:00">
-      </div>
-      <div class="gender" id="bzGender">
-        <button data-g="1" class="on">男</button>
-        <button data-g="0">女</button>
-      </div>
-      <button class="btn serif" id="btnBazi" style="margin-top:2px">排 盘</button>
-    </div>
-    <div id="baziBox" class="hidden">
-      <div class="pillars" id="bzPillars"></div>
-      <div class="bzmeta" id="bzMeta"></div>
-      <div class="scores" id="bzWx"></div>
-      <div class="bzmeta" id="bzYun"></div>
-      <div class="dayun" id="bzDayun"></div>
-      <p style="font-size:12px;color:var(--ink2);text-align:center;margin-top:2px">八字属传统民俗文化内容，仅供娱乐参考</p>
-    </div>
-  </section>
+  <div class="hallhead" id="hall-mind"><span class="hallseal" style="border-color:#3f6f5f;color:#3f6f5f">心 智 馆</span><span class="halldesc">人格 · 心理探索</span></div>
   <!-- 16 型人格 -->
   <section class="card">
     <h2>16 型人格 <span class="sub">心智馆 · 自我探索</span></h2>
@@ -272,14 +280,14 @@
 
 <script type="module">
 import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json, bazi_json, personality_json, personality_score, daily_tarot_json, tarot_draw_json }
-  from './pkg/xuanji_web.js?v=2.2.1';
+  from './pkg/xuanji_web.js?v=2.3.0';
 
 const now = new Date();
 const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=2.2.1');
+  await init('./pkg/xuanji_web_bg.wasm?v=2.3.0');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
