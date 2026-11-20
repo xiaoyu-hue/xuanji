@@ -1,7 +1,7 @@
 // 奇门遁甲：时家拆补转盘排盘
-import { el, ctx, pad, wasm } from './ctx.js?v=6.0.0';
+import { el, ctx, pad } from './ctx.js?v=6.0.1';
 
-export function initQimen() {
+export function initQimen(w) {
   const dateEl = el('qmDate');
   const hourEl = el('qmHour');
   dateEl.value = `${ctx.Y}-${pad(ctx.M)}-${pad(ctx.D)}`;
@@ -10,7 +10,7 @@ export function initQimen() {
     const [y, m, d] = dateEl.value.split('-').map(Number);
     const h = parseInt(hourEl.value, 10);
     if (!y || !m || !d || Number.isNaN(h)) return;
-    const c = JSON.parse(wasm.qimen_json(y, m, d, h));
+    const c = JSON.parse(w.qimen_json(y, m, d, h));
     el('qmTitle').textContent =
       `${c.jieqi} · ${c.dun}${c.ju}局 · ${c.yuan} · 符头${c.futou}`;
     el('qmSub').textContent =

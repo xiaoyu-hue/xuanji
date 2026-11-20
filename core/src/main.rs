@@ -32,6 +32,7 @@ fn ziwei_dump() {
 
 fn main() {
     if std::env::var("ZIWEI_DUMP").is_ok() { ziwei_dump(); return; }
+    if std::env::var("NATAL_DUMP").is_ok() { natal_dump(); return; }
     check_wedding();
     check_day_search();
     check_hours();
@@ -44,6 +45,7 @@ fn main() {
     check_liuyao();
     check_qimen();
     check_west_mind();
+    check_natal();
     check_bone();
     check_hehun();
     check_dreams();
@@ -462,4 +464,46 @@ fn check_west_mind() {
     assert!(hs["code"].as_str().unwrap().starts_with('R'));
     assert_eq!(hs["types"][0]["score"], 40);
     println!("西方馆＋心智馆自检通过（星座分界/塔罗同日/人格 ISTJ/灵数大师数/卢恩 24/大五反向键/霍兰德 R 锚点）");
+}
+
+/// 星盘对拍导出：与 pyswisseph 金标准逐行星比对（NATAL_DUMP=1 时启用）
+fn natal_dump() {
+    use xuanji_core::natal_chart;
+    let cases = [
+        (1990, 1, 1, 12, 0, 116.407, 39.904, "A"),
+        (1986, 5, 29, 12, 0, 116.407, 39.904, "B"),
+        (2000, 6, 15, 8, 30, 121.473, 31.230, "C"),
+        (2024, 2, 10, 0, 30, 113.264, 23.129, "D"),
+        (1975, 11, 20, 23, 45, 87.617, 43.792, "E"),
+    ];
+    for (y, m, d, hh, mm, lon, lat, tag) in cases {
+        let c = natal_chart(y, m, d, hh, mm, lon, lat);
+        let lons: Vec<String> = c.planets.iter().map(|p| format!("{:.3}", p.lon)).collect();
+        println!("{tag} planets {} asc {:.3} mc {:.3}", lons.join(" "), c.asc.lon, c.mc.lon);
+    }
+}
+
+/// 6.1.0 星盘自检：与瑞士星历（pyswisseph）金标准对拍的锚点
+/// （五盘 60 个数值全对拍，最大差 0.137°，见 goldcheck/natal_gold.py）。
+fn check_natal() {
+    use xuanji_core::natal_chart;
+    // A 盘 1990-01-01 12:00 北京：金标准黄经（瑞士星历）
+    let gold_a = [280.474, 328.789, 295.760, 306.263, 249.766, 95.194, 285.618, 275.765, 282.025, 227.084];
+    let a = natal_chart(1990, 1, 1, 12, 0, 116.407, 39.904);
+    for (p, g) in a.planets.iter().zip(gold_a.iter()) {
+        let d = (p.lon - g).abs();
+        assert!(d < 0.2, "A 盘 {} 黄经差 {d:.3f}", p.name);
+    }
+    assert!((a.asc.lon - 11.837).abs() < 0.1, "A 盘上升 {}", a.asc.lon);
+    assert!((a.mc.lon - 276.389).abs() < 0.1, "A 盘中天 {}", a.mc.lon);
+    assert_eq!(a.planets[0].sign, "摩羯座");
+    assert_eq!(a.asc.sign, "白羊座");
+    // C 盘 2000-06-15 08:30 上海：土星落座金牛（金标准 54.846）
+    let c = natal_chart(2000, 6, 15, 8, 30, 121.473, 31.230);
+    assert_eq!(c.planets[6].sign, "金牛座", "C 盘土星 {}", c.planets[6].lon);
+    assert!((c.asc.lon - 131.101).abs() < 0.1, "C 盘上升 {}", c.asc.lon);
+    // 宫位自洽：太阳宫位在 1..=12、宫头自上升起每 30° 一宫
+    assert!((1..=12).contains(&a.planets[0].house));
+    assert!((a.houses[1] - a.houses[0] - 30.0).abs() < 0.01);
+    println!("星盘自检通过（与瑞士星历五盘对拍：行星/上升/中天锚点一致）");
 }

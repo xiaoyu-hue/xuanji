@@ -1,5 +1,5 @@
 // 页面模块：今日塔罗（西方馆）。22 张大阿卡纳，含正/逆位；计算经 w 完成。
-import { el, ctx } from './ctx.js?v=6.0.0';
+import { el, ctx } from './ctx.js?v=6.0.1';
 
 const ROMAN = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'];
 

@@ -1,10 +1,10 @@
 // 玄机页面编排器（心智馆）：只负责加载计算引擎、逐个初始化功能模块。
 // 故障隔离约定与东方馆相同：每模块独立 try/catch，互不连坐。
-import { loadWasm } from './js/wasm.js?v=6.0.0';
-import { ctx, el } from './js/ctx.js?v=6.0.0';
-import { initPersonality } from './js/personality.js?v=6.0.0';
-import { initBigfive } from './js/bigfive.js?v=6.0.0';
-import { initHolland } from './js/holland.js?v=6.0.0';
+import { loadWasm } from './js/wasm.js?v=6.0.1';
+import { ctx, el } from './js/ctx.js?v=6.0.1';
+import { initPersonality } from './js/personality.js?v=6.0.1';
+import { initBigfive } from './js/bigfive.js?v=6.0.1';
+import { initHolland } from './js/holland.js?v=6.0.1';
 
 const FEATURES = [
   ['personality', '16 型人格', initPersonality],

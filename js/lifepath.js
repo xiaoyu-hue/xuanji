@@ -1,5 +1,5 @@
 // 页面模块：生命灵数（西方馆）。出生日期算核心数字；计算经 w 完成。
-import { el, ctx } from './ctx.js?v=6.0.0';
+import { el, ctx } from './ctx.js?v=6.0.1';
 
 export function initLifepath(w) {
   el('lpYear').value = ctx.Y;

@@ -1,5 +1,5 @@
 // 六爻：金钱卦起卦 + 装卦（卦宫/世应/纳甲/六亲/六神/旬空）
-import { el, ctx, wasm } from './ctx.js?v=6.0.0';
+import { el, ctx } from './ctx.js?v=6.0.1';
 
 function lineBar(l) {
   return l.yang
@@ -7,10 +7,10 @@ function lineBar(l) {
     : '<span class="gline yin"><i></i><i></i></span>';
 }
 
-export function initLiuyao() {
+export function initLiuyao(w) {
   el('btnLiuyao').addEventListener('click', () => {
     const seed = (Date.now() % 2147483647) ^ Math.floor(Math.random() * 1e9);
-    const r = JSON.parse(wasm.liuyao_json(seed, ctx.Y, ctx.M, ctx.D));
+    const r = JSON.parse(w.liuyao_json(seed, ctx.Y, ctx.M, ctx.D));
     const rows = [...r.lines].reverse().map(l => `
       <div class="lyrow">
         <span class="lyshen">${l.shen}</span>

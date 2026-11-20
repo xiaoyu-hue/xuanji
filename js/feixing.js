@@ -1,18 +1,18 @@
 // 九宫飞星：流年飞星盘（立春为界，2 月 4 日前按上一年）
-import { el, wasm } from './ctx.js?v=6.0.0';
+import { el } from './ctx.js?v=6.0.1';
 
 function currentFxYear() {
   const n = new Date();
   return n.getMonth() === 0 || (n.getMonth() === 1 && n.getDate() < 4) ? n.getFullYear() - 1 : n.getFullYear();
 }
 
-export function initFeixing() {
+export function initFeixing(w) {
   const input = el('fxYear');
   input.value = currentFxYear();
   const run = () => {
     const y = parseInt(input.value, 10);
     if (!y || y < 1900 || y > 2100) return;
-    const f = JSON.parse(wasm.feixing_json(y));
+    const f = JSON.parse(w.feixing_json(y));
     el('fxTitle').textContent = `${f.year} · ${f.ganzhi}年 · ${f.palaces[4].star_name}入中宫`;
     el('fxGrid').innerHTML = f.palaces.map(p => `
       <div class="fxcell ${p.luck === '吉' ? 'fxgood' : 'fxbad'}${p.dir === '中' ? ' fxcenter' : ''}">

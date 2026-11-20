@@ -30,6 +30,7 @@ pub mod runes;
 pub mod personality;
 pub mod bigfive;
 pub mod holland;
+pub mod natal;
 
 pub use almanac::{almanac, day_hours, Almanac, HourLuck};
 pub use answers::book_answer;
@@ -53,3 +54,4 @@ pub use runes::{daily_rune, runes_draw3, RuneDraw};
 pub use personality::{personality_json, personality_score};
 pub use bigfive::{bigfive_json, bigfive_score};
 pub use holland::{holland_json, holland_score};
+pub use natal::{natal_chart, NatalChart};

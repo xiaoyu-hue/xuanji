@@ -25,6 +25,7 @@ mod runes;
 mod personality;
 mod bigfive;
 mod holland;
+mod natal;
 
 pub use almanac::{almanac_json, day_hours_json};
 pub use answers::book_answer;
