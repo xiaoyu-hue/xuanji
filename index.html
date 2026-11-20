@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>玄机 · 今日</title>
-<link rel="stylesheet" href="./style.css?v=4.0.2">
+<link rel="stylesheet" href="./style.css?v=5.0.0">
 </head>
 <body>
 <header>
@@ -18,7 +18,7 @@
 <main id="app" class="hidden">
 
   <!-- 今日黄历 -->
-  <section class="card">
+  <section class="card" data-mod="almanac">
     <h2><span id="almTitle">今日黄历</span> <span class="sub" id="almSolar"></span></h2>
     <div class="daterow">
       <input type="date" id="datePick" min="1900-01-01" max="2100-12-31">
@@ -38,7 +38,7 @@
     <div class="shareout hidden" id="shareAlm"></div>
   </section>
   <!-- 今日一签 -->
-  <section class="card">
+  <section class="card" data-mod="qian">
     <h2>今日一签 <span class="sub">同一天 · 同一签</span></h2>
     <div id="qianBefore">
       <p style="text-align:center;color:var(--ink2);font-size:13.5px;margin-top:10px">静心片刻，抽取属于今天的这一签</p>
@@ -53,13 +53,13 @@
     </div>
   </section>
   <!-- 答案之书 -->
-  <section class="card">
+  <section class="card" data-mod="answers">
     <h2>答案之书 <span class="sub">想好一个问题再翻开</span></h2>
     <div id="ansBox" class="answer serif hidden"></div>
     <button class="btn serif" id="btnAns">翻 开 答 案</button>
   </section>
   <!-- 婚嫁择日 -->
-  <section class="card">
+  <section class="card" data-mod="wedding">
     <h2>婚嫁择日 <span class="sub">挑个宜嫁娶的好日子</span></h2>
     <div class="bzform">
       <div class="row2">
@@ -79,7 +79,7 @@
     <p class="fineprint">按老黄历「宜嫁娶」筛选，并避开冲新郎、新娘生肖的日子</p>
   </section>
   <!-- 八字排盘 -->
-  <section class="card">
+  <section class="card" data-mod="bazi">
     <h2>八字排盘 <span class="sub">输入出生时间</span></h2>
     <div class="bzform">
       <div class="row2">
@@ -104,7 +104,7 @@
 
 
   <!-- 称骨 -->
-  <section class="card">
+  <section class="card" data-mod="bone">
     <h2>称骨 <span class="sub">袁天罡称骨歌 · 你几两几钱</span></h2>
     <div class="bzform">
       <div class="row2">
@@ -122,7 +122,7 @@
     <p class="fineprint">按民间通行本骨重表：年按农历年干支、闰月按本月、时辰按钟点</p>
   </section>
   <!-- 合婚 -->
-  <section class="card">
+  <section class="card" data-mod="hehun">
     <h2>合婚 <span class="sub">生肖 · 纳音 · 日主 三看</span></h2>
     <div class="bzform">
       <div class="hlabel">男方出生</div>
@@ -144,7 +144,7 @@
     <p class="fineprint">民间简法图个乐，感情长久靠的是两个人经营</p>
   </section>
   <!-- 解梦 -->
-  <section class="card">
+  <section class="card" data-mod="dreams">
     <h2>解梦 <span class="sub">周公解梦 · 本站原创解读</span></h2>
     <div class="bzform">
       <input type="text" id="dreamQ" class="sel" placeholder="输入梦到的东西，如：蛇、水、掉牙…">
@@ -154,7 +154,7 @@
     <p class="fineprint">词条为本站原创写作，梦是心事的影子，解着玩就好</p>
   </section>
   <!-- 紫微斗数 -->
-  <section class="card">
+  <section class="card" data-mod="ziwei">
     <h2>紫微斗数 <span class="sub">十二宫命盘</span></h2>
     <div class="bzform">
       <div class="row2">
@@ -180,6 +180,6 @@
   历法核心由 Rust 计算，结果与经典黄历库逐项核对
 </footer>
 
-<script type="module" src="./app.js?v=4.0.2"></script>
+<script type="module" src="./app.js?v=5.0.0"></script>
 </body>
 </html>
