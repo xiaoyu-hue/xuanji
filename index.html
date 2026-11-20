@@ -64,6 +64,15 @@
   .lucky em{color:var(--cinnabar);font-style:normal}
   footer{text-align:center;color:var(--ink2);font-size:12px;margin-top:26px;line-height:2;letter-spacing:1px}
   #loading{text-align:center;color:var(--ink2);padding:60px 0;letter-spacing:3px}
+  .daterow{display:flex;gap:8px;align-items:center;margin-top:12px}
+  .daterow input{flex:1;border:1px solid var(--line);background:var(--paper);border-radius:9px;
+    padding:9px 10px;font-size:14px;font-family:inherit;color:var(--ink)}
+  .daterow button{border:1px solid var(--cinnabar);background:transparent;color:var(--cinnabar);
+    border-radius:9px;padding:9px 14px;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .shareout{margin-top:12px;text-align:center}
+  .shareout img{max-width:100%;border-radius:10px;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .shareout a{display:inline-block;margin-top:8px;color:var(--cinnabar);font-size:13px}
+  .shareout p{font-size:12px;color:var(--ink2);margin-top:4px}
   .fade{animation:fade .5s ease both}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
@@ -80,7 +89,11 @@
 <main id="app" class="hidden">
   <!-- 今日黄历 -->
   <section class="card">
-    <h2>今日黄历 <span class="sub" id="almSolar"></span></h2>
+    <h2><span id="almTitle">今日黄历</span> <span class="sub" id="almSolar"></span></h2>
+    <div class="daterow">
+      <input type="date" id="datePick" min="1900-01-01" max="2100-12-31">
+      <button id="btnToday">回到今天</button>
+    </div>
     <div class="bigday">
       <div class="lunar serif" id="almLunar"></div>
       <div class="gz" id="almGz"></div>
@@ -91,6 +104,8 @@
     </div>
     <div class="grid" id="almGrid"></div>
     <div class="pengzu" id="almPengzu"></div>
+    <button class="btn ghost serif" id="btnShareAlm">生 成 黄 历 图</button>
+    <div class="shareout hidden" id="shareAlm"></div>
   </section>
 
   <!-- 今日一签 -->
@@ -104,6 +119,8 @@
       <span class="grade serif" id="qGrade"></span>
       <div class="poem serif" id="qPoem"></div>
       <div class="jie" id="qJie"></div>
+      <button class="btn ghost serif" id="btnShareQian">生 成 签 文 图</button>
+      <div class="shareout hidden" id="shareQian"></div>
     </div>
   </section>
 
@@ -145,24 +162,42 @@ async function main(){
   document.getElementById('loading').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
 
-  // 黄历
-  const a = JSON.parse(almanac_json(Y, M, D));
-  almSolar.textContent = a.solar.replaceAll('-', ' / ');
-  almLunar.textContent = a.lunar_text;
-  almGz.textContent = `${a.year_ganzhi}年 · ${a.month_ganzhi}月 · ${a.day_ganzhi}日 · 属${a.shengxiao}`;
-  almYi.textContent = a.yi.join(' · ');
-  almJi.textContent = a.ji.join(' · ');
-  const rows = [
-    ['值神', `${a.tianshen}（${a.tianshen_luck}）`], ['星宿', `${a.xiu}（${a.xiu_luck}）`],
-    ['冲煞', `冲${a.chong} · 煞${a.sha}`], ['节气', `${a.prev_jieqi} → ${a.next_jieqi}`],
-    ['财神位', a.cai], ['喜神位', a.xi], ['福神位', a.fu], ['今日星座', a.xingzuo + '座'],
-  ];
-  almGrid.innerHTML = rows.map(([k,v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('');
-  almPengzu.textContent = `彭祖百忌：${a.pengzu_gan} · ${a.pengzu_zhi}`;
+  // 黄历（可查任意日期）
+  const pad = n => String(n).padStart(2, '0');
+  let almData = null, almYMD = [Y, M, D];
+  const renderAlmanac = (y, m, d) => {
+    almYMD = [y, m, d];
+    const a = JSON.parse(almanac_json(y, m, d));
+    almData = a;
+    const isToday = (y === Y && m === M && d === D);
+    almTitle.textContent = isToday ? '今日黄历' : '黄历查询';
+    almSolar.textContent = a.solar.replaceAll('-', ' / ');
+    almLunar.textContent = a.lunar_text;
+    almGz.textContent = `${a.year_ganzhi}年 · ${a.month_ganzhi}月 · ${a.day_ganzhi}日 · 属${a.shengxiao}`;
+    almYi.textContent = a.yi.join(' · ');
+    almJi.textContent = a.ji.join(' · ');
+    const rows = [
+      ['值神', `${a.tianshen}（${a.tianshen_luck}）`], ['星宿', `${a.xiu}（${a.xiu_luck}）`],
+      ['冲煞', `冲${a.chong} · 煞${a.sha}`], ['节气', `${a.prev_jieqi} → ${a.next_jieqi}`],
+      ['财神位', a.cai], ['喜神位', a.xi], ['福神位', a.fu], ['星座', a.xingzuo + '座'],
+    ];
+    almGrid.innerHTML = rows.map(([k,v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('');
+    almPengzu.textContent = `彭祖百忌：${a.pengzu_gan} · ${a.pengzu_zhi}`;
+  };
+  datePick.value = `${Y}-${pad(M)}-${pad(D)}`;
+  datePick.onchange = () => {
+    if (!datePick.value) return;
+    const [y, m, d] = datePick.value.split('-').map(Number);
+    renderAlmanac(y, m, d);
+  };
+  btnToday.onclick = () => { datePick.value = `${Y}-${pad(M)}-${pad(D)}`; renderAlmanac(Y, M, D); };
+  renderAlmanac(Y, M, D);
 
   // 今日一签
+  let lastQian = null;
   btnQian.onclick = () => {
     const q = JSON.parse(daily_qian_json(Y, M, D));
+    lastQian = q;
     qGrade.textContent = `第 ${q.id} 签 · ${q.grade}`;
     qPoem.innerHTML = q.poem.join('<br>');
     qJie.textContent = '解签：' + q.jie;
@@ -202,6 +237,84 @@ async function main(){
     fortuneBox.classList.add('fade');
   };
   renderSigns(); renderFortune();
+
+  // 分享图（在浏览器本地用画布生成，不经服务器）
+  const SERIF = '"Noto Serif SC","Songti SC","STSong",serif';
+  const wrap = (ctx, text, maxW) => {
+    const lines = []; let cur = '';
+    for (const ch of text) {
+      if (ctx.measureText(cur + ch).width > maxW) { lines.push(cur); cur = ch; } else cur += ch;
+    }
+    if (cur) lines.push(cur);
+    return lines;
+  };
+  const newCard = (h) => {
+    const c = document.createElement('canvas'); c.width = 750; c.height = h;
+    const x = c.getContext('2d');
+    x.fillStyle = '#f7f1e5'; x.fillRect(0, 0, 750, h);
+    x.strokeStyle = '#a63d2f'; x.lineWidth = 3; x.strokeRect(24, 24, 702, h - 48);
+    x.strokeStyle = '#e3d7bf'; x.lineWidth = 1; x.strokeRect(36, 36, 678, h - 72);
+    x.textAlign = 'center';
+    x.fillStyle = '#a63d2f'; x.font = `600 44px ${SERIF}`;
+    x.fillText('玄 机', 375, 108);
+    x.fillStyle = '#6f6659'; x.font = '24px sans-serif';
+    x.fillText('民 俗 · 娱 乐', 375, 148);
+    return [c, x];
+  };
+  const foot = (x, h) => {
+    x.fillStyle = '#6f6659'; x.font = '23px sans-serif'; x.textAlign = 'center';
+    x.fillText('xiaoyu-hue.github.io/xuanji', 375, h - 58);
+  };
+  const showShare = (canvas, box, name) => {
+    const url = canvas.toDataURL('image/png');
+    box.innerHTML = `<img src="${url}" alt="分享图"><br><a href="${url}" download="${name}">点此下载图片</a><p>手机上也可以长按图片保存</p>`;
+    box.classList.remove('hidden'); box.classList.add('fade');
+  };
+  btnShareAlm.onclick = () => {
+    if (!almData) return;
+    const a = almData, [y, m, d] = almYMD;
+    const [c, x] = newCard(1060);
+    x.fillStyle = '#2e2a26'; x.font = `600 54px ${SERIF}`;
+    x.fillText(a.lunar_text, 375, 238);
+    x.fillStyle = '#6f6659'; x.font = '27px sans-serif';
+    x.fillText(`${y} 年 ${m} 月 ${d} 日 · ${a.year_ganzhi}年 ${a.month_ganzhi}月 ${a.day_ganzhi}日 · 属${a.shengxiao}`, 375, 292);
+    let yy = 372;
+    x.textAlign = 'left'; x.font = '28px sans-serif';
+    x.fillStyle = '#3f6f5f'; x.fillText('宜', 84, yy);
+    x.fillStyle = '#2e2a26';
+    for (const ln of wrap(x, a.yi.join(' · '), 560)) { x.fillText(ln, 140, yy); yy += 42; }
+    yy += 18;
+    x.fillStyle = '#a63d2f'; x.fillText('忌', 84, yy);
+    x.fillStyle = '#2e2a26';
+    for (const ln of wrap(x, a.ji.join(' · '), 560)) { x.fillText(ln, 140, yy); yy += 42; }
+    yy += 26;
+    x.font = '27px sans-serif'; x.fillStyle = '#2e2a26'; x.textAlign = 'center';
+    const lines = [
+      `值神 ${a.tianshen}（${a.tianshen_luck}） · 星宿 ${a.xiu}（${a.xiu_luck}）`,
+      `冲煞 冲${a.chong} · 煞${a.sha}`,
+      `财神位 ${a.cai} · 喜神位 ${a.xi} · 福神位 ${a.fu}`,
+      `节气 ${a.prev_jieqi} → ${a.next_jieqi}`,
+    ];
+    for (const ln of lines) { x.fillText(ln, 375, yy); yy += 48; }
+    foot(x, 1060);
+    showShare(c, shareAlm, 'xuanji-almanac.png');
+  };
+  btnShareQian.onclick = () => {
+    if (!lastQian) return;
+    const q = lastQian;
+    const [c, x] = newCard(1000);
+    x.fillStyle = '#b8862f'; x.font = `600 32px ${SERIF}`;
+    x.fillText(`第 ${q.id} 签 · ${q.grade}`, 375, 240);
+    x.fillStyle = '#2e2a26'; x.font = `600 46px ${SERIF}`;
+    q.poem.forEach((ln, i) => x.fillText(ln, 375, 350 + i * 78));
+    x.fillStyle = '#6f6659'; x.font = '27px sans-serif';
+    const jl = wrap(x, '解签：' + q.jie, 580);
+    jl.forEach((ln, i) => x.fillText(ln, 375, 730 + i * 44));
+    x.font = '24px sans-serif';
+    x.fillText(`${Y} 年 ${M} 月 ${D} 日 · 今日一签`, 375, 730 + jl.length * 44 + 48);
+    foot(x, 1000);
+    showShare(c, shareQian, 'xuanji-qian.png');
+  };
 }
 
 main().catch(e => {
