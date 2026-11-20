@@ -128,6 +128,7 @@
   .tarotface .ten{font-size:12.5px;letter-spacing:2.5px;color:#6f6659;text-transform:uppercase}
   .tarotface .tstar{color:#a63d2f;font-size:17px}
   .trev{display:inline-block;background:#a63d2f;color:#fdf8ec;font-size:12.5px;padding:2.5px 12px;border-radius:9px;letter-spacing:3px}
+  .trev.hidden{display:none}
   .tkw{text-align:center;color:#b8862f;font-size:14.5px;margin:10px 0 4px}
   .tmean{font-size:15px;line-height:1.75;color:var(--ink)}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -271,14 +272,14 @@
 
 <script type="module">
 import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json, bazi_json, personality_json, personality_score, daily_tarot_json, tarot_draw_json }
-  from './pkg/xuanji_web.js?v=2.2.0';
+  from './pkg/xuanji_web.js?v=2.2.1';
 
 const now = new Date();
 const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=2.2.0');
+  await init('./pkg/xuanji_web_bg.wasm?v=2.2.1');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
