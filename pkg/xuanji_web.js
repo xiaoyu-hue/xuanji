@@ -187,6 +187,24 @@ export function dreams_json() {
 }
 
 /**
+ * 流年九宫飞星：干支年（立春为界），返回 JSON
+ * @param {number} year
+ * @returns {string}
+ */
+export function feixing_json(year) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.feixing_json(year);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 合婚：两人出生年月日时分，返回 JSON
  * @param {number} ay
  * @param {number} am
@@ -214,6 +232,27 @@ export function hehun_json(ay, am, ad, ah, amin, by, bm, bd, bh, bmin) {
 }
 
 /**
+ * 六爻起卦装卦：种子 + 起卦日期（公历），返回 JSON
+ * @param {number} seed
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @returns {string}
+ */
+export function liuyao_json(seed, y, m, d) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.liuyao_json(seed, y, m, d);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 梅花时间起卦：公历年月日 + 小时，返回 JSON
  * @param {number} y
  * @param {number} m
@@ -226,6 +265,27 @@ export function meihua_json(y, m, d, hour) {
     let deferred1_1;
     try {
         const ret = wasm.meihua_json(y, m, d, hour);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 奇门排盘：公历日期 + 小时，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} hour
+ * @returns {string}
+ */
+export function qimen_json(y, m, d, hour) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.qimen_json(y, m, d, hour);
         deferred1_0 = ret[0];
         deferred1_1 = ret[1];
         return getStringFromWasm0(ret[0], ret[1]);

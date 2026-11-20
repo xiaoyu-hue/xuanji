@@ -1,6 +1,6 @@
 // 页面模块：今日黄历。只负责本功能的页面交互，计算经 w（Rust 核心绑定）完成；
 // 与其他功能模块不互相引用，共享物只从 ctx.js 取（低耦合约定）。
-import { ctx } from './ctx.js?v=5.3.0';
+import { ctx } from './ctx.js?v=5.4.0';
 
 export function initAlmanac(w) {
 const { Y, M, D, pad } = ctx;

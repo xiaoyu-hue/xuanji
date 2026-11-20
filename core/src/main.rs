@@ -40,6 +40,9 @@ fn main() {
     check_liunian();
     check_zhouyi();
     check_meihua();
+    check_feixing();
+    check_liuyao();
+    check_qimen();
     check_bone();
     check_hehun();
     check_dreams();
@@ -266,6 +269,99 @@ fn check_meihua() {
     assert_eq!(r.yong_gua, "离");
     assert_eq!(r.relation, "用克体");
     println!("梅花自检通过（观梅占同构锚点）");
+}
+
+#[allow(dead_code)]
+fn check_feixing() {
+    // 2025 乙巳年全盘（两处独立来源交叉核对）：二黑入中
+    let f = xuanji_core::feixing(2025);
+    assert_eq!(f.ganzhi, "乙巳");
+    assert_eq!(f.center, 2);
+    let got: Vec<u8> = f.palaces.iter().map(|p| p.star).collect();
+    // 盘面行序 [巽 离 坤 / 震 中 兑 / 艮 坎 乾]
+    assert_eq!(got, vec![1, 6, 8, 9, 2, 4, 5, 7, 3]);
+    assert_eq!(xuanji_core::feixing(2024).center, 3);
+    assert_eq!(xuanji_core::feixing(2026).center, 1);
+    assert_eq!(xuanji_core::feixing(2027).center, 9);
+    println!("飞星自检通过（2025 全盘九宫与公开盘一致）");
+}
+
+#[allow(dead_code)]
+fn check_liuyao() {
+    // 乾为天静卦，2025-02-24 甲子日（月建寅、旬空戌亥）
+    let r = xuanji_core::liuyao_from_values([7; 6], 2025, 2, 24);
+    assert_eq!(r.ben.n, 1);
+    assert_eq!(r.palace, "乾");
+    assert_eq!(r.shi, 6);
+    assert_eq!(r.ying, 3);
+    assert_eq!(r.day_ganzhi, "甲子");
+    assert_eq!(r.yue_jian, "寅");
+    assert_eq!(r.kong_wang, ["戌", "亥"]);
+    let zhis: Vec<&str> = r.lines.iter().map(|l| l.zhi.as_str()).collect();
+    assert_eq!(zhis, ["子", "寅", "辰", "午", "申", "戌"]);
+    let qs: Vec<&str> = r.lines.iter().map(|l| l.liuqin.as_str()).collect();
+    assert_eq!(qs, ["子孙", "妻财", "父母", "官鬼", "兄弟", "父母"]);
+    let ss: Vec<&str> = r.lines.iter().map(|l| l.shen.as_str()).collect();
+    assert_eq!(ss, ["青龙", "朱雀", "勾陈", "螣蛇", "白虎", "玄武"]);
+    assert!(r.lines[5].kong && !r.lines[0].kong);
+    assert!(r.lines[5].is_shi && r.lines[2].is_ying);
+    // 乾初爻变→姤：变卦初爻丑土父母（按乾宫论六亲）
+    let v = xuanji_core::liuyao_from_values([9, 7, 7, 7, 7, 7], 2025, 2, 24);
+    assert_eq!(v.bian.as_ref().unwrap().n, 44);
+    let bl = v.bian_lines.as_ref().unwrap();
+    assert_eq!(bl[0].zhi, "丑");
+    assert_eq!(bl[0].liuqin, "父母");
+    assert!(bl[0].changing && !bl[5].changing);
+    // 八宫归属抽查（生成规则自检）：晋为乾宫游魂世四、同人为离宫归魂世三
+    let jin = xuanji_core::liuyao_from_values([8, 8, 8, 7, 8, 7], 2025, 2, 24);
+    assert_eq!(jin.ben.n, 35);
+    assert_eq!((jin.palace.as_str(), jin.shi), ("乾", 4));
+    let tong = xuanji_core::liuyao_from_values([7, 8, 7, 7, 7, 7], 2025, 2, 24);
+    assert_eq!(tong.ben.n, 13);
+    assert_eq!((tong.palace.as_str(), tong.shi), ("离", 3));
+    println!("六爻自检通过（乾卦装卦全项＋姤变卦＋八宫生成）");
+}
+
+mod qimen_gold {
+    include!("../../goldcheck/qimen_fixture.rs");
+}
+
+#[allow(dead_code)]
+fn check_qimen() {
+    // 与 qimen-rs（MIT）八个时刻全盘逐宫对拍：盘头 + 九宫六项全等才算过
+    for g in qimen_gold::GOLD {
+        let c = xuanji_core::qimen_chart(g.y, g.m, g.d, g.h);
+        let head = format!("{}-{}-{} {}时", g.y, g.m, g.d, g.h);
+        assert_eq!(c.dun, g.dun, "{head} 遁");
+        assert_eq!(c.ju, g.ju, "{head} 局");
+        assert_eq!(c.yuan, g.yuan, "{head} 元");
+        assert_eq!(c.day_ganzhi, g.day, "{head} 日柱");
+        assert_eq!(c.hour_ganzhi, g.hour, "{head} 时柱");
+        assert_eq!(c.zhifu_star, g.zhifu, "{head} 值符");
+        assert_eq!(c.zhifu_palace, g.zhifu_pal, "{head} 值符宫");
+        assert_eq!(c.zhishi_door, g.zhishi, "{head} 值使");
+        assert_eq!(c.zhishi_palace, g.zhishi_pal, "{head} 值使宫");
+        assert_eq!(c.kong_wang, g.kong, "{head} 旬空");
+        assert_eq!(c.horse_zhi, g.horse_zhi, "{head} 驿马");
+        assert_eq!(c.horse_palace, g.horse_pal, "{head} 驿马宫");
+        for cell in &c.palaces {
+            let e = &g.palaces[(cell.num - 1) as usize];
+            let mut heaven = cell.heaven.join(",");
+            if let Some(h) = &cell.heaven_hosted {
+                if !heaven.is_empty() {
+                    heaven.push(',');
+                }
+                heaven.push_str(&format!("{h}寄"));
+            }
+            assert_eq!(cell.earth, e.0, "{head} {}宫地盘", cell.num);
+            assert_eq!(heaven, e.1, "{head} {}宫天盘", cell.num);
+            assert_eq!(cell.star, e.2, "{head} {}宫九星", cell.num);
+            assert_eq!(cell.door.as_deref().unwrap_or(""), e.3, "{head} {}宫八门", cell.num);
+            assert_eq!(cell.god.as_deref().unwrap_or(""), e.4, "{head} {}宫八神", cell.num);
+            assert_eq!(cell.hosted_earth.as_deref().unwrap_or(""), e.5, "{head} {}宫寄地盘", cell.num);
+        }
+    }
+    println!("奇门自检通过（与 qimen-rs 八盘逐宫全对拍一致）");
 }
 
 #[allow(dead_code)]

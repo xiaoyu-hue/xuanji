@@ -152,3 +152,36 @@
   .bianbox{border-top:1px dashed var(--line);margin-top:10px;padding-top:8px}
   .biantitle{font-size:13px;font-weight:700;letter-spacing:1px;margin-bottom:2px}
   .bianline{margin-top:8px}
+
+/* 九宫飞星 / 奇门共用九宫格 */
+.fxgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px}
+.fxcell{border:1px solid var(--line);border-radius:8px;padding:7px 4px;text-align:center;background:rgba(255,255,255,.35)}
+.fxcell .fxdir{font-size:11px;color:var(--ink2)}
+.fxcell .fxstar{font-size:21px;font-weight:700;line-height:1.25}
+.fxcell .fxname{font-size:12px}
+.fxgood .fxstar{color:var(--zhu)}
+.fxbad{opacity:.78}
+.fxbad .fxstar{color:#5a6472}
+.fxcenter{border-color:var(--zhu);background:rgba(166,61,47,.07)}
+.fxnote{font-size:12.5px;color:var(--ink2);padding:2.5px 0;border-bottom:1px dashed var(--line)}
+.fxnote b{color:var(--ink)}
+/* 六爻装卦表 */
+.lytable{margin-top:8px}
+.lyrow{display:flex;align-items:center;gap:8px;padding:4.5px 2px;border-bottom:1px dashed var(--line);font-size:14px}
+.lyshen{width:34px;color:var(--zhu);font-size:13px;flex:none}
+.lybar{width:86px;flex:none;display:flex;align-items:center;gap:5px}
+.lybar .gline{flex:1}
+.lychg{color:var(--zhu);font-size:12px}
+.lyqin{flex:1}
+.lymark{color:var(--zhu);font-size:12.5px;min-width:30px;text-align:right}
+.lybrow{opacity:.85}
+/* 奇门宫格 */
+.qmcell{border:1px solid var(--line);border-radius:8px;padding:6px 7px;background:rgba(255,255,255,.35);font-size:12.5px;line-height:1.5;min-height:104px}
+.qmcell .qmdir{font-size:11px;color:var(--ink2);border-bottom:1px dashed var(--line);padding-bottom:2px;margin-bottom:3px}
+.qmgod{color:#7a5b12;font-size:12px}
+.qmstar{font-weight:700;font-size:13.5px}
+.qmdoor{color:var(--zhu);font-size:12.5px}
+.qmtian{color:var(--ink)}
+.qmearth{color:var(--ink2)}
+.qmcenter{text-align:center;color:var(--ink2)}
+.qmhint{font-size:11.5px;margin-top:4px}

@@ -2,7 +2,6 @@
 //! 每爻三钱点数和：6 老阴（变）、7 少阳、8 少阴、9 老阳（变）。
 
 use serde::Serialize;
-use crate::common::hash64;
 use crate::hexagram::{self, Hexagram};
 
 #[derive(Serialize, Clone)]
@@ -88,14 +87,5 @@ pub fn build_from_values(values: [u8; 6]) -> ZhouyiDraw {
 
 /// 抽卦：种子由页面传入（每次点击取新随机数），核心内以哈希模拟掷钱。
 pub fn zhouyi_draw(seed: i64) -> ZhouyiDraw {
-    let mut values = [0u8; 6];
-    for i in 0..6 {
-        let h = hash64((seed as u64) ^ (i as u64).wrapping_mul(0x9E3779B97F4A7C15));
-        let mut sum = 0u8;
-        for j in 0..3 {
-            sum += 2 + ((h >> (j * 7)) & 1) as u8;
-        }
-        values[i] = sum;
-    }
-    build_from_values(values)
+    build_from_values(hexagram::coin_values(seed))
 }

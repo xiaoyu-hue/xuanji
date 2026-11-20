@@ -42,14 +42,29 @@ export function day_search_json(y1: number, m1: number, d1: number, y2: number, 
 export function dreams_json(): string;
 
 /**
+ * 流年九宫飞星：干支年（立春为界），返回 JSON
+ */
+export function feixing_json(year: number): string;
+
+/**
  * 合婚：两人出生年月日时分，返回 JSON
  */
 export function hehun_json(ay: number, am: number, ad: number, ah: number, amin: number, by: number, bm: number, bd: number, bh: number, bmin: number): string;
 
 /**
+ * 六爻起卦装卦：种子 + 起卦日期（公历），返回 JSON
+ */
+export function liuyao_json(seed: number, y: number, m: number, d: number): string;
+
+/**
  * 梅花时间起卦：公历年月日 + 小时，返回 JSON
  */
 export function meihua_json(y: number, m: number, d: number, hour: number): string;
+
+/**
+ * 奇门排盘：公历日期 + 小时，返回 JSON
+ */
+export function qimen_json(y: number, m: number, d: number, hour: number): string;
 
 /**
  * 犯太岁：公历年份 + 本人生肖（空串只看全年名单），返回 JSON
@@ -88,8 +103,11 @@ export interface InitOutput {
     readonly day_hours_json: (a: number, b: number, c: number) => [number, number];
     readonly day_search_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number) => [number, number];
     readonly dreams_json: () => [number, number];
+    readonly feixing_json: (a: number) => [number, number];
     readonly hehun_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+    readonly liuyao_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly meihua_json: (a: number, b: number, c: number, d: number) => [number, number];
+    readonly qimen_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly taisui_json: (a: number, b: number, c: number) => [number, number];
     readonly wedding_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
     readonly zhouyi_draw_json: (a: number) => [number, number];

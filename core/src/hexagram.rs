@@ -76,6 +76,21 @@ pub fn by_num(n: u32) -> &'static Hexagram {
     hexagrams().iter().find(|h| h.n == n).expect("卦序 1..=64")
 }
 
+/// 金钱卦掷钱：种子 → 六爻点数（自下而上，6 老阴变 / 7 少阳 / 8 少阴 / 9 老阳变）。
+/// 周易抽卦与六爻共用同一掷钱通路，保证两处结果口径一致。
+pub fn coin_values(seed: i64) -> [u8; 6] {
+    let mut values = [0u8; 6];
+    for i in 0..6 {
+        let h = crate::common::hash64((seed as u64) ^ (i as u64).wrapping_mul(0x9E3779B97F4A7C15));
+        let mut sum = 0u8;
+        for j in 0..3 {
+            sum += 2 + ((h >> (j * 7)) & 1) as u8;
+        }
+        values[i] = sum;
+    }
+    values
+}
+
 /// 爻名：位（0 初 ~ 5 上）+ 阴阳 → 初九 / 六二 / 九三 / 上六 …
 pub fn yao_name(pos: usize, yang: bool) -> String {
     let nine_six = if yang { "九" } else { "六" };
