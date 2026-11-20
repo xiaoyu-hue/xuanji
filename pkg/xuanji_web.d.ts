@@ -27,6 +27,16 @@ export function book_answer(entropy: number): string;
 export function daily_qian_json(y: number, m: number, d: number): string;
 
 /**
+ * 每日时辰吉凶：入参为公历年月日，返回十二时辰 JSON 数组
+ */
+export function day_hours_json(y: number, m: number, d: number): string;
+
+/**
+ * 万事择日：起止公历日期 + 事项 + 两个避冲生肖（空串不限），返回 JSON 数组
+ */
+export function day_search_json(y1: number, m1: number, d1: number, y2: number, m2: number, d2: number, activity: string, avoid1: string, avoid2: string): string;
+
+/**
  * 解梦词条库（原创），返回 JSON
  */
 export function dreams_json(): string;
@@ -35,6 +45,11 @@ export function dreams_json(): string;
  * 合婚：两人出生年月日时分，返回 JSON
  */
 export function hehun_json(ay: number, am: number, ad: number, ah: number, amin: number, by: number, bm: number, bd: number, bh: number, bmin: number): string;
+
+/**
+ * 犯太岁：公历年份 + 本人生肖（空串只看全年名单），返回 JSON
+ */
+export function taisui_json(year: number, zodiac: string): string;
 
 /**
  * 婚嫁择日：起止公历日期 + 新郎/新娘生肖（空串不限），返回 JSON 数组
@@ -55,8 +70,11 @@ export interface InitOutput {
     readonly bone_json: (a: number, b: number, c: number, d: number, e: number) => [number, number];
     readonly book_answer: (a: number) => [number, number];
     readonly daily_qian_json: (a: number, b: number, c: number) => [number, number];
+    readonly day_hours_json: (a: number, b: number, c: number) => [number, number];
+    readonly day_search_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number) => [number, number];
     readonly dreams_json: () => [number, number];
     readonly hehun_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+    readonly taisui_json: (a: number, b: number, c: number) => [number, number];
     readonly wedding_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
     readonly ziwei_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;

@@ -104,6 +104,72 @@ export function daily_qian_json(y, m, d) {
 }
 
 /**
+ * 每日时辰吉凶：入参为公历年月日，返回十二时辰 JSON 数组
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @returns {string}
+ */
+export function day_hours_json(y, m, d) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.day_hours_json(y, m, d);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 万事择日：起止公历日期 + 事项 + 两个避冲生肖（空串不限），返回 JSON 数组
+ * @param {number} y1
+ * @param {number} m1
+ * @param {number} d1
+ * @param {number} y2
+ * @param {number} m2
+ * @param {number} d2
+ * @param {string} activity
+ * @param {string} avoid1
+ * @param {string} avoid2
+ * @returns {string}
+ */
+export function day_search_json(y1, m1, d1, y2, m2, d2, activity, avoid1, avoid2) {
+    let deferred10_0;
+    let deferred10_1;
+    try {
+        const val4 = +y1;
+        const val5 = +m1;
+        const val6 = +d1;
+        const val7 = +y2;
+        const val8 = +m2;
+        const val9 = +d2;
+        let ptr0, len0, ptr1, len1, ptr2, len2;
+        try {
+            ptr0 = passStringToWasm0(activity, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            len0 = WASM_VECTOR_LEN;
+            ptr1 = passStringToWasm0(avoid1, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            len1 = WASM_VECTOR_LEN;
+            ptr2 = passStringToWasm0(avoid2, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+            len2 = WASM_VECTOR_LEN;
+        } catch (e) {
+            if (ptr2) { wasm.__wbindgen_free(ptr2, len2 * 1, 1); }
+            if (ptr1) { wasm.__wbindgen_free(ptr1, len1 * 1, 1); }
+            if (ptr0) { wasm.__wbindgen_free(ptr0, len0 * 1, 1); }
+            throw e;
+        }
+        const ret = wasm.day_search_json(val4, val5, val6, val7, val8, val9, ptr0, len0, ptr1, len1, ptr2, len2);
+        deferred10_0 = ret[0];
+        deferred10_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred10_0, deferred10_1, 1);
+    }
+}
+
+/**
  * 解梦词条库（原创），返回 JSON
  * @returns {string}
  */
@@ -144,6 +210,28 @@ export function hehun_json(ay, am, ad, ah, amin, by, bm, bd, bh, bmin) {
         return getStringFromWasm0(ret[0], ret[1]);
     } finally {
         wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 犯太岁：公历年份 + 本人生肖（空串只看全年名单），返回 JSON
+ * @param {number} year
+ * @param {string} zodiac
+ * @returns {string}
+ */
+export function taisui_json(year, zodiac) {
+    let deferred3_0;
+    let deferred3_1;
+    try {
+        const val2 = +year;
+        const ptr0 = passStringToWasm0(zodiac, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.taisui_json(val2, ptr0, len0);
+        deferred3_0 = ret[0];
+        deferred3_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred3_0, deferred3_1, 1);
     }
 }
 

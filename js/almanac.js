@@ -1,6 +1,6 @@
 // 页面模块：今日黄历。只负责本功能的页面交互，计算经 w（Rust 核心绑定）完成；
 // 与其他功能模块不互相引用，共享物只从 ctx.js 取（低耦合约定）。
-import { ctx } from './ctx.js?v=5.0.1';
+import { ctx } from './ctx.js?v=5.1.0';
 
 export function initAlmanac(w) {
 const { Y, M, D, pad } = ctx;
@@ -23,6 +23,9 @@ const { Y, M, D, pad } = ctx;
   ];
   almGrid.innerHTML = rows.map(([k,v]) => `<div><span>${k}</span><b>${v}</b></div>`).join('');
   almPengzu.textContent = `彭祖百忌：${a.pengzu_gan} · ${a.pengzu_zhi}`;
+  const hrs = JSON.parse(w.day_hours_json(y, m, d));
+  almHours.innerHTML = hrs.map(h =>
+    `<div class="hchip${h.luck === '凶' ? ' bad' : ''}"><b>${h.zhi}时</b><span>${h.range}</span><span>${h.ganzhi} · ${h.tianshen} · ${h.luck}</span></div>`).join('');
 };
 datePick.value = `${Y}-${pad(M)}-${pad(D)}`;
 datePick.onchange = () => {

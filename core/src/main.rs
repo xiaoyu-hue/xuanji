@@ -33,6 +33,9 @@ fn ziwei_dump() {
 fn main() {
     if std::env::var("ZIWEI_DUMP").is_ok() { ziwei_dump(); return; }
     check_wedding();
+    check_day_search();
+    check_hours();
+    check_taisui();
     check_bone();
     check_hehun();
     check_dreams();
@@ -124,6 +127,53 @@ fn check_wedding() {
         println!("  {} {} {} {} {}", d["solar"], d["weekday"], d["lunar_text"], d["day_ganzhi"], d["chong"]);
     }
     assert!(!arr.is_empty());
+}
+
+#[allow(dead_code)]
+fn check_day_search() {
+    // 万事择日：嫁娶特例必须与 wedding_days 逐字一致（同一内核）
+    let a = xuanji_core::day_search(2026, 11, 20, 2027, 2, 28, "嫁娶", "鼠", "马");
+    let b = xuanji_core::wedding_days(2026, 11, 20, 2027, 2, 28, "鼠", "马");
+    assert_eq!(a, b);
+    // 其余事项计数与金标准 lunar-javascript 同口径扫描一致（101 天，避鼠/马）
+    for (act, n) in [("移徙", 20), ("出行", 24), ("开市", 14), ("纳财", 15)] {
+        let v: serde_json::Value =
+            serde_json::from_str(&xuanji_core::day_search(2026, 11, 20, 2027, 2, 28, act, "鼠", "马")).unwrap();
+        assert_eq!(v.as_array().unwrap().len(), n, "{act}");
+    }
+    println!("万事择日自检通过（嫁娶与旧接口一致，移徙20/出行24/开市14/纳财15 与金标准一致）");
+}
+
+#[allow(dead_code)]
+fn check_hours() {
+    // 锚点来自金标准 lunar-javascript 的 LunarTime.fromYmdHms 逐时构造
+    let h = xuanji_core::day_hours(2026, 11, 20);
+    assert_eq!(h.len(), 12);
+    assert_eq!((h[0].zhi.as_str(), h[0].ganzhi.as_str(), h[0].tianshen.as_str(), h[0].luck.as_str()), ("子", "壬子", "天牢", "凶"));
+    let gz: Vec<&str> = h.iter().map(|x| x.ganzhi.as_str()).collect();
+    assert_eq!(gz.join(" "), "壬子 癸丑 甲寅 乙卯 丙辰 丁巳 戊午 己未 庚申 辛酉 壬戌 癸亥");
+    let luck: String = h.iter().map(|x| x.luck.as_str()).collect();
+    assert_eq!(luck, "凶凶吉凶吉吉凶凶吉吉凶吉");
+    let h2 = xuanji_core::day_hours(2000, 1, 1);
+    assert_eq!((h2[0].tianshen.as_str(), h2[0].luck.as_str()), ("金匮", "吉"));
+    let luck2: String = h2.iter().map(|x| x.luck.as_str()).collect();
+    assert_eq!(luck2, "吉吉凶吉凶凶吉凶吉吉凶凶");
+    println!("时辰吉凶自检通过（2026-11-20 与 2000-01-01 两日逐项与金标准一致）");
+}
+
+#[allow(dead_code)]
+fn check_taisui() {
+    let t = xuanji_core::taisui(2027, "羊");
+    assert_eq!((t.year_ganzhi.as_str(), t.year_zodiac.as_str()), ("丁未", "羊"));
+    assert_eq!(t.mine, vec!["值太岁".to_string()]);
+    assert_eq!(t.hits.len(), 4, "2027 犯太岁名单应为羊/牛/狗/鼠四肖");
+    assert_eq!(xuanji_core::taisui(2027, "鼠").mine, vec!["害太岁".to_string()]);
+    assert_eq!(xuanji_core::taisui(2027, "牛").mine, vec!["冲太岁".to_string(), "刑太岁".to_string()]);
+    assert_eq!(xuanji_core::taisui(2027, "狗").mine, vec!["刑太岁".to_string(), "破太岁".to_string()]);
+    assert_eq!(xuanji_core::taisui(2026, "鼠").mine, vec!["冲太岁".to_string()]);
+    assert_eq!(xuanji_core::taisui(2028, "蛇").mine, vec!["刑太岁".to_string(), "破太岁".to_string()]);
+    assert!(xuanji_core::taisui(2027, "虎").mine.is_empty());
+    println!("犯太岁自检通过（2027 丁未年名单 4 肖，值/冲/刑/害/破锚点全对）");
 }
 
 #[allow(dead_code)]

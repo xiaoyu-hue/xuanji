@@ -127,3 +127,11 @@
   .zwcell .dx{font-size:10.5px;color:var(--ink2);border-top:1px dashed var(--line);padding-top:2px;margin-top:3px}
   .zwcenter{grid-column:2/4;grid-row:2/4;border:1px solid var(--line);border-radius:8px;background:var(--paper2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;font-size:12.5px;line-height:1.9;color:var(--ink2)}
   .zwcenter .big{font-size:17px;color:var(--cinnabar);letter-spacing:2px}
+  .hourtitle{margin-top:16px;font-weight:700;font-size:15px}
+  .hourtitle .sub{font-weight:400}
+  .hours{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+  .hchip{border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:#fffdf6;display:flex;flex-direction:column;gap:1px}
+  .hchip b{color:var(--cinnabar);font-size:13.5px}
+  .hchip span{font-size:11px;color:var(--ink2);white-space:nowrap}
+  .hchip.bad b{color:#8a93a5}
+  #tsText{font-size:14px;line-height:1.8;margin:6px 0 2px}

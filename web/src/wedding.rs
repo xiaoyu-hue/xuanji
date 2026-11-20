@@ -15,3 +15,17 @@ pub fn wedding_json(
         &groom, &bride,
     )
 }
+
+/// 万事择日：起止公历日期 + 事项 + 两个避冲生肖（空串不限），返回 JSON 数组
+#[wasm_bindgen]
+pub fn day_search_json(
+    y1: i32, m1: i32, d1: i32,
+    y2: i32, m2: i32, d2: i32,
+    activity: String, avoid1: String, avoid2: String,
+) -> String {
+    xuanji_core::day_search(
+        y1 as i64, m1 as i64, d1 as i64,
+        y2 as i64, m2 as i64, d2 as i64,
+        &activity, &avoid1, &avoid2,
+    )
+}

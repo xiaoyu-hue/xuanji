@@ -18,13 +18,13 @@ pub struct WeddingDay {
     pub chong: String,
 }
 
-/// 婚嫁择日：在 [起, 止] 公历区间内筛「宜嫁娶」且不冲新郎、新娘生肖的日子。
-/// groom / bride 为生肖单字（鼠牛虎兔龙蛇马羊猴鸡狗猪），空串表示不限。
+/// 择日扫描内核：筛「宜含 activity 且忌不含 activity」且不冲两个生肖的日子。
+/// avoid1 / avoid2 为生肖单字（鼠牛虎兔龙蛇马羊猴鸡狗猪），空串表示不限。
 /// 返回 JSON 数组（最多 120 条，区间最长 400 天，超限自动截断）。
-pub fn wedding_days(
+fn scan_days(
     y1: i64, m1: i64, d1: i64,
     y2: i64, m2: i64, d2: i64,
-    groom: &str, bride: &str,
+    activity: &str, avoid1: &str, avoid2: &str,
 ) -> String {
     let start = days_from_civil(y1, m1, d1);
     let mut end = days_from_civil(y2, m2, d2);
@@ -43,9 +43,9 @@ pub fn wedding_days(
         let lunar = solar.get_lunar();
         let yi = lunar.get_day_yi(Some(1));
         let ji = lunar.get_day_ji(Some(1));
-        if yi.iter().any(|x| x == "嫁娶") && !ji.iter().any(|x| x == "嫁娶") {
+        if yi.iter().any(|x| x == activity) && !ji.iter().any(|x| x == activity) {
             let chong_sx = lunar.get_day_chong_sheng_xiao();
-            if (groom.is_empty() || chong_sx != groom) && (bride.is_empty() || chong_sx != bride) {
+            if (avoid1.is_empty() || chong_sx != avoid1) && (avoid2.is_empty() || chong_sx != avoid2) {
                 // 1970-01-01 是星期四，WEEK 下标 4
                 let wd = WEEK[(((z + 4) % 7 + 7) % 7) as usize];
                 out.push(WeddingDay {
@@ -65,4 +65,22 @@ pub fn wedding_days(
         z += 1;
     }
     serde_json::to_string(&out).unwrap()
+}
+
+/// 婚嫁择日：`scan_days` 的嫁娶特例（保留原签名，金标准用例不变）。
+pub fn wedding_days(
+    y1: i64, m1: i64, d1: i64,
+    y2: i64, m2: i64, d2: i64,
+    groom: &str, bride: &str,
+) -> String {
+    scan_days(y1, m1, d1, y2, m2, d2, "嫁娶", groom, bride)
+}
+
+/// 万事择日：按任意事项（如 嫁娶 / 移徙 / 开市 / 出行）筛吉日，规则同婚嫁择日。
+pub fn day_search(
+    y1: i64, m1: i64, d1: i64,
+    y2: i64, m2: i64, d2: i64,
+    activity: &str, avoid1: &str, avoid2: &str,
+) -> String {
+    scan_days(y1, m1, d1, y2, m2, d2, activity, avoid1, avoid2)
 }

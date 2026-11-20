@@ -1,27 +1,29 @@
 // 玄机页面编排器（东方馆）：只负责加载计算引擎、逐个初始化功能模块。
 // 故障隔离约定：每个模块独立 try/catch，一个模块出错只在它自己的卡片里
 // 提示，绝不连坐全页（4.0.1 全页失效的教训，见 docs/架构文档.md）。
-import { loadWasm } from './js/wasm.js?v=5.0.1';
-import { ctx, el } from './js/ctx.js?v=5.0.1';
-import { initAlmanac } from './js/almanac.js?v=5.0.1';
-import { initQian } from './js/qian.js?v=5.0.1';
-import { initAnswers } from './js/answers.js?v=5.0.1';
-import { initWedding } from './js/wedding.js?v=5.0.1';
-import { initBazi } from './js/bazi.js?v=5.0.1';
-import { initBone } from './js/bone.js?v=5.0.1';
-import { initHehun } from './js/hehun.js?v=5.0.1';
-import { initDreams } from './js/dreams.js?v=5.0.1';
-import { initZiwei } from './js/ziwei.js?v=5.0.1';
-import { initShare } from './js/share.js?v=5.0.1';
+import { loadWasm } from './js/wasm.js?v=5.1.0';
+import { ctx, el } from './js/ctx.js?v=5.1.0';
+import { initAlmanac } from './js/almanac.js?v=5.1.0';
+import { initQian } from './js/qian.js?v=5.1.0';
+import { initAnswers } from './js/answers.js?v=5.1.0';
+import { initWedding } from './js/wedding.js?v=5.1.0';
+import { initBazi } from './js/bazi.js?v=5.1.0';
+import { initBone } from './js/bone.js?v=5.1.0';
+import { initHehun } from './js/hehun.js?v=5.1.0';
+import { initTaisui } from './js/taisui.js?v=5.1.0';
+import { initDreams } from './js/dreams.js?v=5.1.0';
+import { initZiwei } from './js/ziwei.js?v=5.1.0';
+import { initShare } from './js/share.js?v=5.1.0';
 
 const FEATURES = [
   ['almanac', '今日黄历', initAlmanac],
   ['qian', '今日一签', initQian],
   ['answers', '答案之书', initAnswers],
-  ['wedding', '婚嫁择日', initWedding],
+  ['wedding', '万事择日', initWedding],
   ['bazi', '八字排盘', initBazi],
   ['bone', '称骨', initBone],
   ['hehun', '合婚', initHehun],
+  ['taisui', '犯太岁', initTaisui],
   ['dreams', '解梦', initDreams],
   ['ziwei', '紫微斗数', initZiwei],
   ['share', '分享图', initShare],

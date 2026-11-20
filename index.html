@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>玄机 · 今日</title>
-<link rel="stylesheet" href="./style.css?v=5.0.1">
+<link rel="stylesheet" href="./style.css?v=5.1.0">
 </head>
 <body>
 <header>
@@ -34,6 +34,8 @@
     </div>
     <div class="grid" id="almGrid"></div>
     <div class="pengzu" id="almPengzu"></div>
+    <div class="hourtitle">时辰吉凶 <span class="sub">十二时辰 · 黄道为吉、黑道为凶</span></div>
+    <div class="hours" id="almHours"></div>
     <button class="btn ghost serif" id="btnShareAlm">生 成 黄 历 图</button>
     <div class="shareout hidden" id="shareAlm"></div>
   </section>
@@ -60,8 +62,9 @@
   </section>
   <!-- 婚嫁择日 -->
   <section class="card" data-mod="wedding">
-    <h2>婚嫁择日 <span class="sub">挑个宜嫁娶的好日子</span></h2>
+    <h2>万事择日 <span class="sub">挑个办事的好日子</span></h2>
     <div class="bzform">
+      <select id="wedAct" class="sel"></select>
       <div class="row2">
         <input type="date" id="wedFrom">
         <input type="date" id="wedTo">
@@ -76,7 +79,7 @@
       <div class="bzmeta" id="wedCount"></div>
       <div id="wedList"></div>
     </div>
-    <p class="fineprint">按老黄历「宜嫁娶」筛选，并避开冲新郎、新娘生肖的日子</p>
+    <p class="fineprint">按老黄历「宜」筛选所选事项，并避开冲本人生肖的日子；区间最长 400 天</p>
   </section>
   <!-- 八字排盘 -->
   <section class="card" data-mod="bazi">
@@ -143,6 +146,24 @@
     </div>
     <p class="fineprint">民间简法图个乐，感情长久靠的是两个人经营</p>
   </section>
+  <!-- 犯太岁 -->
+  <section class="card" data-mod="taisui">
+    <h2>犯太岁 <span class="sub">查查你与太岁的关系</span></h2>
+    <div class="bzform">
+      <div class="row2">
+        <input type="number" id="tsYear" min="1900" max="2100">
+        <select id="tsZodiac" class="sel"></select>
+      </div>
+      <button class="btn serif" id="btnTaisui">查 太 岁</button>
+    </div>
+    <div id="tsBox" class="hidden">
+      <div class="bzmeta" id="tsHead"></div>
+      <div class="bonetotal serif" id="tsMine"></div>
+      <p id="tsText"></p>
+      <div id="tsList"></div>
+    </div>
+    <p class="fineprint">按农历年生肖论值 / 冲 / 刑 / 害 / 破，民俗说法图个乐，不作决策依据</p>
+  </section>
   <!-- 解梦 -->
   <section class="card" data-mod="dreams">
     <h2>解梦 <span class="sub">周公解梦 · 本站原创解读</span></h2>
@@ -180,6 +201,6 @@
   历法核心由 Rust 计算，结果与经典黄历库逐项核对
 </footer>
 
-<script type="module" src="./app.js?v=5.0.1"></script>
+<script type="module" src="./app.js?v=5.1.0"></script>
 </body>
 </html>
