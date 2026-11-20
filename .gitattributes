@@ -1,0 +1,2 @@
+# pkg/ 为 wasm-bindgen 自动生成的绑定代码，不计入语言统计
+pkg/* linguist-generated=true
