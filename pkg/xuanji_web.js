@@ -44,6 +44,43 @@ export function bazi_json(y, m, d, hour, minute, gender) {
 }
 
 /**
+ * 大五题库 JSON（IPIP 50 题，公有领域条目 + 本站翻译）
+ * @returns {string}
+ */
+export function bigfive_json() {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.bigfive_json();
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 大五计分：50 字符作答串（1-5），返回 JSON
+ * @param {string} answers
+ * @returns {string}
+ */
+export function bigfive_score(answers) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(answers, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.bigfive_score(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
  * 称骨：出生年月日时分，返回 JSON
  * @param {number} y
  * @param {number} m
@@ -95,6 +132,46 @@ export function daily_qian_json(y, m, d) {
     let deferred1_1;
     try {
         const ret = wasm.daily_qian_json(y, m, d);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 今日一卢恩：日期，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @returns {string}
+ */
+export function daily_rune_json(y, m, d) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.daily_rune_json(y, m, d);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 今日塔罗：日期，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @returns {string}
+ */
+export function daily_tarot_json(y, m, d) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.daily_tarot_json(y, m, d);
         deferred1_0 = ret[0];
         deferred1_1 = ret[1];
         return getStringFromWasm0(ret[0], ret[1]);
@@ -232,6 +309,64 @@ export function hehun_json(ay, am, ad, ah, amin, by, bm, bd, bh, bmin) {
 }
 
 /**
+ * 霍兰德题库 JSON（48 题，题项原创）
+ * @returns {string}
+ */
+export function holland_json() {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.holland_json();
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 霍兰德计分：48 字符作答串（1-5），返回 JSON
+ * @param {string} answers
+ * @returns {string}
+ */
+export function holland_score(answers) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(answers, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.holland_score(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * 生命灵数：出生日期 + 目标年份，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} target_year
+ * @returns {string}
+ */
+export function lifepath_json(y, m, d, target_year) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.lifepath_json(y, m, d, target_year);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 六爻起卦装卦：种子 + 起卦日期（公历），返回 JSON
  * @param {number} seed
  * @param {number} y
@@ -274,6 +409,43 @@ export function meihua_json(y, m, d, hour) {
 }
 
 /**
+ * 人格题库 JSON（题目 + 16 型文案）
+ * @returns {string}
+ */
+export function personality_json() {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.personality_json();
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 人格计分：48 字符作答串（a/b），返回 JSON
+ * @param {string} answers
+ * @returns {string}
+ */
+export function personality_score(answers) {
+    let deferred2_0;
+    let deferred2_1;
+    try {
+        const ptr0 = passStringToWasm0(answers, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.personality_score(ptr0, len0);
+        deferred2_0 = ret[0];
+        deferred2_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
  * 奇门排盘：公历日期 + 小时，返回 JSON
  * @param {number} y
  * @param {number} m
@@ -286,6 +458,24 @@ export function qimen_json(y, m, d, hour) {
     let deferred1_1;
     try {
         const ret = wasm.qimen_json(y, m, d, hour);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 三卢恩（过去/现在/未来）：熵由页面传入，返回 JSON
+ * @param {number} entropy
+ * @returns {string}
+ */
+export function runes_draw3_json(entropy) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.runes_draw3_json(entropy);
         deferred1_0 = ret[0];
         deferred1_1 = ret[1];
         return getStringFromWasm0(ret[0], ret[1]);
@@ -313,6 +503,24 @@ export function taisui_json(year, zodiac) {
         return getStringFromWasm0(ret[0], ret[1]);
     } finally {
         wasm.__wbindgen_free(deferred3_0, deferred3_1, 1);
+    }
+}
+
+/**
+ * 随手抽一张：熵由页面传入
+ * @param {number} entropy
+ * @returns {string}
+ */
+export function tarot_draw_json(entropy) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.tarot_draw_json(entropy);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
     }
 }
 
@@ -415,6 +623,56 @@ export function ziwei_liunian_json(y, m, d, hour, minute, gender, year) {
     let deferred1_1;
     try {
         const ret = wasm.ziwei_liunian_json(y, m, d, hour, minute, gender, year);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 今日运势：星座下标 + 日期，返回 JSON
+ * @param {number} sign
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @returns {string}
+ */
+export function zodiac_fortune_json(sign, y, m, d) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.zodiac_fortune_json(sign, y, m, d);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * 星座下标（0-11）：按公历月日
+ * @param {number} month
+ * @param {number} day
+ * @returns {number}
+ */
+export function zodiac_index(month, day) {
+    const ret = wasm.zodiac_index(month, day);
+    return ret >>> 0;
+}
+
+/**
+ * 星座名
+ * @param {number} index
+ * @returns {string}
+ */
+export function zodiac_name(index) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.zodiac_name(index);
         deferred1_0 = ret[0];
         deferred1_1 = ret[1];
         return getStringFromWasm0(ret[0], ret[1]);

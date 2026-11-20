@@ -1,0 +1,352 @@
+[
+ {
+  "n": 1,
+  "f": "E",
+  "rev": false,
+  "en": "Am the life of the party",
+  "zh": "我是聚会里的气氛中心"
+ },
+ {
+  "n": 2,
+  "f": "A",
+  "rev": true,
+  "en": "Feel little concern for others",
+  "zh": "我不太关心别人"
+ },
+ {
+  "n": 3,
+  "f": "C",
+  "rev": false,
+  "en": "Am always prepared",
+  "zh": "我总是准备充分"
+ },
+ {
+  "n": 4,
+  "f": "S",
+  "rev": true,
+  "en": "Get stressed out easily",
+  "zh": "我很容易感到压力"
+ },
+ {
+  "n": 5,
+  "f": "O",
+  "rev": false,
+  "en": "Have a rich vocabulary",
+  "zh": "我的词汇量很丰富"
+ },
+ {
+  "n": 6,
+  "f": "E",
+  "rev": true,
+  "en": "Don't talk a lot",
+  "zh": "我话不多"
+ },
+ {
+  "n": 7,
+  "f": "A",
+  "rev": false,
+  "en": "Am interested in people",
+  "zh": "我对人感兴趣"
+ },
+ {
+  "n": 8,
+  "f": "C",
+  "rev": true,
+  "en": "Leave my belongings around",
+  "zh": "我总是随手乱放东西"
+ },
+ {
+  "n": 9,
+  "f": "S",
+  "rev": false,
+  "en": "Am relaxed most of the time",
+  "zh": "我大多数时候很放松"
+ },
+ {
+  "n": 10,
+  "f": "O",
+  "rev": true,
+  "en": "Have difficulty understanding abstract ideas",
+  "zh": "我很难理解抽象的概念"
+ },
+ {
+  "n": 11,
+  "f": "E",
+  "rev": false,
+  "en": "Feel comfortable around people",
+  "zh": "我在人群里感到自在"
+ },
+ {
+  "n": 12,
+  "f": "A",
+  "rev": true,
+  "en": "Insult people",
+  "zh": "我会出言伤人"
+ },
+ {
+  "n": 13,
+  "f": "C",
+  "rev": false,
+  "en": "Pay attention to details",
+  "zh": "我注重细节"
+ },
+ {
+  "n": 14,
+  "f": "S",
+  "rev": true,
+  "en": "Worry about things",
+  "zh": "我总是忧心忡忡"
+ },
+ {
+  "n": 15,
+  "f": "O",
+  "rev": false,
+  "en": "Have a vivid imagination",
+  "zh": "我的想象力很丰富生动"
+ },
+ {
+  "n": 16,
+  "f": "E",
+  "rev": true,
+  "en": "Keep in the background",
+  "zh": "我喜欢待在不显眼的位置"
+ },
+ {
+  "n": 17,
+  "f": "A",
+  "rev": false,
+  "en": "Sympathize with others' feelings",
+  "zh": "我能体谅别人的感受"
+ },
+ {
+  "n": 18,
+  "f": "C",
+  "rev": true,
+  "en": "Make a mess of things",
+  "zh": "我容易把事情弄得一团糟"
+ },
+ {
+  "n": 19,
+  "f": "S",
+  "rev": false,
+  "en": "Seldom feel blue",
+  "zh": "我很少情绪低落"
+ },
+ {
+  "n": 20,
+  "f": "O",
+  "rev": true,
+  "en": "Am not interested in abstract ideas",
+  "zh": "我对抽象概念不感兴趣"
+ },
+ {
+  "n": 21,
+  "f": "E",
+  "rev": false,
+  "en": "Start conversations",
+  "zh": "我会主动开启对话"
+ },
+ {
+  "n": 22,
+  "f": "A",
+  "rev": true,
+  "en": "Am not interested in other people's problems",
+  "zh": "我对别人的烦恼不感兴趣"
+ },
+ {
+  "n": 23,
+  "f": "C",
+  "rev": false,
+  "en": "Get chores done right away",
+  "zh": "我会立刻把分内的杂事做完"
+ },
+ {
+  "n": 24,
+  "f": "S",
+  "rev": true,
+  "en": "Am easily disturbed",
+  "zh": "我很容易被搅得心烦"
+ },
+ {
+  "n": 25,
+  "f": "O",
+  "rev": false,
+  "en": "Have excellent ideas",
+  "zh": "我总有出色的点子"
+ },
+ {
+  "n": 26,
+  "f": "E",
+  "rev": true,
+  "en": "Have little to say",
+  "zh": "我没什么话可说"
+ },
+ {
+  "n": 27,
+  "f": "A",
+  "rev": false,
+  "en": "Have a soft heart",
+  "zh": "我心肠很软"
+ },
+ {
+  "n": 28,
+  "f": "C",
+  "rev": true,
+  "en": "Often forget to put things back in their proper place",
+  "zh": "我常忘记把东西放回原处"
+ },
+ {
+  "n": 29,
+  "f": "S",
+  "rev": true,
+  "en": "Get upset easily",
+  "zh": "我很容易心烦意乱"
+ },
+ {
+  "n": 30,
+  "f": "O",
+  "rev": true,
+  "en": "Do not have a good imagination",
+  "zh": "我的想象力不怎么样"
+ },
+ {
+  "n": 31,
+  "f": "E",
+  "rev": false,
+  "en": "Talk to a lot of different people at parties",
+  "zh": "我在聚会上会和很多不同的人聊天"
+ },
+ {
+  "n": 32,
+  "f": "A",
+  "rev": true,
+  "en": "Am not really interested in others",
+  "zh": "我其实对别人不太感兴趣"
+ },
+ {
+  "n": 33,
+  "f": "C",
+  "rev": false,
+  "en": "Like order",
+  "zh": "我喜欢井井有条"
+ },
+ {
+  "n": 34,
+  "f": "S",
+  "rev": true,
+  "en": "Change my mood a lot",
+  "zh": "我的情绪变化很大"
+ },
+ {
+  "n": 35,
+  "f": "O",
+  "rev": false,
+  "en": "Am quick to understand things",
+  "zh": "我理解事情很快"
+ },
+ {
+  "n": 36,
+  "f": "E",
+  "rev": true,
+  "en": "Don't like to draw attention to myself",
+  "zh": "我不喜欢成为注意力的焦点"
+ },
+ {
+  "n": 37,
+  "f": "A",
+  "rev": false,
+  "en": "Take time out for others",
+  "zh": "我会抽时间帮助别人"
+ },
+ {
+  "n": 38,
+  "f": "C",
+  "rev": true,
+  "en": "Neglect my duties",
+  "zh": "我会疏忽自己的职责"
+ },
+ {
+  "n": 39,
+  "f": "S",
+  "rev": true,
+  "en": "Have frequent mood swings",
+  "zh": "我的情绪起伏很频繁"
+ },
+ {
+  "n": 40,
+  "f": "O",
+  "rev": false,
+  "en": "Use difficult words",
+  "zh": "我会使用比较难的词汇"
+ },
+ {
+  "n": 41,
+  "f": "E",
+  "rev": false,
+  "en": "Don't mind being the center of attention",
+  "zh": "我不介意成为众人瞩目的中心"
+ },
+ {
+  "n": 42,
+  "f": "A",
+  "rev": false,
+  "en": "Feel others' emotions",
+  "zh": "我能感受到别人的情绪"
+ },
+ {
+  "n": 43,
+  "f": "C",
+  "rev": false,
+  "en": "Follow a schedule",
+  "zh": "我按计划表行事"
+ },
+ {
+  "n": 44,
+  "f": "S",
+  "rev": true,
+  "en": "Get irritated easily",
+  "zh": "我很容易被惹恼"
+ },
+ {
+  "n": 45,
+  "f": "O",
+  "rev": false,
+  "en": "Spend time reflecting on things",
+  "zh": "我会花时间反思事情"
+ },
+ {
+  "n": 46,
+  "f": "E",
+  "rev": true,
+  "en": "Am quiet around strangers",
+  "zh": "我在陌生人面前很安静"
+ },
+ {
+  "n": 47,
+  "f": "A",
+  "rev": false,
+  "en": "Make people feel at ease",
+  "zh": "我能让别人感到自在"
+ },
+ {
+  "n": 48,
+  "f": "C",
+  "rev": false,
+  "en": "Am exacting in my work",
+  "zh": "我对工作要求严格精确"
+ },
+ {
+  "n": 49,
+  "f": "S",
+  "rev": true,
+  "en": "Often feel blue",
+  "zh": "我常常感到忧郁低落"
+ },
+ {
+  "n": 50,
+  "f": "O",
+  "rev": false,
+  "en": "Am full of ideas",
+  "zh": "我满脑子都是点子"
+ }
+]

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>玄机 · 西方馆</title>
+<link rel="stylesheet" href="./style.css?v=6.0.0">
+</head>
+<body>
+<header>
+  <span class="seal serif gold">西方占卜</span>
+  <h1 class="serif">玄 机</h1>
+  <p id="todayLine">正在起卦…</p>
+</header>
+
+<nav class="hallnav">
+  <a href="./index.html">东方馆</a>
+  <a href="./west.html" class="on">西方馆</a>
+  <a href="./mind.html">心智馆</a>
+</nav>
+
+<div id="loading">🏮 正在铺开星盘…</div>
+
+<main id="app" class="hidden">
+
+  <!-- 星座运势 -->
+  <section class="card" data-mod="horoscope">
+    <h2>星座运势 <span class="sub">同一天 · 同一运势</span></h2>
+    <div class="daterow">
+      <input type="date" id="hsBirth" min="1900-01-01" max="2100-12-31">
+      <button id="btnHs">按生日看</button>
+    </div>
+    <div class="zchips" id="hsChips"></div>
+    <div id="hsOut" class="hidden"></div>
+  </section>
+
+  <!-- 今日塔罗 -->
+  <section class="card" data-mod="tarot">
+    <h2>今日塔罗 <span class="sub">22 张大阿卡纳</span></h2>
+    <div id="tarotOut" class="hidden"></div>
+    <button class="btn serif" id="btnTarotDaily">抽 今 日 塔 罗</button>
+    <button class="btn ghost serif" id="btnTarotDraw">随 手 再 抽 一 张</button>
+    <p class="fineprint">牌义为本站原创；同一天的「今日塔罗」固定不变，随手抽凭当下。</p>
+  </section>
+
+  <!-- 生命灵数 -->
+  <section class="card" data-mod="lifepath">
+    <h2>生命灵数 <span class="sub">生日里的数字密码</span></h2>
+    <div class="daterow">
+      <input type="date" id="lpBirth" min="1900-01-01" max="2100-12-31">
+      <input type="number" id="lpYear" min="1900" max="2100" style="width:92px">
+      <button id="btnLp">算灵数</button>
+    </div>
+    <div id="lpOut" class="hidden"></div>
+    <p class="fineprint">按灵数学通行口径：各位数字相加约简，11 与 22 为大师数不继续约简；解读为本站原创。</p>
+  </section>
+
+  <!-- 卢恩符文 -->
+  <section class="card" data-mod="runes">
+    <h2>卢恩符文 <span class="sub">古弗萨克 24 卢恩</span></h2>
+    <div id="runeDaily"></div>
+    <button class="btn serif" id="btnRunes">抽 三 卢 恩（过去 · 现在 · 未来）</button>
+    <div id="runeOut" class="hidden"></div>
+    <p class="fineprint">今日一卢恩按日期固定；8 枚形制对称的卢恩按通行说法不设逆位。解读为本站原创。</p>
+  </section>
+
+  <!-- 答案之书 -->
+  <section class="card" data-mod="answers">
+    <h2>答案之书 <span class="sub">想好一个问题再翻开</span></h2>
+    <div id="ansBox" class="answer serif hidden"></div>
+    <button class="btn serif" id="btnAns">翻 开 答 案</button>
+    <p class="fineprint">源自美国作家 Carol Bolt 1999 年的同名玩法，答案为本站原创中文句。</p>
+  </section>
+
+</main>
+
+<footer>
+  玄机 · 民俗文化娱乐，不作决策依据<br>
+  计算核心由 Rust 在本地完成，不收集任何数据
+</footer>
+
+<script type="module" src="./west.js?v=6.0.0"></script>
+</body>
+</html>

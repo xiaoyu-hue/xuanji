@@ -43,6 +43,7 @@ fn main() {
     check_feixing();
     check_liuyao();
     check_qimen();
+    check_west_mind();
     check_bone();
     check_hehun();
     check_dreams();
@@ -409,4 +410,56 @@ fn check_dreams() {
         }
     }
     println!("解梦自检通过：{} 条", arr.len());
+}
+
+/// 5.5.0 西方馆＋心智馆自检：恢复三件回归锚点＋新做四件结构/计分锚点。
+fn check_west_mind() {
+    use xuanji_core::*;
+    // 星座：分界锚点（1/19 摩羯 9、1/20 水瓶 10、11/22 前天蝎 7）
+    assert_eq!(zodiac_index(1, 19), 9);
+    assert_eq!(zodiac_index(1, 20), 10);
+    assert_eq!(zodiac_index(11, 22), 7);
+    let f = zodiac_fortune(0, 2026, 11, 20);
+    assert_eq!(f.sign, "白羊座");
+    assert!((55..=99).contains(&f.overall));
+    // 塔罗：同日固定、牌库 22
+    assert_eq!(daily_tarot(2026, 11, 20), daily_tarot(2026, 11, 20));
+    let tv: serde_json::Value = serde_json::from_str(&daily_tarot(2026, 11, 20)).unwrap();
+    assert!(tv["num"].as_u64().unwrap() <= 21);
+    // 人格：全选 a → ISTJ（2.1.0 公网验算锚点）
+    let ps: serde_json::Value = serde_json::from_str(&personality_score(&"a".repeat(48))).unwrap();
+    assert_eq!(ps["type"], "ISTJ", "全 a 应为 ISTJ，实际 {}", ps);
+    // 生命灵数：1990-01-01 → 路径 3、生日 1、态度 2；2026 个人年 3
+    let lp = lifepath(1990, 1, 1, 2026);
+    assert_eq!(lp.life_path.n, 3);
+    assert_eq!(lp.birthday.n, 1);
+    assert_eq!(lp.attitude.n, 2);
+    assert_eq!(lp.personal_year.n, 3);
+    // 大师数：1999-09-01 数字和 28+9+1=38→11 停步
+    let lp2 = lifepath(1999, 9, 1, 2026);
+    assert_eq!(lp2.life_path.n, 11, "1999-09-01 应为大师数 11，实际 {}", lp2.life_path.n);
+    // 卢恩：24 枚齐全、同日固定、三卢恩互不重复
+    assert_eq!(runes::RUNES.len(), 24);
+    assert_eq!(daily_rune(2026, 11, 20).name, daily_rune(2026, 11, 20).name);
+    let d3 = runes_draw3(42);
+    assert_eq!(d3.len(), 3);
+    assert!(d3[0].name != d3[1].name && d3[1].name != d3[2].name && d3[0].name != d3[2].name);
+    // 大五：全 3 → 五维皆 30；全 5 → E30 A34 C34 S18 O38（反向键锚点）
+    let mid: serde_json::Value = serde_json::from_str(&bigfive_score(&"3".repeat(50))).unwrap();
+    for t in mid["traits"].as_array().unwrap() {
+        assert_eq!(t["score"], 30, "全 3 时 {} 应为 30", t["key"]);
+    }
+    let hi: serde_json::Value = serde_json::from_str(&bigfive_score(&"5".repeat(50))).unwrap();
+    let expect = [("E", 30), ("A", 34), ("C", 34), ("S", 18), ("O", 38)];
+    for (k, v) in expect {
+        let got = hi["traits"].as_array().unwrap().iter().find(|t| t["key"] == k).unwrap()["score"].as_u64().unwrap();
+        assert_eq!(got, v, "全 5 时 {k} 应为 {v}，实际 {got}");
+    }
+    // 霍兰德：R 题全 5 其余 1 → 代码以 R 开头、R=40
+    let mut ans = vec!['1'; 48];
+    for c in ans.iter_mut().take(8) { *c = '5'; }
+    let hs: serde_json::Value = serde_json::from_str(&holland_score(&ans.iter().collect::<String>())).unwrap();
+    assert!(hs["code"].as_str().unwrap().starts_with('R'));
+    assert_eq!(hs["types"][0]["score"], 40);
+    println!("西方馆＋心智馆自检通过（星座分界/塔罗同日/人格 ISTJ/灵数大师数/卢恩 24/大五反向键/霍兰德 R 锚点）");
 }

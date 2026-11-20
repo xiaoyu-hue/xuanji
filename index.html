@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>玄机 · 今日</title>
-<link rel="stylesheet" href="./style.css?v=5.4.0">
+<link rel="stylesheet" href="./style.css?v=6.0.0">
 </head>
 <body>
 <header>
@@ -12,6 +12,12 @@
   <h1 class="serif">玄 机</h1>
   <p id="todayLine">正在起卦…</p>
 </header>
+
+<nav class="hallnav">
+  <a href="./index.html" class="on">东方馆</a>
+  <a href="./west.html">西方馆</a>
+  <a href="./mind.html">心智馆</a>
+</nav>
 
 <div id="loading">🏮 正在翻开黄历…</div>
 
@@ -80,12 +86,6 @@
     <p style="text-align:center;color:var(--ink2);font-size:13.5px;margin-top:10px">同样摇六次铜钱，再装上卦宫、世应、纳甲、六亲与六神——这是占卜师看盘的样子</p>
     <button class="btn serif" id="btnLiuyao">摇 卦 装 卦</button>
     <div id="lyOut"></div>
-  </section>
-  <!-- 答案之书 -->
-  <section class="card" data-mod="answers">
-    <h2>答案之书 <span class="sub">想好一个问题再翻开</span></h2>
-    <div id="ansBox" class="answer serif hidden"></div>
-    <button class="btn serif" id="btnAns">翻 开 答 案</button>
   </section>
   <!-- 婚嫁择日 -->
   <section class="card" data-mod="wedding">
@@ -262,6 +262,6 @@
   历法核心由 Rust 计算，结果与经典黄历库逐项核对
 </footer>
 
-<script type="module" src="./app.js?v=5.4.0"></script>
+<script type="module" src="./app.js?v=6.0.0"></script>
 </body>
 </html>

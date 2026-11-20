@@ -12,6 +12,16 @@ export function almanac_json(y: number, m: number, d: number): string;
 export function bazi_json(y: number, m: number, d: number, hour: number, minute: number, gender: number): string;
 
 /**
+ * 大五题库 JSON（IPIP 50 题，公有领域条目 + 本站翻译）
+ */
+export function bigfive_json(): string;
+
+/**
+ * 大五计分：50 字符作答串（1-5），返回 JSON
+ */
+export function bigfive_score(answers: string): string;
+
+/**
  * 称骨：出生年月日时分，返回 JSON
  */
 export function bone_json(y: number, m: number, d: number, hour: number, minute: number): string;
@@ -25,6 +35,16 @@ export function book_answer(entropy: number): string;
  * 今日一签：同一天抽到的签固定，返回 JSON 字符串
  */
 export function daily_qian_json(y: number, m: number, d: number): string;
+
+/**
+ * 今日一卢恩：日期，返回 JSON
+ */
+export function daily_rune_json(y: number, m: number, d: number): string;
+
+/**
+ * 今日塔罗：日期，返回 JSON
+ */
+export function daily_tarot_json(y: number, m: number, d: number): string;
 
 /**
  * 每日时辰吉凶：入参为公历年月日，返回十二时辰 JSON 数组
@@ -52,6 +72,21 @@ export function feixing_json(year: number): string;
 export function hehun_json(ay: number, am: number, ad: number, ah: number, amin: number, by: number, bm: number, bd: number, bh: number, bmin: number): string;
 
 /**
+ * 霍兰德题库 JSON（48 题，题项原创）
+ */
+export function holland_json(): string;
+
+/**
+ * 霍兰德计分：48 字符作答串（1-5），返回 JSON
+ */
+export function holland_score(answers: string): string;
+
+/**
+ * 生命灵数：出生日期 + 目标年份，返回 JSON
+ */
+export function lifepath_json(y: number, m: number, d: number, target_year: number): string;
+
+/**
  * 六爻起卦装卦：种子 + 起卦日期（公历），返回 JSON
  */
 export function liuyao_json(seed: number, y: number, m: number, d: number): string;
@@ -62,14 +97,34 @@ export function liuyao_json(seed: number, y: number, m: number, d: number): stri
 export function meihua_json(y: number, m: number, d: number, hour: number): string;
 
 /**
+ * 人格题库 JSON（题目 + 16 型文案）
+ */
+export function personality_json(): string;
+
+/**
+ * 人格计分：48 字符作答串（a/b），返回 JSON
+ */
+export function personality_score(answers: string): string;
+
+/**
  * 奇门排盘：公历日期 + 小时，返回 JSON
  */
 export function qimen_json(y: number, m: number, d: number, hour: number): string;
 
 /**
+ * 三卢恩（过去/现在/未来）：熵由页面传入，返回 JSON
+ */
+export function runes_draw3_json(entropy: number): string;
+
+/**
  * 犯太岁：公历年份 + 本人生肖（空串只看全年名单），返回 JSON
  */
 export function taisui_json(year: number, zodiac: string): string;
+
+/**
+ * 随手抽一张：熵由页面传入
+ */
+export function tarot_draw_json(entropy: number): string;
 
 /**
  * 婚嫁择日：起止公历日期 + 新郎/新娘生肖（空串不限），返回 JSON 数组
@@ -91,28 +146,57 @@ export function ziwei_json(y: number, m: number, d: number, hour: number, minute
  */
 export function ziwei_liunian_json(y: number, m: number, d: number, hour: number, minute: number, gender: number, year: number): string;
 
+/**
+ * 今日运势：星座下标 + 日期，返回 JSON
+ */
+export function zodiac_fortune_json(sign: number, y: number, m: number, d: number): string;
+
+/**
+ * 星座下标（0-11）：按公历月日
+ */
+export function zodiac_index(month: number, day: number): number;
+
+/**
+ * 星座名
+ */
+export function zodiac_name(index: number): string;
+
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
     readonly memory: WebAssembly.Memory;
     readonly almanac_json: (a: number, b: number, c: number) => [number, number];
     readonly bazi_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
+    readonly bigfive_json: () => [number, number];
+    readonly bigfive_score: (a: number, b: number) => [number, number];
     readonly bone_json: (a: number, b: number, c: number, d: number, e: number) => [number, number];
     readonly book_answer: (a: number) => [number, number];
     readonly daily_qian_json: (a: number, b: number, c: number) => [number, number];
+    readonly daily_rune_json: (a: number, b: number, c: number) => [number, number];
+    readonly daily_tarot_json: (a: number, b: number, c: number) => [number, number];
     readonly day_hours_json: (a: number, b: number, c: number) => [number, number];
     readonly day_search_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number) => [number, number];
     readonly dreams_json: () => [number, number];
     readonly feixing_json: (a: number) => [number, number];
     readonly hehun_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
+    readonly holland_json: () => [number, number];
+    readonly holland_score: (a: number, b: number) => [number, number];
+    readonly lifepath_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly liuyao_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly meihua_json: (a: number, b: number, c: number, d: number) => [number, number];
+    readonly personality_json: () => [number, number];
+    readonly personality_score: (a: number, b: number) => [number, number];
     readonly qimen_json: (a: number, b: number, c: number, d: number) => [number, number];
+    readonly runes_draw3_json: (a: number) => [number, number];
     readonly taisui_json: (a: number, b: number, c: number) => [number, number];
+    readonly tarot_draw_json: (a: number) => [number, number];
     readonly wedding_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number) => [number, number];
     readonly zhouyi_draw_json: (a: number) => [number, number];
     readonly ziwei_json: (a: number, b: number, c: number, d: number, e: number, f: number) => [number, number];
     readonly ziwei_liunian_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
+    readonly zodiac_fortune_json: (a: number, b: number, c: number, d: number) => [number, number];
+    readonly zodiac_index: (a: number, b: number) => number;
+    readonly zodiac_name: (a: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_free: (a: number, b: number, c: number) => void;
     readonly __wbindgen_malloc: (a: number, b: number) => number;

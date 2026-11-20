@@ -185,3 +185,60 @@
 .qmearth{color:var(--ink2)}
 .qmcenter{text-align:center;color:var(--ink2)}
 .qmhint{font-size:11.5px;margin-top:4px}
+
+/* —— 三馆导航与馆印（5.5.0）—— */
+.hallnav{display:flex;gap:8px;justify-content:center;margin:10px auto 2px;max-width:640px;padding:0 12px}
+.hallnav a{flex:1;text-align:center;padding:8px 0;border:1px solid var(--line);border-radius:99px;
+  background:var(--card);color:var(--ink2);text-decoration:none;font-size:14px;letter-spacing:3px}
+.hallnav a.on{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff;font-weight:600}
+header .seal.gold{background:var(--gold)}
+header .seal.green{background:var(--jade)}
+
+/* —— 人格/量表通用（恢复自 2.x 并适配现变量）—— */
+.persdesc{font-size:15px;color:var(--ink2);line-height:1.7;margin:4px 0 12px}
+.perstype{text-align:center;margin:6px 0 2px}
+.perstype .code{font-size:44px;font-weight:700;letter-spacing:6px;color:var(--cinnabar)}
+.perstype .pname{font-size:22px;font-weight:600;margin-top:2px}
+.perstype .ptag{color:var(--ink2);font-size:14px;margin-top:4px}
+.dimrow{display:flex;align-items:center;gap:8px;font-size:13px;margin:7px 0;color:var(--ink2)}
+.dimrow b{color:var(--ink);min-width:74px}
+.dimrow b:last-child{text-align:right}
+.dimbar{flex:1;height:10px;background:#e9dfca;border-radius:5px;overflow:hidden}
+.dimbar i{display:block;height:100%;background:var(--gold)}
+.perscols{display:flex;gap:14px;margin-top:10px}
+.perscols>div{flex:1;background:#fffdf7;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.perscols h3{font-size:14px;margin:0 0 6px;color:var(--cinnabar)}
+.perscols ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.8;color:var(--ink)}
+.persmotto{text-align:center;font-size:15px;margin:14px 0 10px;color:var(--ink)}
+.quizmeta{font-size:12.5px;color:var(--ink2);margin-bottom:6px}
+.pbar{height:6px;background:#e9dfca;border-radius:99px;overflow:hidden;margin-bottom:12px}
+.pbar i{display:block;height:100%;width:0;background:var(--cinnabar);border-radius:99px;transition:width .25s}
+.quizq{font-size:16.5px;line-height:1.6;margin:6px 0 12px}
+.optbtn{display:block;width:100%;text-align:left;margin:8px 0;padding:12px 14px;border:1px solid var(--line);
+  border-radius:10px;background:#fffdf7;color:var(--ink);font-size:15px;cursor:pointer}
+.optbtn:active{background:#f3e9d2;transform:scale(.99)}
+
+/* —— 西方馆 —— */
+.zchips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.zchip{border:1px solid var(--line);background:#fffdf7;color:var(--ink2);border-radius:99px;
+  padding:6px 12px;font-size:13.5px;cursor:pointer}
+.zchip.on{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
+.tcard{margin:10px auto 12px;max-width:230px;border:1.5px solid var(--gold);border-radius:14px;
+  background:linear-gradient(160deg,#fffdf7,#f7ecd2);text-align:center;padding:20px 10px 16px}
+.tcard .tnum{font-size:15px;letter-spacing:4px;color:var(--gold)}
+.tcard .tname{font-size:30px;font-weight:700;letter-spacing:6px;margin:8px 0 4px}
+.tcard .ten{font-size:12px;color:var(--ink2);letter-spacing:1px}
+.tcard.trev .tnum,.tcard.trev .tname,.tcard.trev .ten{transform:rotate(180deg)}
+.lpblock{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}
+.lpblock:last-child{border-bottom:none}
+.lpnum{font-size:40px;font-weight:700;color:var(--gold);min-width:56px;text-align:center;line-height:1.1}
+.lpblock p{margin:2px 0;font-size:14px;color:var(--ink2);line-height:1.6}
+.runes3{display:flex;gap:10px}
+.runecell{flex:1;text-align:center;border:1px solid var(--line);border-radius:12px;padding:12px 8px;background:#fffdf7}
+.runepos{font-size:12px;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
+.runeglyph{font-size:52px;line-height:1.15;color:var(--ink)}
+.runeglyph.rrev{transform:rotate(180deg)}
+.runename{font-size:13.5px;font-weight:600;margin-top:4px}
+.runekw{font-size:12px;color:var(--ink2);margin:2px 0 6px}
+.runecell .persdesc{font-size:13px;text-align:left}
+#runeDaily .runecell{max-width:300px;margin:0 auto 12px}

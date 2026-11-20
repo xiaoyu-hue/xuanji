@@ -18,6 +18,13 @@ mod qian;
 mod taisui;
 mod wedding;
 mod ziwei;
+mod horoscope;
+mod tarot;
+mod lifepath;
+mod runes;
+mod personality;
+mod bigfive;
+mod holland;
 
 pub use almanac::{almanac_json, day_hours_json};
 pub use answers::book_answer;

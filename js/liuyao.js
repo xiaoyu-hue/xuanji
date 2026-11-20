@@ -1,5 +1,5 @@
 // 六爻：金钱卦起卦 + 装卦（卦宫/世应/纳甲/六亲/六神/旬空）
-import { el, ctx, wasm } from './ctx.js?v=5.4.0';
+import { el, ctx, wasm } from './ctx.js?v=6.0.0';
 
 function lineBar(l) {
   return l.yang

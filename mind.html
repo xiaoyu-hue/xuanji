@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>玄机 · 心智馆</title>
+<link rel="stylesheet" href="./style.css?v=6.0.0">
+</head>
+<body>
+<header>
+  <span class="seal serif green">心智探索</span>
+  <h1 class="serif">玄 机</h1>
+  <p id="todayLine">正在起卦…</p>
+</header>
+
+<nav class="hallnav">
+  <a href="./index.html">东方馆</a>
+  <a href="./west.html">西方馆</a>
+  <a href="./mind.html" class="on">心智馆</a>
+</nav>
+
+<div id="loading">🏮 正在准备量表…</div>
+
+<main id="app" class="hidden">
+
+  <!-- 16 型人格 -->
+  <section class="card" data-mod="personality">
+    <h2>16 型人格 <span class="sub">48 题 · 四维偏好</span></h2>
+    <div id="persIntro">
+      <p class="persdesc">48 道生活情境题，凭第一感觉选更像你的那一个。题目与人格文案均为本站原创。</p>
+      <button class="btn serif" id="btnPersStart">开 始 测 试</button>
+      <p class="fineprint">本测试为通俗四维偏好测试，与 MBTI® 官方测评无关，结果仅供自我探索参考。</p>
+    </div>
+    <div id="persQuiz" class="hidden">
+      <div class="quizmeta"><span id="persStep"></span></div>
+      <div class="pbar"><i id="persBar"></i></div>
+      <p class="quizq" id="persQ"></p>
+      <button class="optbtn" id="persA"></button>
+      <button class="optbtn" id="persB"></button>
+    </div>
+    <div id="persResult" class="hidden"></div>
+  </section>
+
+  <!-- 大五人格 -->
+  <section class="card" data-mod="bigfive">
+    <h2>大五人格 <span class="sub">IPIP 50 题 · 科学量表</span></h2>
+    <div id="bfIntro">
+      <p class="persdesc">50 句自我描述，按符合程度打分。题目来自国际人格题库 IPIP（公有领域），中文为本站翻译；大五是心理学界公认的人格框架。</p>
+      <button class="btn serif" id="btnBfStart">开 始 测 试</button>
+      <p class="fineprint">科普性质，非临床心理评估；结果不给人「定性」，只看倾向。</p>
+    </div>
+    <div id="bfQuiz" class="hidden">
+      <div class="quizmeta"><span id="bfStep"></span></div>
+      <div class="pbar"><i id="bfBar"></i></div>
+      <p class="quizq" id="bfQ"></p>
+      <div id="bfOpts"></div>
+    </div>
+    <div id="bfResult" class="hidden"></div>
+  </section>
+
+  <!-- 霍兰德职业兴趣 -->
+  <section class="card" data-mod="holland">
+    <h2>霍兰德职业兴趣 <span class="sub">48 题 · RIASEC 六型</span></h2>
+    <div id="hlIntro">
+      <p class="persdesc">48 件日常活动，按兴趣程度打分，算出你的兴趣代码（实际/研究/艺术/社会/企业/常规）。题项为本站原创。</p>
+      <button class="btn serif" id="btnHlStart">开 始 测 试</button>
+      <p class="fineprint">兴趣测评用于职业探索参考，不代替职业咨询。</p>
+    </div>
+    <div id="hlQuiz" class="hidden">
+      <div class="quizmeta"><span id="hlStep"></span></div>
+      <div class="pbar"><i id="hlBar"></i></div>
+      <p class="quizq" id="hlQ"></p>
+      <div id="hlOpts"></div>
+    </div>
+    <div id="hlResult" class="hidden"></div>
+  </section>
+
+</main>
+
+<footer>
+  玄机 · 心智馆走科学量表路线，与民俗娱乐分开标注<br>
+  计算核心由 Rust 在本地完成，作答不上传、不保存
+</footer>
+
+<script type="module" src="./mind.js?v=6.0.0"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 // 页面模块：梅花易数。只负责本功能的页面交互，计算经 w（Rust 核心绑定）完成；
 // 与其他功能模块不互相引用，共享物只从 ctx.js 取（低耦合约定）。
-import { el } from './ctx.js?v=5.4.0';
+import { el } from './ctx.js?v=6.0.0';
 
 export function initMeihua(w) {
 // 梅花易数（时间起卦）
