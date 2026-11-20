@@ -86,4 +86,28 @@ println!("胎元{} 命宫{} 身宫{} · {} · {}", bz2.tai_yuan, bz2.ming_gong, 
 for dy in &bz2.da_yun {
 println!("大运 {} {}-{}岁（{}-{}）", dy.ganzhi, dy.start_age, dy.end_age, dy.start_year, dy.end_year);
 }
+check_personality();
+}
+
+#[allow(dead_code)]
+fn check_personality() {
+    let bank: serde_json::Value = serde_json::from_str(xuanji_core::PERSONALITY_JSON).unwrap();
+    let qs = bank["questions"].as_array().unwrap();
+    assert_eq!(qs.len(), 48, "题目总数应为 48");
+    assert_eq!(bank["types"].as_object().unwrap().len(), 16, "人格类型应为 16");
+    // 定向答卷：每题都选 INTJ 对应极，应得 INTJ 且四维 100%
+    let target = ['I', 'N', 'T', 'J'];
+    let dim_idx = |d: &str| match d { "EI" => 0, "SN" => 1, "TF" => 2, _ => 3 };
+    let mut sheet = String::new();
+    for q in qs {
+        let want = target[dim_idx(q["dim"].as_str().unwrap())];
+        sheet.push(if q["a"]["p"].as_str().unwrap() == want.to_string() { 'a' } else { 'b' });
+    }
+    let r: serde_json::Value = serde_json::from_str(&xuanji_core::personality_score(&sheet)).unwrap();
+    assert_eq!(r["type"], "INTJ", "定向答卷应得 INTJ，实际：{r}");
+    assert!(r["dims"].as_array().unwrap().iter().all(|d| d["left_pct"].as_i64().unwrap() == 0 || d["right_pct"].as_i64().unwrap() == 0),
+        "定向答卷每维应为 100% 对 0%：{r}");
+    println!("PERSONALITY CHECK OK 定向 INTJ 答卷 => INTJ（四维 100%）");
+    let all_a: serde_json::Value = serde_json::from_str(&xuanji_core::personality_score(&"a".repeat(48))).unwrap();
+    println!("ALL-A SHEET => {}", all_a["type"]);
 }

@@ -96,6 +96,31 @@
   .dayun .dy b{font-size:17px;display:block;letter-spacing:2px}
   .dayun .dy span{font-size:11px;color:var(--ink2);line-height:1.5;display:block}
   .fade{animation:fade .5s ease both}
+  .persdesc{font-size:15px;color:var(--ink2);line-height:1.7;margin:4px 0 12px}
+  .persnote{font-size:12px;color:var(--ink2);margin-top:10px;line-height:1.6}
+  .persprog{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);margin-bottom:10px}
+  .persbar{flex:1;height:8px;background:#e9dfca;border-radius:4px;overflow:hidden}
+  .persbar i{display:block;height:100%;background:var(--red,#a63d2f);width:0;transition:width .3s}
+  .persq{font-size:18px;font-weight:600;line-height:1.6;margin:8px 0 14px}
+  .persopt{display:block;width:100%;text-align:left;padding:13px 14px;margin:8px 0;border:1.5px solid #d8cbae;background:#fffdf7;border-radius:10px;font-size:15px;line-height:1.55;cursor:pointer;color:var(--ink)}
+  .persopt:active{border-color:var(--red,#a63d2f);background:#f7ecd9}
+  .persback{background:none;border:none;color:var(--ink2);font-size:13px;cursor:pointer;padding:6px 2px}
+  .perstype{text-align:center;margin:6px 0 2px}
+  .perstype .code{font-size:44px;font-weight:700;letter-spacing:6px;color:var(--red,#a63d2f)}
+  .perstype .pname{font-size:22px;font-weight:600;margin-top:2px}
+  .perstype .ptag{color:var(--ink2);font-size:14px;margin-top:4px}
+  .dimrow{display:flex;align-items:center;gap:8px;font-size:13px;margin:7px 0;color:var(--ink2)}
+  .dimrow b{color:var(--ink);min-width:74px}
+  .dimrow b:last-child{text-align:right}
+  .dimbar{flex:1;height:10px;background:#e9dfca;border-radius:5px;overflow:hidden}
+  .dimbar i{display:block;height:100%;background:var(--gold,#b8862f)}
+  .perscols{display:flex;gap:14px;margin-top:10px}
+  .perscols>div{flex:1;background:#fffdf7;border:1px solid #e3d7bf;border-radius:10px;padding:10px 12px}
+  .perscols h3{font-size:14px;margin:0 0 6px;color:var(--red,#a63d2f)}
+  .perscols ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.8;color:var(--ink)}
+  .persmotto{text-align:center;font-size:15px;margin:14px 0 4px;color:var(--ink)}
+  .persbtns{display:flex;gap:10px;margin-top:12px}
+  .persbtns .btn{flex:1}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
 </head>
@@ -186,6 +211,24 @@
       <p style="font-size:12px;color:var(--ink2);text-align:center;margin-top:2px">八字属传统民俗文化内容，仅供娱乐参考</p>
     </div>
   </section>
+  <!-- 16 型人格 -->
+  <section class="card">
+    <h2>16 型人格 <span class="sub">心智馆 · 自我探索</span></h2>
+    <div id="persIntro">
+      <p class="persdesc">48 道原创题，测测你的四维性格类型。凭第一反应选，别想太多，答案没有对错。</p>
+      <button class="btn serif" id="btnPersStart">开始测试</button>
+      <p class="persnote">本题库与人格文案均为本站原创，与 MBTI® 官方测评无关；结果仅供娱乐与自我探索参考。</p>
+    </div>
+    <div id="persQuiz" class="hidden">
+      <div class="persprog"><span id="persStep"></span><div class="persbar"><i id="persBar"></i></div></div>
+      <p id="persQ" class="persq"></p>
+      <button class="persopt" id="persA"></button>
+      <button class="persopt" id="persB"></button>
+      <button class="persback" id="persBack">← 上一题</button>
+    </div>
+    <div id="persResult" class="hidden"></div>
+    <div id="sharePers" class="sharebox hidden"></div>
+  </section>
 </main>
 
 <footer>
@@ -194,15 +237,15 @@
 </footer>
 
 <script type="module">
-import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json, bazi_json }
-  from './pkg/xuanji_web.js?v=2.0.1';
+import init, { almanac_json, daily_qian_json, book_answer, zodiac_index, zodiac_name, fortune_json, bazi_json, personality_json, personality_score }
+  from './pkg/xuanji_web.js?v=2.1.0';
 
 const now = new Date();
 const Y = now.getFullYear(), M = now.getMonth() + 1, D = now.getDate();
 const week = ['日','一','二','三','四','五','六'][now.getDay()];
 
 async function main(){
-  await init('./pkg/xuanji_web_bg.wasm?v=2.0.1');
+  await init('./pkg/xuanji_web_bg.wasm?v=2.1.0');
   document.getElementById('todayLine').textContent =
     `${Y} 年 ${M} 月 ${D} 日 · 星期${week}`;
   document.getElementById('loading').classList.add('hidden');
@@ -392,6 +435,79 @@ async function main(){
     foot(x, 1000);
     showShare(c, shareQian, 'xuanji-qian.png');
   };
+
+  // 16 型人格
+  const pBank = JSON.parse(personality_json());
+  const dimNames = { EI: ['外向', '内向'], SN: ['实感', '直觉'], TF: ['理性', '感性'], JP: ['计划', '随性'] };
+  let pIdx = 0, pAns = [], lastPers = null;
+  const persIntro = document.getElementById('persIntro'), persQuiz = document.getElementById('persQuiz'),
+        persResult = document.getElementById('persResult'), sharePers = document.getElementById('sharePers');
+  const showPersQ = () => {
+    const q = pBank.questions[pIdx];
+    document.getElementById('persStep').textContent = `第 ${pIdx + 1} / 48 题`;
+    document.getElementById('persBar').style.width = ((pIdx + 1) / 48 * 100) + '%';
+    document.getElementById('persQ').textContent = q.q;
+    document.getElementById('persA').textContent = q.a.t;
+    document.getElementById('persB').textContent = q.b.t;
+  };
+  const finishPers = () => {
+    persQuiz.classList.add('hidden');
+    const r = JSON.parse(personality_score(pAns.join('')));
+    const t = pBank.types[r.type];
+    lastPers = { r, t };
+    const bars = r.dims.map(d => {
+      const [ln, rn] = dimNames[d.dim];
+      return `<div class="dimrow"><b>${d.left} ${ln} ${d.left_pct}%</b><div class="dimbar"><i style="width:${d.left_pct}%"></i></div><b>${d.right_pct}% ${rn} ${d.right}</b></div>`;
+    }).join('');
+    persResult.innerHTML = `
+      <div class="perstype"><div class="code serif">${r.type}</div>
+      <div class="pname">${t.name}</div><div class="ptag">${t.tagline}</div></div>
+      ${bars}
+      <p class="persdesc" style="margin-top:12px">${t.desc}</p>
+      <div class="perscols"><div><h3>你的优势</h3><ul>${t.strengths.map(s => `<li>${s}</li>`).join('')}</ul></div>
+      <div><h3>容易踩的坑</h3><ul>${t.blinds.map(s => `<li>${s}</li>`).join('')}</ul></div></div>
+      <p class="persmotto">「${t.motto}」</p>
+      <div class="persbtns"><button class="btn serif" id="btnPersRedo">重新测试</button>
+      <button class="btn serif" id="btnPersShare">生成分享图</button></div>`;
+    persResult.classList.remove('hidden'); persResult.classList.add('fade');
+    document.getElementById('btnPersRedo').onclick = () => {
+      persResult.classList.add('hidden'); sharePers.classList.add('hidden');
+      persIntro.classList.remove('hidden');
+    };
+    document.getElementById('btnPersShare').onclick = () => {
+      const { r, t } = lastPers;
+      const [c, x] = newCard(1120);
+      x.fillStyle = '#a63d2f'; x.font = `700 92px ${SERIF}`;
+      x.fillText(r.type, 375, 268);
+      x.fillStyle = '#2e2a26'; x.font = `600 46px ${SERIF}`;
+      x.fillText(t.name, 375, 344);
+      x.fillStyle = '#6f6659'; x.font = '27px sans-serif';
+      x.fillText(t.tagline, 375, 392);
+      let yy = 486; x.font = '28px sans-serif'; x.fillStyle = '#2e2a26';
+      for (const d of r.dims) {
+        const [ln, rn] = dimNames[d.dim];
+        x.fillText(`${d.left} ${ln} ${d.left_pct}%  ·  ${d.right_pct}% ${rn} ${d.right}`, 375, yy); yy += 52;
+      }
+      yy += 22; x.font = `600 32px ${SERIF}`; x.fillStyle = '#a63d2f';
+      x.fillText(`「${t.motto}」`, 375, yy);
+      x.fillStyle = '#6f6659'; x.font = '23px sans-serif';
+      x.fillText('玄机 · 16 型人格测试（本站原创题库）', 375, yy + 52);
+      foot(x, 1120);
+      showShare(c, sharePers, 'xuanji-personality.png');
+    };
+  };
+  const pickPers = (c) => {
+    pAns[pIdx] = c;
+    if (pIdx < 47) { pIdx++; showPersQ(); } else finishPers();
+  };
+  document.getElementById('btnPersStart').onclick = () => {
+    pIdx = 0; pAns = [];
+    persIntro.classList.add('hidden'); persResult.classList.add('hidden'); sharePers.classList.add('hidden');
+    persQuiz.classList.remove('hidden'); showPersQ();
+  };
+  document.getElementById('persA').onclick = () => pickPers('a');
+  document.getElementById('persB').onclick = () => pickPers('b');
+  document.getElementById('persBack').onclick = () => { if (pIdx > 0) { pIdx--; showPersQ(); } };
 }
 
 main().catch(e => {

@@ -56,3 +56,15 @@ pub fn bazi_json(y: i32, m: i32, d: i32, hour: i32, minute: i32, gender: i32) ->
     ))
     .unwrap_or_default()
 }
+
+/// 16 型人格：完整题库 JSON（题目 + 16 型文案）
+#[wasm_bindgen]
+pub fn personality_json() -> String {
+    xuanji_core::personality_json()
+}
+
+/// 16 型人格计分：answers 为 48 字符作答串（'a'/'b'）
+#[wasm_bindgen]
+pub fn personality_score(answers: String) -> String {
+    xuanji_core::personality_score(&answers)
+}

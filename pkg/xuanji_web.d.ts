@@ -27,6 +27,16 @@ export function daily_qian_json(y: number, m: number, d: number): string;
 export function fortune_json(sign: number, y: number, m: number, d: number): string;
 
 /**
+ * 16 型人格：完整题库 JSON（题目 + 16 型文案）
+ */
+export function personality_json(): string;
+
+/**
+ * 16 型人格计分：answers 为 48 字符作答串（'a'/'b'）
+ */
+export function personality_score(answers: string): string;
+
+/**
  * 星座下标（0-11）
  */
 export function zodiac_index(month: number, day: number): number;
@@ -45,10 +55,14 @@ export interface InitOutput {
     readonly book_answer: (a: number) => [number, number];
     readonly daily_qian_json: (a: number, b: number, c: number) => [number, number];
     readonly fortune_json: (a: number, b: number, c: number, d: number) => [number, number];
+    readonly personality_json: () => [number, number];
+    readonly personality_score: (a: number, b: number) => [number, number];
     readonly zodiac_index: (a: number, b: number) => number;
     readonly zodiac_name: (a: number) => [number, number];
     readonly __wbindgen_externrefs: WebAssembly.Table;
     readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+    readonly __wbindgen_malloc: (a: number, b: number) => number;
+    readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
     readonly __wbindgen_start: () => void;
 }
 
