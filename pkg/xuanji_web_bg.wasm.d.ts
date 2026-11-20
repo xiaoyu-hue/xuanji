@@ -20,6 +20,7 @@ export const holland_score: (a: number, b: number) => [number, number];
 export const lifepath_json: (a: number, b: number, c: number, d: number) => [number, number];
 export const liuyao_json: (a: number, b: number, c: number, d: number) => [number, number];
 export const meihua_json: (a: number, b: number, c: number, d: number) => [number, number];
+export const natal_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
 export const personality_json: () => [number, number];
 export const personality_score: (a: number, b: number) => [number, number];
 export const qimen_json: (a: number, b: number, c: number, d: number) => [number, number];

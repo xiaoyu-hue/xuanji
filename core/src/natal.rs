@@ -130,7 +130,7 @@ fn moon_lon(jd: f64) -> f64 {
     let yv = 60.2666 * (1.0 - e * e).sqrt() * ea.sin();
     let v = yv.atan2(xv);
     let (cn, sn) = (rad(n).cos(), rad(n).sin());
-    let (ci, si) = (rad(5.1454).cos(), rad(5.1454).sin());
+    let ci = rad(5.1454).cos();
     let (cvw, svw) = ((v + rad(w)).cos(), (v + rad(w)).sin());
     let x = xv.hypot(yv) * (cn * cvw - sn * svw * ci);
     let y = xv.hypot(yv) * (sn * cvw + cn * svw * ci);

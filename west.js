@@ -1,14 +1,16 @@
 // 玄机页面编排器（西方馆）：只负责加载计算引擎、逐个初始化功能模块。
 // 故障隔离约定与东方馆相同：每模块独立 try/catch，互不连坐。
-import { loadWasm } from './js/wasm.js?v=6.0.1';
-import { ctx, el } from './js/ctx.js?v=6.0.1';
-import { initHoroscope } from './js/horoscope.js?v=6.0.1';
-import { initTarot } from './js/tarot.js?v=6.0.1';
-import { initLifepath } from './js/lifepath.js?v=6.0.1';
-import { initRunes } from './js/runes.js?v=6.0.1';
-import { initAnswers } from './js/answers.js?v=6.0.1';
+import { loadWasm } from './js/wasm.js?v=6.1.0';
+import { ctx, el } from './js/ctx.js?v=6.1.0';
+import { initNatal } from './js/natal.js?v=6.1.0';
+import { initHoroscope } from './js/horoscope.js?v=6.1.0';
+import { initTarot } from './js/tarot.js?v=6.1.0';
+import { initLifepath } from './js/lifepath.js?v=6.1.0';
+import { initRunes } from './js/runes.js?v=6.1.0';
+import { initAnswers } from './js/answers.js?v=6.1.0';
 
 const FEATURES = [
+  ['natal', '西洋星盘', initNatal],
   ['horoscope', '星座运势', initHoroscope],
   ['tarot', '今日塔罗', initTarot],
   ['lifepath', '生命灵数', initLifepath],

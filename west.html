@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>玄机 · 西方馆</title>
-<link rel="stylesheet" href="./style.css?v=6.0.1">
+<link rel="stylesheet" href="./style.css?v=6.1.0">
 </head>
 <body>
 <header>
@@ -22,6 +22,23 @@
 <div id="loading">🏮 正在铺开星盘…</div>
 
 <main id="app" class="hidden">
+
+  <!-- 西洋星盘 -->
+  <section class="card" data-mod="natal">
+    <h2>西洋星盘 <span class="sub">本命盘 · 十星落座</span></h2>
+    <div class="daterow">
+      <input type="date" id="ntBirth" min="1900-01-01" max="2100-12-31">
+      <input type="time" id="ntTime">
+    </div>
+    <div class="daterow">
+      <select id="ntCity"></select>
+      <input type="number" id="ntLon" step="0.01" style="width:96px" aria-label="经度（东经为正）">
+      <input type="number" id="ntLat" step="0.01" style="width:96px" aria-label="纬度（北纬为正）">
+      <button id="btnNt">排星盘</button>
+    </div>
+    <div id="ntOut" class="hidden"></div>
+    <p class="fineprint">星历经瑞士星历逐项对拍（误差约 0.1°）；解读为本站原创。经纬度：左为东经、右为北纬，选城市自动填。</p>
+  </section>
 
   <!-- 星座运势 -->
   <section class="card" data-mod="horoscope">
@@ -79,6 +96,6 @@
   计算核心由 Rust 在本地完成，不收集任何数据
 </footer>
 
-<script type="module" src="./west.js?v=6.0.1"></script>
+<script type="module" src="./west.js?v=6.1.0"></script>
 </body>
 </html>

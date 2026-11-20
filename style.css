@@ -242,3 +242,22 @@ header .seal.green{background:var(--jade)}
 .runekw{font-size:12px;color:var(--ink2);margin:2px 0 6px}
 .runecell .persdesc{font-size:13px;text-align:left}
 #runeDaily .runecell{max-width:300px;margin:0 auto 12px}
+
+/* —— 西洋星盘（6.1.0） —— */
+.wheel{width:min(320px,86vw);height:auto;display:block;margin:6px auto}
+.wring{fill:none;stroke:#b8862f;stroke-width:1.2}
+.wline{stroke:#b8862f;stroke-width:.8;opacity:.65}
+.whouse{stroke:#a63d2f;stroke-width:1.4}
+.wglyph{font-size:19px;text-anchor:middle;fill:#7c5a1e}
+.wplanet{font-size:17px;text-anchor:middle;fill:#33302a}
+.wasc{font-size:11px;text-anchor:middle;fill:#a63d2f;font-weight:700}
+.ntbig{font-size:17px;text-align:center;margin:6px 0}
+.ntrows{margin:10px 0}
+.ntrow{display:flex;gap:8px;align-items:baseline;padding:5px 2px;border-bottom:1px dashed #ddd3bd;font-size:14px}
+.ntglyph{width:22px;text-align:center;font-size:16px}
+.ntname{width:64px;font-weight:600}
+.nthouse{margin-left:auto;color:#8a8272}
+.ntretro{color:#a63d2f;font-style:normal;font-size:12px}
+.ntcusp{color:#b8862f;font-size:12px;border:1px solid #b8862f;border-radius:8px;padding:0 6px}
+.ntasps{display:flex;flex-wrap:wrap;gap:6px}
+.ntasp{background:#f4ecd9;border-radius:10px;padding:2px 9px;font-size:13px}

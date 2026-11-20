@@ -492,7 +492,7 @@ fn check_natal() {
     let a = natal_chart(1990, 1, 1, 12, 0, 116.407, 39.904);
     for (p, g) in a.planets.iter().zip(gold_a.iter()) {
         let d = (p.lon - g).abs();
-        assert!(d < 0.2, "A 盘 {} 黄经差 {d:.3f}", p.name);
+        assert!(d < 0.2, "A 盘 {} 黄经差 {d:.3}", p.name);
     }
     assert!((a.asc.lon - 11.837).abs() < 0.1, "A 盘上升 {}", a.asc.lon);
     assert!((a.mc.lon - 276.389).abs() < 0.1, "A 盘中天 {}", a.mc.lon);

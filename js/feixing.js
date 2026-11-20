@@ -1,5 +1,5 @@
 // 九宫飞星：流年飞星盘（立春为界，2 月 4 日前按上一年）
-import { el } from './ctx.js?v=6.0.1';
+import { el } from './ctx.js?v=6.1.0';
 
 function currentFxYear() {
   const n = new Date();

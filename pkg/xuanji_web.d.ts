@@ -97,6 +97,11 @@ export function liuyao_json(seed: number, y: number, m: number, d: number): stri
 export function meihua_json(y: number, m: number, d: number, hour: number): string;
 
 /**
+ * 本命盘：公历日期 + 北京时间（时，分）+ 出生地经纬度，返回 JSON
+ */
+export function natal_json(y: number, m: number, d: number, hh: number, mm: number, lon_e: number, lat: number): string;
+
+/**
  * 人格题库 JSON（题目 + 16 型文案）
  */
 export function personality_json(): string;
@@ -184,6 +189,7 @@ export interface InitOutput {
     readonly lifepath_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly liuyao_json: (a: number, b: number, c: number, d: number) => [number, number];
     readonly meihua_json: (a: number, b: number, c: number, d: number) => [number, number];
+    readonly natal_json: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => [number, number];
     readonly personality_json: () => [number, number];
     readonly personality_score: (a: number, b: number) => [number, number];
     readonly qimen_json: (a: number, b: number, c: number, d: number) => [number, number];

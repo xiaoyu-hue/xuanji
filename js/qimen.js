@@ -1,5 +1,5 @@
 // 奇门遁甲：时家拆补转盘排盘
-import { el, ctx, pad } from './ctx.js?v=6.0.1';
+import { el, ctx, pad } from './ctx.js?v=6.1.0';
 
 export function initQimen(w) {
   const dateEl = el('qmDate');

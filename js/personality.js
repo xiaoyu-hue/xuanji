@@ -1,6 +1,6 @@
 // 页面模块：16 型人格（心智馆）。48 道原创题逐题作答，核心层计分。
 // 本测试为通俗四维偏好测试，与 MBTI® 官方测评无关，结果仅供自我探索参考。
-import { el } from './ctx.js?v=6.0.1';
+import { el } from './ctx.js?v=6.1.0';
 
 export function initPersonality(w) {
   const bank = JSON.parse(w.personality_json());

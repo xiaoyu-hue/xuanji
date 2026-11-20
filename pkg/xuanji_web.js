@@ -409,6 +409,30 @@ export function meihua_json(y, m, d, hour) {
 }
 
 /**
+ * 本命盘：公历日期 + 北京时间（时，分）+ 出生地经纬度，返回 JSON
+ * @param {number} y
+ * @param {number} m
+ * @param {number} d
+ * @param {number} hh
+ * @param {number} mm
+ * @param {number} lon_e
+ * @param {number} lat
+ * @returns {string}
+ */
+export function natal_json(y, m, d, hh, mm, lon_e, lat) {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.natal_json(y, m, d, hh, mm, lon_e, lat);
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
  * 人格题库 JSON（题目 + 16 型文案）
  * @returns {string}
  */

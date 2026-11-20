@@ -1,5 +1,5 @@
 // 页面模块：卢恩符文（西方馆）。今日一卢恩 + 三卢恩；计算经 w 完成。
-import { el, ctx } from './ctx.js?v=6.0.1';
+import { el, ctx } from './ctx.js?v=6.1.0';
 
 export function initRunes(w) {
   const one = (c, pos) => `
